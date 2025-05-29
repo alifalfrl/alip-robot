@@ -2,9 +2,10 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Alip AI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alip AI Chatbot</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
   :root {
     --primary-color: #4CAF50; /* Hijau yang lebih lembut dan modern */
@@ -20,6 +21,8 @@
     --shadow-light: rgba(0, 0, 0, 0.08);
     --shadow-medium: rgba(0, 0, 0, 0.12);
     --header-shadow: rgba(0, 0, 0, 0.15);
+    --border-radius-large: 12px;
+    --border-radius-pill: 30px;
   }
 
   body {
@@ -31,7 +34,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow: hidden; /* Prevent body scroll, chat div handles it */
+    overflow: hidden;
   }
 
   header {
@@ -44,6 +47,14 @@
     box-shadow: 0 4px 15px var(--header-shadow);
     z-index: 10;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  header i {
+    font-size: 1.8rem;
   }
 
   #chat-container {
@@ -54,18 +65,17 @@
     overflow-y: auto;
     scroll-behavior: smooth;
     background: var(--chat-background);
-    border-radius: 12px;
+    border-radius: var(--border-radius-large);
     margin: 1.5rem;
     box-shadow: 0 5px 20px var(--shadow-medium);
-    /* Penting: berikan margin-bottom agar tidak tertutup form fixed */
-    /* Sesuaikan nilai calc() ini jika padding/tinggi form berubah */
-    margin-bottom: calc(1.5rem + 1px + 20px + 50px); /* padding-top/bottom form (1.5rem) + border (1px) + shadow (20px) + tinggi button (50px) */
+    margin-bottom: calc(1.5rem + 1px + 20px + 50px);
   }
 
   .message-wrapper {
     display: flex;
     margin-bottom: 1.2rem;
     align-items: flex-start;
+    animation: fadeIn 0.3s ease-out; /* Animasi pesan muncul */
   }
 
   .message-wrapper.user {
@@ -80,7 +90,7 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background-color: var(--primary-color); /* Fallback jika gambar tidak tampil */
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,14 +99,14 @@
     color: white;
     flex-shrink: 0;
     box-shadow: 0 2px 5px var(--shadow-light);
-    overflow: hidden; /* Penting untuk gambar avatar */
+    overflow: hidden;
   }
 
   .avatar img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Pastikan gambar mengisi avatar tanpa terdistorsi */
-    display: block; /* Menghilangkan spasi ekstra di bawah gambar */
+    object-fit: cover;
+    display: block;
   }
 
   .message-wrapper.bot .avatar {
@@ -109,7 +119,7 @@
   }
 
   .message {
-    max-width: 70%; /* Sedikit lebih sempit */
+    max-width: 70%;
     padding: 1rem 1.4rem;
     border-radius: 20px;
     line-height: 1.6;
@@ -117,7 +127,7 @@
     box-shadow: 0 2px 8px var(--shadow-light);
     word-wrap: break-word;
     font-size: 1rem;
-    transition: all 0.2s ease-out; /* Transisi halus */
+    transition: all 0.2s ease-out;
   }
 
   .user .message {
@@ -140,20 +150,18 @@
     box-shadow: 0 -5px 20px var(--shadow-light);
     gap: 1rem;
     align-items: center;
-    /* --- PERUBAHAN PENTING DI SINI --- */
-    position: fixed; /* Mengubah dari sticky ke fixed */
+    position: fixed;
     bottom: 0;
     width: 100%;
-    box-sizing: border-box; /* Pastikan padding termasuk dalam lebar */
-    z-index: 100; /* Menambahkan z-index tinggi agar selalu di atas */
-    /* --- AKHIR PERUBAHAN --- */
+    box-sizing: border-box;
+    z-index: 100;
   }
 
   input[type="text"] {
     flex: 1;
     padding: 1rem 1.5rem;
     font-size: 1rem;
-    border-radius: 30px;
+    border-radius: var(--border-radius-pill);
     border: 1px solid var(--border-color);
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -174,13 +182,13 @@
   button {
     background: linear-gradient(to right, var(--primary-color), var(--primary-dark-color));
     border: none;
-    border-radius: 30px;
+    border-radius: var(--border-radius-pill);
     color: white;
     font-weight: 600;
     font-size: 1.1rem;
     cursor: pointer;
-    width: 50px; /* Lebar tetap untuk tombol ikon */
-    height: 50px; /* Tinggi tetap untuk tombol ikon */
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -200,18 +208,18 @@
   }
 
   button:disabled {
-    background: #B0BEC5; /* Abu-abu terang */
+    background: #B0BEC5;
     cursor: not-allowed;
     opacity: 0.8;
     box-shadow: none;
   }
 
   #error {
-    color: #D32F2F; /* Merah gelap untuk error */
+    color: #D32F2F;
     text-align: center;
     padding: 1rem;
-    background-color: #FFEBEE; /* Latar belakang error merah muda */
-    border-radius: 8px;
+    background-color: #FFEBEE;
+    border-radius: var(--border-radius-large);
     margin: 0 1.5rem 1.5rem 1.5rem;
     font-size: 0.95rem;
     font-weight: 500;
@@ -228,7 +236,7 @@
     border-radius: 20px;
     box-shadow: 0 2px 8px var(--shadow-light);
     max-width: fit-content;
-    margin-left: calc(38px + 12px); /* Align with message content */
+    margin-left: calc(38px + 12px);
   }
 
   .typing-dot {
@@ -262,18 +270,25 @@
     }
   }
 
-  /* Responsive adjustments for mobile (Android) */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive adjustments */
   @media (max-width: 768px) {
     header {
       font-size: 1.6rem;
       padding: 1rem;
     }
+    header i {
+      font-size: 1.4rem;
+    }
     #chat-container {
       margin: 0.8rem;
       padding: 1rem;
       border-radius: 8px;
-      /* Sesuaikan margin-bottom agar tidak tertutup form fixed di mobile */
-      margin-bottom: calc(1rem + 1px + 10px + 45px); /* padding-top/bottom form (1rem) + border (1px) + shadow (10px) + tinggi button (45px) */
+      margin-bottom: calc(1rem + 1px + 10px + 45px);
     }
     .message {
       max-width: 85%;
@@ -293,7 +308,6 @@
     form {
       padding: 1rem;
       gap: 0.5rem;
-      /* position, bottom, width, box-sizing, z-index sudah diatur di luar media query */
     }
     input[type="text"] {
       padding: 0.8rem 1rem;
@@ -318,22 +332,69 @@
     }
   }
 
+  /* Fixed Contact Owner Button */
+  .contact-owner-btn {
+    position: fixed;
+    bottom: calc(1.5rem + 1px + 20px + 50px + 1rem); /* Di atas form input */
+    right: 1.5rem;
+    background-color: #25D366; /* Warna WhatsApp */
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-pill);
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    text-decoration: none; /* Penting untuk link */
+    z-index: 99; /* Pastikan di atas chat container tapi di bawah form */
+  }
+
+  .contact-owner-btn:hover {
+    background-color: #1DA851;
+    transform: translateY(-2px);
+  }
+
+  .contact-owner-btn:active {
+    transform: translateY(0);
+  }
+
+  .contact-owner-btn i {
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 768px) {
+    .contact-owner-btn {
+      bottom: calc(1rem + 1px + 10px + 45px + 0.8rem); /* Sesuaikan untuk mobile */
+      right: 0.8rem;
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
+    .contact-owner-btn i {
+      font-size: 1rem;
+    }
+  }
 </style>
 </head>
 <body>
 
-<header>ALIP AI</header>
+<header><i class="fas fa-robot"></i> ALIP AI</header>
 
 <div id="chat-container"></div>
 <div id="error"></div>
 
+<a href="https://wa.me/6281249703469" target="_blank" class="contact-owner-btn">
+  <i class="fab fa-whatsapp"></i> Hubungi Owner
+</a>
+
 <form id="form">
   <input type="text" id="input" placeholder="Tulis pesan kamu..." autocomplete="off" required />
   <button type="submit" aria-label="Kirim pesan">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="22" y1="2" x2="11" y2="13"></line>
-      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-    </svg>
+    <i class="fas fa-paper-plane"></i>
   </button>
 </form>
 
@@ -343,11 +404,12 @@
   const input = document.getElementById('input');
   const errorDiv = document.getElementById('error');
 
-  // --- REVISI: DISARANKAN UNTUK MENGGUNAKAN PATH RELATIF ATAU HOST GAMBAR SENDIRI ---
-  // Contoh: Jika gambar alip_ai_avatar.jpg ada di folder yang sama dengan index.html
+  // URL Avatar Bot - Disarankan hosting gambar sendiri atau menggunakan CDN yang stabil
   const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
-  // Jika Anda tetap ingin menggunakan URL eksternal, pastikan URL-nya stabil dan dapat diakses publik.
-  // const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
+
+  // Array untuk menyimpan riwayat percakapan (untuk konteks)
+  // Setiap elemen akan berupa objek { role: 'user'/'model', parts: 'teks' }
+  const conversationHistory = [];
 
   // Function to create and add a message to the chat
   function addMessage(text, sender) {
@@ -361,19 +423,19 @@
       const avatarImg = document.createElement('img');
       avatarImg.src = botAvatarUrl;
       avatarImg.alt = 'Alip AI Avatar';
-      avatar.onerror = () => { // Fallback jika gambar gagal dimuat
-        avatar.textContent = 'AI'; 
+      avatar.onerror = () => {
+        avatar.textContent = 'AI';
         console.warn('Bot avatar image failed to load. Using text fallback.');
-        avatarImg.remove(); // Hapus elemen gambar yang rusak
+        avatarImg.remove();
       };
       avatar.appendChild(avatarImg);
     } else {
-      avatar.textContent = 'YOU'; // Teks untuk avatar user
+      avatar.textContent = 'YOU';
     }
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    // Sanitize input to prevent basic XSS (though not exhaustive for all cases)
+    // Untuk keamanan, gunakan textContent untuk mencegah XSS
     messageDiv.textContent = text; 
 
     if (sender === 'user') {
@@ -385,14 +447,14 @@
     }
 
     chatContainer.appendChild(messageWrapper);
-    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+    chatContainer.scrollTop = chatContainer.scrollHeight;
   }
 
   // Function to add typing animation
   function addTypingIndicator() {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', 'bot');
-    messageWrapper.id = 'typing-indicator-wrapper'; // ID to easily remove
+    messageWrapper.id = 'typing-indicator-wrapper';
 
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
@@ -460,21 +522,34 @@
       currentText += characters[i];
       messageDiv.textContent = currentText;
       chatContainer.scrollTop = chatContainer.scrollHeight;
-      // Perhatikan kecepatan mengetik. Di mobile mungkin perlu sedikit lebih cepat atau lambat
-      await new Promise(resolve => setTimeout(resolve, 20)); // Sedikit lebih cepat
+      await new Promise(resolve => setTimeout(resolve, 20)); // Kecepatan mengetik
     }
   }
 
+  // Fungsi utama untuk mengirim pesan ke API
   async function sendMessageToAPI(message) {
-    // Pastikan API ini selalu aktif dan dapat diakses dari GitHub Pages
-    // Terkadang API gratis memiliki batasan rate limit atau uptime yang tidak 100%
-    const prompt = `Kamu adalah AI bernama Alip AI. Jawab dengan menyebut namamu "Alip AI" dalam setiap respons. Pertanyaan: ${message}`;
-    const url = 'https://api.siputzx.my.id/api/ai/gemini-pro?content=' + encodeURIComponent(prompt);
+    // Bangun prompt dengan riwayat percakapan untuk konteks
+    // Batasi riwayat agar tidak terlalu panjang (misal: 10 pesan terakhir)
+    const recentHistory = conversationHistory.slice(-10); // Ambil 10 pesan terakhir
+    
+    // Format riwayat untuk dikirim ke API jika API mendukung format ini
+    // Untuk API ini, kita akan menggabungkan riwayat ke dalam prompt
+    let fullPrompt = `Kamu adalah AI bernama Alip AI. Jawab dengan menyebut namamu "Alip AI" dalam setiap respons. `;
+    if (recentHistory.length > 0) {
+        fullPrompt += `Berikut riwayat percakapan kita:\n`;
+        recentHistory.forEach(msg => {
+            fullPrompt += `${msg.role === 'user' ? 'Saya' : 'Alip AI'}: ${msg.parts}\n`;
+        });
+        fullPrompt += `Berdasarkan riwayat di atas, jawab pertanyaan saya ini:\n`;
+    }
+    fullPrompt += `Pertanyaan: ${message}`;
+
+    const url = 'https://api.siputzx.my.id/api/ai/gemini-pro?content=' + encodeURIComponent(fullPrompt);
+
     try {
-      errorDiv.style.display = 'none'; // Sembunyikan error sebelumnya
+      errorDiv.style.display = 'none';
       const response = await fetch(url);
       if (!response.ok) {
-        // Coba untuk mendapatkan pesan error dari body response jika tersedia
         const errorData = await response.json().catch(() => ({}));
         throw new Error(`HTTP error! Status: ${response.status} - ${errorData.message || response.statusText}`);
       }
@@ -482,17 +557,15 @@
       if(data.status === true && data.data) {
         return data.data;
       } else if(data.error) {
-        // --- PERUBAHAN: Pesan error lebih jelas ---
         errorDiv.textContent = `API Alip AI Error: ${data.error}`;
         errorDiv.style.display = 'block';
         return 'Maaf, Alip AI mengalami masalah internal. Silakan coba lagi.';
       }
       return 'Gagal mendapatkan respon yang valid dari Alip AI. Silakan coba lagi.';
     } catch (err) {
-      // --- PERUBAHAN: Pesan error lebih jelas ---
       errorDiv.textContent = `Terjadi error koneksi atau server: ${err.message}. Pastikan koneksi internet Anda stabil atau coba lagi nanti.`;
       errorDiv.style.display = 'block';
-      console.error("Error fetching from API:", err); // Log error ke console untuk debugging
+      console.error("Error fetching from API:", err);
       return 'Maaf, Alip AI tidak dapat dihubungi saat ini. Coba lagi nanti.';
     }
   }
@@ -503,6 +576,9 @@
     if (!userText) return;
 
     addMessage(userText, 'user');
+    // Tambahkan pesan user ke riwayat percakapan
+    conversationHistory.push({ role: 'user', parts: userText });
+
     input.value = '';
     input.disabled = true;
     form.querySelector('button').disabled = true;
@@ -513,10 +589,11 @@
       const reply = await sendMessageToAPI(userText);
       removeTypingIndicator();
       await typeBotMessage(reply);
+      // Tambahkan balasan bot ke riwayat percakapan
+      conversationHistory.push({ role: 'model', parts: reply });
     } catch (error) {
       removeTypingIndicator();
-      // addMessage sudah menangani tampilan error di errorDiv, jadi tidak perlu addMessage 'Maaf...' di sini
-      // console.error("Error during message processing:", error); // Log error lebih lanjut
+      // Error sudah ditangani di sendMessageToAPI, jadi tidak perlu addMessage lagi
     } finally {
       input.disabled = false;
       form.querySelector('button').disabled = false;
@@ -526,7 +603,10 @@
 
   // Welcome message on load
   window.addEventListener('load', () => {
-    addMessage("Hai, aku Alip AI, teknologi AI buatan Alip. Ada yang bisa aku bantu? Aku siap menemani kamu dalam berbagai pertanyaan!", 'bot');
+    const welcomeMessage = "Hai, aku Alip AI, teknologi AI buatan Alip. Ada yang bisa aku bantu? Aku siap menemani kamu dalam berbagai pertanyaan dan juga bisa di ajak curhat!";
+    addMessage(welcomeMessage, 'bot');
+    // Tambahkan pesan selamat datang ke riwayat percakapan
+    conversationHistory.push({ role: 'model', parts: welcomeMessage });
   });
 </script>
 
