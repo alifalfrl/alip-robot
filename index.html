@@ -57,6 +57,9 @@
     border-radius: 12px;
     margin: 1.5rem;
     box-shadow: 0 5px 20px var(--shadow-medium);
+    /* Penting: berikan margin-bottom agar tidak tertutup form fixed */
+    /* Sesuaikan nilai calc() ini jika padding/tinggi form berubah */
+    margin-bottom: calc(1.5rem + 1px + 20px + 50px); /* padding-top/bottom form (1.5rem) + border (1px) + shadow (20px) + tinggi button (50px) */
   }
 
   .message-wrapper {
@@ -137,6 +140,13 @@
     box-shadow: 0 -5px 20px var(--shadow-light);
     gap: 1rem;
     align-items: center;
+    /* --- PERUBAHAN PENTING DI SINI --- */
+    position: fixed; /* Mengubah dari sticky ke fixed */
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box; /* Pastikan padding termasuk dalam lebar */
+    z-index: 100; /* Menambahkan z-index tinggi agar selalu di atas */
+    /* --- AKHIR PERUBAHAN --- */
   }
 
   input[type="text"] {
@@ -262,7 +272,8 @@
       margin: 0.8rem;
       padding: 1rem;
       border-radius: 8px;
-      margin-bottom: 0.5rem; /* Reduce bottom margin to make space for keyboard if it overlaps */
+      /* Sesuaikan margin-bottom agar tidak tertutup form fixed di mobile */
+      margin-bottom: calc(1rem + 1px + 10px + 45px); /* padding-top/bottom form (1rem) + border (1px) + shadow (10px) + tinggi button (45px) */
     }
     .message {
       max-width: 85%;
@@ -282,11 +293,7 @@
     form {
       padding: 1rem;
       gap: 0.5rem;
-      /* Pastikan form berada di bagian bawah layar */
-      position: sticky; /* Sticky or fixed can work for mobile keyboards */
-      bottom: 0;
-      width: 100%;
-      box-sizing: border-box; /* Include padding in width calculation */
+      /* position, bottom, width, box-sizing, z-index sudah diatur di luar media query */
     }
     input[type="text"] {
       padding: 0.8rem 1rem;
@@ -336,12 +343,11 @@
   const input = document.getElementById('input');
   const errorDiv = document.getElementById('error');
 
-  // Gunakan URL gambar yang lebih stabil atau letakkan di repositori GitHub Pages
-  // Untuk memastikan gambar bot avatar muncul, pastikan URL ini valid dan dapat diakses.
-  // Jika URL ini sering berubah atau tidak stabil, bisa jadi avatar bot tidak muncul.
-  // Lebih baik unduh gambar ini dan letakkan di folder yang sama dengan index.html,
-  // lalu ubah `botAvatarUrl` menjadi './alip_ai_avatar.jpg' (misalnya).
+  // --- REVISI: DISARANKAN UNTUK MENGGUNAKAN PATH RELATIF ATAU HOST GAMBAR SENDIRI ---
+  // Contoh: Jika gambar alip_ai_avatar.jpg ada di folder yang sama dengan index.html
   const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
+  // Jika Anda tetap ingin menggunakan URL eksternal, pastikan URL-nya stabil dan dapat diakses publik.
+  // const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
 
   // Function to create and add a message to the chat
   function addMessage(text, sender) {
@@ -357,6 +363,7 @@
       avatarImg.alt = 'Alip AI Avatar';
       avatar.onerror = () => { // Fallback jika gambar gagal dimuat
         avatar.textContent = 'AI'; 
+        console.warn('Bot avatar image failed to load. Using text fallback.');
         avatarImg.remove(); // Hapus elemen gambar yang rusak
       };
       avatar.appendChild(avatarImg);
@@ -394,6 +401,7 @@
     avatarImg.alt = 'Alip AI Avatar';
     avatar.onerror = () => { 
         avatar.textContent = 'AI'; 
+        console.warn('Typing indicator avatar image failed to load. Using text fallback.');
         avatarImg.remove();
     };
     avatar.appendChild(avatarImg);
@@ -433,6 +441,7 @@
     avatarImg.alt = 'Alip AI Avatar';
     avatar.onerror = () => { 
         avatar.textContent = 'AI'; 
+        console.warn('Bot message avatar image failed to load. Using text fallback.');
         avatarImg.remove();
     };
     avatar.appendChild(avatarImg);
@@ -462,7 +471,7 @@
     const prompt = `Kamu adalah AI bernama Alip AI. Jawab dengan menyebut namamu "Alip AI" dalam setiap respons. Pertanyaan: ${message}`;
     const url = 'https://api.siputzx.my.id/api/ai/gemini-pro?content=' + encodeURIComponent(prompt);
     try {
-      errorDiv.style.display = 'none';
+      errorDiv.style.display = 'none'; // Sembunyikan error sebelumnya
       const response = await fetch(url);
       if (!response.ok) {
         // Coba untuk mendapatkan pesan error dari body response jika tersedia
@@ -473,16 +482,18 @@
       if(data.status === true && data.data) {
         return data.data;
       } else if(data.error) {
-        errorDiv.textContent = `API Error: ${data.error}`;
+        // --- PERUBAHAN: Pesan error lebih jelas ---
+        errorDiv.textContent = `API Alip AI Error: ${data.error}`;
         errorDiv.style.display = 'block';
-        return 'Terjadi error dari API.';
+        return 'Maaf, Alip AI mengalami masalah internal. Silakan coba lagi.';
       }
-      return 'Gagal mendapatkan respon yang valid.';
+      return 'Gagal mendapatkan respon yang valid dari Alip AI. Silakan coba lagi.';
     } catch (err) {
-      errorDiv.textContent = `Terjadi error koneksi atau server: ${err.message}. Mohon coba lagi nanti.`;
+      // --- PERUBAHAN: Pesan error lebih jelas ---
+      errorDiv.textContent = `Terjadi error koneksi atau server: ${err.message}. Pastikan koneksi internet Anda stabil atau coba lagi nanti.`;
       errorDiv.style.display = 'block';
       console.error("Error fetching from API:", err); // Log error ke console untuk debugging
-      return 'Terjadi error, coba lagi nanti.';
+      return 'Maaf, Alip AI tidak dapat dihubungi saat ini. Coba lagi nanti.';
     }
   }
 
@@ -504,7 +515,8 @@
       await typeBotMessage(reply);
     } catch (error) {
       removeTypingIndicator();
-      // addMessage('Maaf, Alip AI sedang tidak bisa merespon saat ini. Silakan coba lagi nanti.', 'bot');
+      // addMessage sudah menangani tampilan error di errorDiv, jadi tidak perlu addMessage 'Maaf...' di sini
+      // console.error("Error during message processing:", error); // Log error lebih lanjut
     } finally {
       input.disabled = false;
       form.querySelector('button').disabled = false;
@@ -514,7 +526,7 @@
 
   // Welcome message on load
   window.addEventListener('load', () => {
-    addMessage("haii, aku alip ai, teknologi ai buatan alip, ada yang bisa aku bantu? aku siap menemani kamu dalam berbagai pertanyaan", 'bot');
+    addMessage("Hai, aku Alip AI, teknologi AI buatan Alip. Ada yang bisa aku bantu? Aku siap menemani kamu dalam berbagai pertanyaan!", 'bot');
   });
 </script>
 
