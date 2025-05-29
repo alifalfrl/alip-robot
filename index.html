@@ -534,7 +534,7 @@
     
     // Format riwayat untuk dikirim ke API jika API mendukung format ini
     // Untuk API ini, kita akan menggabungkan riwayat ke dalam prompt
-    let fullPrompt = `Kamu adalah AI bernama Alip AI. Jawab dengan menyebut namamu "Alip AI" dalam setiap respons. `;
+    let fullPrompt = `Kamu adalah AI bernama Alip AI. `;
     if (recentHistory.length > 0) {
         fullPrompt += `Berikut riwayat percakapan kita:\n`;
         recentHistory.forEach(msg => {
