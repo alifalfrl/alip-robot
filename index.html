@@ -20,7 +20,7 @@
     --border-color: #3F3F46; /* Border subtle */
     --input-bg: #3F3F46;
     --input-focus-border: #6B7280;
-    --user-bubble-bg: #4F46E5; /* Langsung pakai accent-blue */
+    --user-bubble-bg: var(--accent-blue); /* Langsung pakai accent-blue */
     --bot-bubble-bg: #374151; /* Abu-abu tua */
     --error-bg: #FECACA;
     --error-text: #DC2626;
@@ -280,24 +280,20 @@
     position: absolute;
     bottom: 5px;
     right: 5px;
-    background: rgba(255, 255, 255, 0.15); /* Slightly transparent white */
+    background: var(--button-bg); /* Make background solid */
     border: none;
     border-radius: 5px;
     color: white;
     font-size: 0.75rem;
     padding: 4px 8px;
     cursor: pointer;
-    opacity: 0;
+    opacity: 1; /* Always visible */
     transition: opacity 0.2s ease, background 0.2s ease;
     z-index: 10; /* Ensure it's above message text */
   }
 
-  .bot .message:hover .copy-btn {
-    opacity: 1;
-  }
-
   .copy-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--button-hover-bg);
   }
 
   .copy-btn:active {
@@ -574,7 +570,7 @@
   .sidebar-toggle {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 20px; /* Changed from right to left */
     width: 50px;
     height: 50px;
     background: var(--button-bg);
@@ -600,23 +596,23 @@
   #sidebar {
     position: fixed;
     top: 0;
-    right: -250px; /* Lebar default sidebar */
+    left: -250px; /* Changed from right to left */
     width: 250px;
     height: 100%;
     background: var(--surface-light);
-    box-shadow: -4px 0 20px var(--shadow-strong);
-    transition: right 0.3s var(--transition-ease), background var(--transition-duration) var(--transition-ease), border-color var(--transition-duration) var(--transition-ease);
+    box-shadow: 4px 0 20px var(--shadow-strong); /* Adjusted shadow for left sidebar */
+    transition: left 0.3s var(--transition-ease), background var(--transition-duration) var(--transition-ease), border-color var(--transition-duration) var(--transition-ease);
     z-index: 199;
     padding: 25px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color); /* Adjusted border for left sidebar */
     align-items: center;
   }
 
   #sidebar.open {
-    right: 0;
+    left: 0;
   }
 
   #sidebar h3 {
@@ -827,14 +823,14 @@
     }
     .sidebar-toggle {
       top: 15px;
-      right: 15px;
+      left: 15px; /* Changed for responsive */
       width: 45px;
       height: 45px;
       font-size: 1.2rem;
     }
     #sidebar {
       width: 220px;
-      right: -220px;
+      left: -220px; /* Changed for responsive */
       padding: 20px;
     }
     #sidebar h3 {
@@ -931,7 +927,7 @@
       <button id="clearChatBtn" aria-label="Bersihkan semua obrolan"><i class="fas fa-redo"></i> Bersihkan Chat</button>
       <button id="downloadChatBtn" aria-label="Unduh riwayat obrolan"><i class="fas fa-download"></i> Unduh Chat</button>
       <button id="showAboutBtn" aria-label="Buka informasi tentang Alip AI"><i class="fas fa-info-circle"></i> Tentang Alip AI</button>
-      <button id="showContactBtn" aria-label="Buka informasi kontak"><i class="fas fa-headset"></i> Kontak Kami</button>
+      <button id="showContactBtn" aria-label="Buka informasi kontak"><i class="fas fa-headset"></i> Kontak Saya</button>
       <a href="https://wa.me/6281249703469" target="_blank" class="sidebar-options-button" rel="noopener noreferrer">
         <button aria-label="Laporkan bug via WhatsApp"><i class="fab fa-whatsapp"></i> Laporkan Bug</button>
       </a>
@@ -946,12 +942,12 @@
   </section>
 
   <section id="contact-section" class="info-section" aria-hidden="true">
-    <h2>Kontak Kami</h2>
-    <p>Ada pertanyaan atau ingin memberikan masukan? Jangan sungkan untuk menghubungi kami!</p>
+    <h2>Kontak Saya</h2>
+    <p>Ada pertanyaan atau ingin memberikan masukan? Jangan sungkan untuk menghubungi saya!</p>
     <ul>
-      <li><i class="fas fa-envelope"></i> Email: <a href="mailto:support@alipai.com">support@alipai.com</a></li>
+      <li><i class="fas fa-envelope"></i> Email: <a href="mailto:alifalfarel10@gmail.com">alifalfarel10@gmail.com</a></li>
       <li><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/6281249703469" target="_blank" rel="noopener noreferrer">+62 812-4970-3469</a></li>
-      <li><i class="fas fa-globe"></i> Website: <a href="https://alipai.com" target="_blank" rel="noopener noreferrer">www.alipai.com</a> (Segera Hadir!)</li>
+      <li><i class="fas fa-globe"></i> Website: <a href="https://alifalfrl.github.io/portofolio/" target="_blank" rel="noopener noreferrer">Portofolio Alif Alfarel</a></li>
     </ul>
     <button class="back-to-chat" aria-label="Kembali ke obrolan"><i class="fas fa-comments"></i> Kembali ke Chat</button>
   </section>
