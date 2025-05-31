@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Alip AI - Asisten AI Futuristik</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Orbitron:wght++;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
   /* --- CSS Variables & Theme Management --- */
@@ -330,6 +330,18 @@
     color: var(--text-light);
   }
 
+  .message pre {
+    background-color: rgba(0, 0, 0, 0.3); /* Darker background for code */
+    border-radius: 8px;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    overflow-x: auto; /* Allow horizontal scrolling for code */
+    font-family: 'DM Sans', monospace; /* Monospace font for code */
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
   .user .message {
     background: var(--user-bubble-bg);
     border-bottom-right-radius: 10px; /* More rounded corner */
@@ -521,6 +533,97 @@
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* --- Info Sections (About, Contact) --- */
+  .info-section {
+    flex: 1;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--surface-dark);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    max-width: 950px;
+    width: 100%;
+    padding: 3rem;
+    border: 1px solid var(--border-dark);
+    transition: all var(--transition-speed) var(--transition-ease);
+    animation: fadeIn 0.8s var(--transition-ease) forwards;
+  }
+
+  .info-section h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2.5rem;
+    color: var(--primary-neon-blue);
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px var(--primary-neon-blue);
+  }
+
+  .info-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    max-width: 700px;
+  }
+
+  .info-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .info-section ul li {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .info-section ul li i {
+    color: var(--primary-neon-purple);
+    font-size: 1.2rem;
+  }
+
+  .info-section ul li a {
+    color: var(--primary-neon-blue);
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .info-section ul li a:hover {
+    color: var(--primary-neon-purple);
+    text-shadow: 0 0 8px var(--primary-neon-purple);
+  }
+
+  .back-to-chat {
+    background: var(--button-gradient-dark);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s var(--transition-ease);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  }
+
+  .back-to-chat:hover {
+    background: var(--button-gradient-hover-dark);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 15px var(--primary-neon-blue);
+  }
+
 
   /* --- Sidebar / Floating Menu --- */
   .sidebar-toggle {
@@ -730,7 +833,7 @@
     #main-content {
         padding: 20px;
     }
-    #chat-container {
+    #chat-container, .info-section {
         max-width: 800px;
         padding: 1.5rem;
     }
@@ -748,6 +851,9 @@
     }
     .message {
         max-width: 80%;
+    }
+    .info-section h2 {
+      font-size: 2rem;
     }
   }
 
@@ -779,7 +885,7 @@
     #main-content {
       padding: 15px;
     }
-    #chat-container {
+    #chat-container, .info-section {
       margin: 0 auto;
       padding: 1.2rem;
       border-radius: 15px;
@@ -870,6 +976,16 @@
     #scrollToBottomBtn.show {
         bottom: calc(var(--form-height) + 30px);
     }
+    .info-section h2 {
+      font-size: 1.8rem;
+    }
+    .info-section p, .info-section ul li {
+      font-size: 1rem;
+    }
+    .back-to-chat {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -885,7 +1001,7 @@
     #main-content {
         padding: 10px;
     }
-    #chat-container {
+    #chat-container, .info-section {
         padding: 1rem;
         margin-bottom: calc(var(--form-height) + 10px);
     }
@@ -974,6 +1090,16 @@
     }
     #scrollToBottomBtn.show {
         bottom: calc(var(--form-height) + 25px);
+    }
+    .info-section h2 {
+      font-size: 1.5rem;
+    }
+    .info-section p, .info-section ul li {
+      font-size: 0.9rem;
+    }
+    .back-to-chat {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.9rem;
     }
   }
 </style>
