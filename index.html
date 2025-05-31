@@ -3,60 +3,65 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Alip AI - Chatbot AI Futuristik</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Alip AI - Asisten AI Futuristik</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Orbitron:wght++;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  /* Variabel CSS untuk Dark dan Light Mode */
+  /* --- CSS Variables & Theme Management --- */
   :root {
-    /* Warna Dark Mode (Default) */
-    --background-dark: #0A0A10; /* Hampir hitam */
-    --surface-dark: #1A1A22; /* Permukaan elemen */
-    --primary-neon-blue: #00F0FF; /* Biru neon cerah */
-    --primary-neon-purple: #8A2BE2; /* Ungu neon cerah */
-    --accent-neon-glow: rgba(0, 240, 255, 0.4); /* Efek glow biru */
-    --accent-neon-glow-purple: rgba(138, 43, 226, 0.4); /* Efek glow ungu */
-    --text-light: #E0E0E0; /* Teks terang */
-    --text-medium: #A0A0A0; /* Teks sedang */
-    --border-dark: #333340; /* Border gelap */
-    --scroll-thumb: #555;
-    --scroll-track: #222;
-    --input-bg-dark: #282835;
-    --input-focus-bg-dark: #303040;
-    --user-bubble-bg: linear-gradient(45deg, #1A304F, #0A203F); /* Gradien biru gelap */
-    --bot-bubble-bg: linear-gradient(45deg, #2E1A4F, #1E0A3F); /* Gradien ungu gelap */
+    /* Dark Mode Colors (Default) */
+    --background-dark: #07070E; /* Deeper black */
+    --surface-dark: #12121A; /* Darker surface */
+    --primary-neon-blue: #00E5FF; /* Slightly brighter blue */
+    --primary-neon-purple: #8A2BE2; /* Consistent purple */
+    --accent-neon-glow: rgba(0, 229, 255, 0.3); /* Softer glow */
+    --accent-neon-glow-purple: rgba(138, 43, 226, 0.3); /* Softer purple glow */
+    --text-light: #E0E0E0;
+    --text-medium: #A0A0A0;
+    --border-dark: #2A2A35; /* Darker border */
+    --scroll-thumb: #444;
+    --scroll-track: #15151C;
+    --input-bg-dark: #1E1E28;
+    --input-focus-bg-dark: #282835;
+    --user-bubble-bg: linear-gradient(45deg, #1A304F, #0A203F);
+    --bot-bubble-bg: linear-gradient(45deg, #2E1A4F, #1E0A3F);
     --error-bg-dark: #3A1515;
     --error-border-dark: #6B2020;
-
-    /* Warna Light Mode (Untuk toggle di masa depan) */
-    --background-light: #F0F2F5; /* Abu-abu terang */
-    --surface-light: #FFFFFF; /* Putih bersih */
-    --primary-light-blue: #007BFF; /* Biru cerah */
-    --primary-light-purple: #6A1B9A; /* Ungu cerah */
-    --accent-light-shadow: rgba(0, 123, 255, 0.2);
-    --text-dark: #333333; /* Teks gelap */
-    --text-muted-light: #666666; /* Teks sedang */
-    --border-light: #E0E0E0; /* Border terang */
-    --scroll-thumb-light: #AAA;
-    --scroll-track-light: #F0F0F0;
-    --input-bg-light: #F8F8F8;
+    --button-gradient-dark: linear-gradient(45deg, var(--primary-neon-blue), var(--primary-neon-purple));
+    --button-gradient-hover-dark: linear-gradient(44deg, var(--primary-neon-purple), var(--primary-neon-blue));
+    
+    /* Light Mode Colors */
+    --background-light: #F8F8F8;
+    --surface-light: #FFFFFF;
+    --primary-light-blue: #007AFF; /* Apple Blue */
+    --primary-light-purple: #6A1B9A;
+    --accent-light-shadow: rgba(0, 122, 255, 0.15);
+    --text-dark: #2C2C2C;
+    --text-muted-light: #5A5A5A;
+    --border-light: #E5E5E5;
+    --scroll-thumb-light: #B0B0B0;
+    --scroll-track-light: #EEEEEE;
+    --input-bg-light: #F0F0F0;
     --input-focus-bg-light: #FFFFFF;
-    --user-bubble-bg-light: #E1F5FE; /* Biru muda */
-    --bot-bubble-bg-light: #EDE7F6; /* Ungu muda */
-    --error-bg-light: #FFE0E0;
-    --error-border-light: #FF9999;
+    --user-bubble-bg-light: #E3F2FD; /* Lighter blue */
+    --bot-bubble-bg-light: #EDE7F6; /* Lighter purple */
+    --error-bg-light: #FFF3F3;
+    --error-border-light: #F0A3A3;
+    --button-gradient-light: linear-gradient(45deg, var(--primary-light-blue), var(--primary-light-purple));
+    --button-gradient-hover-light: linear-gradient(44deg, var(--primary-light-purple), var(--primary-light-blue));
 
 
-    /* Transisi Halus */
-    --transition-speed: 0.3s;
-    --transition-ease: cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Transitions & Animations */
+    --transition-speed: 0.4s; /* Slightly slower for elegance */
+    --transition-ease: cubic-bezier(0.25, 0.8, 0.25, 1); /* More sophisticated ease */
+    --fast-transition: 0.2s ease-out;
 
-    /* Variabel untuk margin dan tinggi yang dinamis */
-    --form-height: 85px; /* Default height, akan diupdate oleh JS */
-    --sidebar-width: 280px;
+    /* Dynamic Sizing */
+    --form-height: 85px; /* Default, updated by JS */
+    --sidebar-width: 300px; /* Slightly wider sidebar */
   }
 
-  /* Tema Light Mode (akan diaktifkan dengan JS) */
+  /* Light Mode Activation */
   body.light-mode {
     --background-dark: var(--background-light);
     --surface-dark: var(--surface-light);
@@ -75,25 +80,35 @@
     --bot-bubble-bg: var(--bot-bubble-bg-light);
     --error-bg-dark: var(--error-bg-light);
     --error-border-dark: var(--error-border-light);
+    --button-gradient-dark: var(--button-gradient-light);
+    --button-gradient-hover-dark: var(--button-gradient-hover-light);
   }
 
-  /* Global Styles & Body */
+  /* --- Global Styles & Body --- */
+  * {
+    box-sizing: border-box; /* Ensures consistent box model */
+  }
+
+  html {
+    scroll-behavior: smooth; /* Smooth scroll for anchor links */
+  }
+
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', 'Poppins', 'DM Sans', sans-serif; /* Prioritas font modern */
+    font-family: 'Inter', sans-serif; /* Prioritize Inter for body text */
     background: var(--background-dark);
     color: var(--text-light);
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
-    position: relative; /* Untuk background animasi */
-    overscroll-behavior: none; /* Mencegah pull-to-refresh di mobile */
+    position: relative;
+    overscroll-behavior: none;
     transition: background var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease);
   }
 
-  /* Animasi Background Gradient atau Partikel (simulasi) */
+  /* Sophisticated Background Animation (Simulated Particles/Flow) */
   body::before {
     content: '';
     position: absolute;
@@ -101,52 +116,54 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, var(--primary-neon-blue), var(--primary-neon-purple), var(--background-dark));
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-    opacity: 0.2; /* Lebih halus */
+    background: radial-gradient(circle at 10% 20%, var(--primary-neon-blue) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, var(--primary-neon-purple) 0%, transparent 20%),
+                var(--background-dark);
+    background-size: 200% 200%;
+    animation: flowBackground 25s linear infinite; /* Slower, more subtle flow */
+    opacity: 0.15; /* Even softer */
     z-index: -1;
     transition: background var(--transition-speed) var(--transition-ease), opacity var(--transition-speed) var(--transition-ease);
   }
 
   body.light-mode::before {
-      background: linear-gradient(45deg, var(--primary-light-blue), var(--primary-light-purple), var(--background-light));
-      opacity: 0.1; /* Lebih halus di light mode */
+      background: radial-gradient(circle at 10% 20%, var(--primary-light-blue) 0%, transparent 20%),
+                  radial-gradient(circle at 90% 80%, var(--primary-light-purple) 0%, transparent 20%),
+                  var(--background-light);
+      opacity: 0.1;
   }
 
-
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  @keyframes flowBackground {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 200%; }
   }
 
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 10px; /* Slightly wider */
   }
   ::-webkit-scrollbar-track {
     background: var(--scroll-track);
-    border-radius: 4px;
+    border-radius: 5px;
   }
   ::-webkit-scrollbar-thumb {
     background: var(--scroll-thumb);
-    border-radius: 4px;
-    transition: background var(--transition-speed) var(--transition-ease);
+    border-radius: 5px;
+    transition: background var(--fast-transition);
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-neon-blue);
-    box-shadow: 0 0 5px var(--primary-neon-blue);
+    box-shadow: 0 0 8px var(--primary-neon-blue);
   }
 
-  /* Header */
+  /* --- Header --- */
   header {
     background: var(--surface-dark);
-    padding: 1rem 1.5rem;
+    padding: 1rem 2rem; /* More padding */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5); /* Stronger shadow */
     z-index: 100;
     border-bottom: 1px solid var(--border-dark);
     flex-shrink: 0;
@@ -157,19 +174,19 @@
     display: flex;
     align-items: center;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.8rem;
+    font-size: 2rem; /* Larger logo */
     font-weight: 700;
     color: var(--primary-neon-blue);
-    text-shadow: 0 0 10px var(--primary-neon-blue);
-    letter-spacing: 1px;
+    text-shadow: 0 0 15px var(--primary-neon-blue); /* Stronger glow */
+    letter-spacing: 1.5px;
     transition: color var(--transition-speed) var(--transition-ease), text-shadow var(--transition-speed) var(--transition-ease);
   }
 
   .logo i {
-    font-size: 1.6rem;
-    margin-right: 10px;
+    font-size: 1.8rem;
+    margin-right: 12px;
     color: var(--primary-neon-purple);
-    text-shadow: 0 0 8px var(--primary-neon-purple);
+    text-shadow: 0 0 10px var(--primary-neon-purple);
     transition: color var(--transition-speed) var(--transition-ease), text-shadow var(--transition-speed) var(--transition-ease);
   }
 
@@ -178,34 +195,35 @@
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem; /* More space between links */
   }
 
   nav ul li a {
     color: var(--text-light);
     text-decoration: none;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 1.05rem;
     position: relative;
-    padding-bottom: 5px;
+    padding-bottom: 7px; /* More padding for underline effect */
     transition: color var(--transition-speed) var(--transition-ease), text-shadow var(--transition-speed) var(--transition-ease);
   }
 
   nav ul li a::after {
     content: '';
     position: absolute;
-    left: 0;
+    left: 50%; /* Start from center */
+    transform: translateX(-50%); /* Center the line */
     bottom: 0;
     width: 0;
-    height: 2px;
+    height: 3px; /* Thicker underline */
     background: var(--primary-neon-blue);
-    box-shadow: 0 0 8px var(--primary-neon-blue);
+    box-shadow: 0 0 10px var(--primary-neon-blue);
     transition: width var(--transition-speed) var(--transition-ease), background var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
   nav ul li a:hover {
     color: var(--primary-neon-blue);
-    text-shadow: 0 0 5px var(--primary-neon-blue);
+    text-shadow: 0 0 8px var(--primary-neon-blue);
   }
 
   nav ul li a:hover::after,
@@ -213,14 +231,15 @@
     width: 100%;
   }
 
-  /* Main Content Area */
+  /* --- Main Content Area --- */
   #main-content {
     flex: 1;
     display: flex;
     position: relative;
     overflow: hidden;
-    padding: 20px;
+    padding: 30px; /* More padding */
     box-sizing: border-box;
+    justify-content: center; /* Center chat container horizontally */
   }
 
   /* Chat Container */
@@ -228,27 +247,26 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
+    padding: 2rem; /* More padding */
     overflow-y: auto;
     scroll-behavior: smooth;
     background: var(--surface-dark);
-    border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-    margin: 0 auto; /* Tengah */
-    max-width: 900px; /* Batasi lebar */
-    width: 100%; /* Agar responsif */
+    border-radius: 20px; /* More rounded */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); /* Stronger, softer shadow */
+    max-width: 950px; /* Slightly wider max-width */
+    width: 100%;
     border: 1px solid var(--border-dark);
-    margin-bottom: calc(var(--form-height) + 20px); /* Ruang untuk form */
+    margin-bottom: calc(var(--form-height) + 30px); /* More space for form and error */
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease), margin-bottom var(--transition-speed) var(--transition-ease);
   }
 
   .message-wrapper {
     display: flex;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem; /* More space between messages */
     align-items: flex-start;
     opacity: 0;
-    transform: translateY(15px);
-    animation: fadeIn 0.5s ease-out forwards;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s var(--transition-ease) forwards; /* Slower, smoother fadeIn */
   }
 
   .message-wrapper.user {
@@ -260,25 +278,25 @@
   }
 
   .avatar {
-    width: 42px;
-    height: 42px;
+    width: 48px; /* Larger avatar */
+    height: 48px;
     border-radius: 50%;
     background-color: var(--primary-neon-purple);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: white;
     flex-shrink: 0;
-    box-shadow: 0 0 10px var(--primary-neon-purple);
+    box-shadow: 0 0 12px var(--primary-neon-purple);
     overflow: hidden;
-    border: 2px solid var(--primary-neon-purple);
-    transition: transform 0.2s ease-in-out, background-color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+    border: 3px solid var(--primary-neon-purple); /* Thicker border */
+    transition: transform 0.3s var(--transition-ease), background-color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
   .avatar:hover {
-    transform: scale(1.08);
+    transform: scale(1.1); /* More pronounced hover */
   }
 
   .avatar img {
@@ -289,57 +307,57 @@
   }
 
   .message-wrapper.bot .avatar {
-    margin-right: 15px;
+    margin-right: 18px; /* More space */
   }
 
   .message-wrapper.user .avatar {
     order: 2;
-    margin-left: 15px;
+    margin-left: 18px;
   }
 
   .message {
-    max-width: 75%;
-    padding: 1rem 1.6rem;
-    border-radius: 25px;
-    line-height: 1.6;
+    max-width: 70%; /* Slightly narrower for better line length */
+    padding: 1.2rem 2rem; /* More padding inside bubbles */
+    border-radius: 30px; /* More rounded */
+    line-height: 1.7; /* Better readability */
     white-space: pre-wrap;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow */
     word-wrap: break-word;
-    font-size: 1.05rem;
-    transition: all 0.3s var(--transition-ease);
+    font-size: 1.08rem;
+    transition: all 0.4s var(--transition-ease);
     position: relative;
-    overflow: hidden; /* Untuk efek neon border */
-    color: var(--text-light); /* Sesuaikan warna teks berdasarkan tema */
+    overflow: hidden;
+    color: var(--text-light);
   }
 
   .user .message {
     background: var(--user-bubble-bg);
-    border-bottom-right-radius: 8px;
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    border-bottom-right-radius: 10px; /* More rounded corner */
+    border: 1px solid rgba(0, 240, 255, 0.4); /* Stronger border */
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); /* Stronger glow */
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
   .bot .message {
     background: var(--bot-bubble-bg);
-    border-bottom-left-radius: 8px;
-    border: 1px solid rgba(138, 43, 226, 0.3);
-    box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+    border-bottom-left-radius: 10px; /* More rounded corner */
+    border: 1px solid rgba(138, 43, 226, 0.4);
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
-  /* Input Form */
+  /* --- Input Form --- */
   form {
     display: flex;
-    padding: 1.5rem 20px;
+    padding: 1.8rem 30px; /* More generous padding */
     background: var(--surface-dark);
     border-top: 1px solid var(--border-dark);
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
-    gap: 1rem;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+    gap: 1.2rem; /* More space */
     align-items: center;
-    position: fixed; /* Menggunakan fixed agar selalu di bawah */
+    position: fixed;
     bottom: 0;
-    left: 0; /* Pastikan menempati seluruh lebar */
+    left: 0;
     width: 100%;
     box-sizing: border-box;
     z-index: 100;
@@ -349,12 +367,12 @@
 
   input[type="text"] {
     flex: 1;
-    padding: 1.2rem 1.8rem;
-    font-size: 1.1rem;
-    border-radius: 30px;
+    padding: 1.4rem 2rem; /* More padding */
+    font-size: 1.15rem; /* Slightly larger font */
+    border-radius: 35px; /* More rounded */
     border: 1px solid var(--border-dark);
     outline: none;
-    background-color: var(--input-bg-dark); /* Sedikit lebih terang dari surface */
+    background-color: var(--input-bg-dark);
     color: var(--text-light);
     transition: border-color var(--transition-speed) var(--transition-ease),
                 box-shadow var(--transition-speed) var(--transition-ease),
@@ -369,149 +387,185 @@
 
   input[type="text"]:focus {
     border-color: var(--primary-neon-blue);
-    box-shadow: 0 0 0 4px var(--accent-neon-glow), 0 0 15px var(--primary-neon-blue);
+    box-shadow: 0 0 0 5px var(--accent-neon-glow), 0 0 20px var(--primary-neon-blue); /* Stronger glow */
     background-color: var(--input-focus-bg-dark);
   }
 
   button[type="submit"] {
-    background: linear-gradient(45deg, var(--primary-neon-blue), var(--primary-neon-purple));
+    background: var(--button-gradient-dark);
     border: none;
     border-radius: 50%;
     color: white;
     font-weight: 600;
-    font-size: 1.3rem;
+    font-size: 1.4rem; /* Larger icon */
     cursor: pointer;
-    width: 55px;
-    height: 55px;
+    width: 60px; /* Larger button */
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s var(--transition-ease);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-    text-shadow: 0 0 8px rgba(255,255,255,0.7);
+    transition: all 0.3s var(--transition-ease);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.5); /* Stronger shadow */
+    text-shadow: 0 0 10px rgba(255,255,255,0.8);
   }
 
   button[type="submit"]:hover:not(:disabled) {
-    background: linear-gradient(45deg, var(--primary-neon-purple), var(--primary-neon-blue));
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.6), 0 0 20px var(--primary-neon-blue);
+    background: var(--button-gradient-hover-dark);
+    transform: translateY(-4px) scale(1.06); /* More pronounced lift */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px var(--primary-neon-blue);
   }
 
   button[type="submit"]:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 15px rgba(0,0,0,0.4);
   }
 
   button[type="submit"]:disabled {
     background: #444;
     cursor: not-allowed;
-    opacity: 0.7;
+    opacity: 0.6; /* Slightly more opaque */
     box-shadow: none;
     transform: none;
   }
 
-  /* Error Message */
+  /* Scroll to bottom button */
+  #scrollToBottomBtn {
+    position: absolute;
+    bottom: calc(var(--form-height) + 80px); /* Position above the form */
+    right: 50%;
+    transform: translateX(50%);
+    background: var(--button-gradient-dark);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s var(--transition-ease);
+    z-index: 99; /* Below form, above chat */
+  }
+
+  #scrollToBottomBtn.show {
+    opacity: 1;
+    visibility: visible;
+    bottom: calc(var(--form-height) + 40px); /* Animate up slightly */
+  }
+
+  #scrollToBottomBtn:hover {
+    background: var(--button-gradient-hover-dark);
+    transform: translateX(50%) translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  }
+
+  /* --- Error Message --- */
   #error {
     color: #FF6B6B;
     text-align: center;
-    padding: 1rem;
+    padding: 1.2rem; /* More padding */
     background-color: var(--error-bg-dark);
-    border-radius: 10px;
-    margin: 0 20px 20px 20px;
-    font-size: 0.95rem;
+    border-radius: 12px; /* More rounded */
+    margin: 0 auto 20px auto; /* Centered, more margin */
+    font-size: 1rem;
     font-weight: 500;
     display: none;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
     border: 1px solid var(--error-border-dark);
     flex-shrink: 0;
     transition: margin-bottom var(--transition-speed) var(--transition-ease), background-color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease);
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 950px;
+    width: 100%;
   }
 
-  /* Typing Animation */
+  /* --- Typing Animation --- */
   .typing-indicator {
     display: flex;
     align-items: center;
-    padding: 1rem 1.6rem;
+    padding: 1rem 1.8rem; /* More padding */
     background: var(--bot-bubble-bg);
-    border-radius: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.4);
     max-width: fit-content;
-    border: 1px solid rgba(138, 43, 226, 0.3);
+    border: 1px solid rgba(138, 43, 226, 0.4);
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
   .typing-dot {
-    width: 10px;
-    height: 10px;
-    margin: 0 4px;
+    width: 12px; /* Larger dots */
+    height: 12px;
+    margin: 0 5px; /* More space */
     background-color: var(--primary-neon-blue);
     border-radius: 50%;
     opacity: 0;
-    animation: typing-fade 1.4s infinite ease-in-out;
-    box-shadow: 0 0 8px var(--primary-neon-blue);
+    animation: typing-fade 1.5s infinite ease-in-out; /* Slower animation */
+    box-shadow: 0 0 10px var(--primary-neon-blue);
     transition: background-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
   .typing-dot:nth-child(1) { animation-delay: 0s; }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  .typing-dot:nth-child(2) { animation-delay: 0.25s; } /* Adjusted delays */
+  .typing-dot:nth-child(3) { animation-delay: 0.5s; }
 
   @keyframes typing-fade {
-    0%, 80%, 100% { opacity: 0; transform: scale(0.7); }
+    0%, 80%, 100% { opacity: 0; transform: scale(0.6); } /* More subtle scale */
     40% { opacity: 1; transform: scale(1); }
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Sidebar / Floating Menu */
+  /* --- Sidebar / Floating Menu --- */
   .sidebar-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(45deg, var(--primary-neon-blue), var(--primary-neon-purple));
+    top: 25px; /* Slightly lower */
+    right: 25px; /* Slightly further right */
+    width: 55px; /* Larger toggle */
+    height: 55px;
+    background: var(--button-gradient-dark);
     color: white;
     border: none;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     cursor: pointer;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
     transition: all 0.3s var(--transition-ease);
-    z-index: 200; /* Lebih tinggi dari form dan chat */
-    text-shadow: 0 0 5px rgba(255,255,255,0.7);
+    z-index: 200;
+    text-shadow: 0 0 8px rgba(255,255,255,0.7);
   }
 
   .sidebar-toggle:hover {
-    background: linear-gradient(45deg, var(--primary-neon-purple), var(--primary-neon-blue));
-    transform: rotate(90deg) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.6), 0 0 20px var(--primary-neon-blue);
+    background: var(--button-gradient-hover-dark);
+    transform: rotate(90deg) scale(1.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px var(--primary-neon-blue);
   }
 
   #sidebar {
     position: fixed;
     top: 0;
-    right: calc(-1 * var(--sidebar-width)); /* Sembunyikan di luar layar */
+    right: calc(-1 * var(--sidebar-width));
     width: var(--sidebar-width);
     height: 100%;
     background: var(--surface-dark);
-    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
-    transition: right 0.4s var(--transition-ease), background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+    transition: right 0.5s var(--transition-ease), background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
     z-index: 199;
-    padding: 20px;
+    padding: 30px; /* More padding */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     border-left: 1px solid var(--border-dark);
+    align-items: center; /* Center content */
   }
 
   #sidebar.open {
@@ -519,55 +573,64 @@
   }
 
   #sidebar h3 {
-    font-family: 'DM Sans', sans-serif; /* Font yang lebih bersih untuk judul sidebar */
+    font-family: 'DM Sans', sans-serif;
     color: var(--primary-neon-blue);
     text-align: center;
-    margin-bottom: 30px;
-    text-shadow: 0 0 10px var(--primary-neon-blue);
+    margin-bottom: 40px; /* More margin */
+    text-shadow: 0 0 15px var(--primary-neon-blue);
     transition: color var(--transition-speed) var(--transition-ease), text-shadow var(--transition-speed) var(--transition-ease);
+    font-size: 1.7rem; /* Larger title */
   }
 
   .sidebar-options {
-    flex-grow: 1; /* Ambil sisa ruang */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px; /* More space between buttons */
+    width: 100%;
+    max-width: 250px; /* Max width for buttons */
   }
 
-  .sidebar-options button, .sidebar-options-button button { /* Target both direct button and button inside a tag */
+  .sidebar-options button {
     width: 100%;
-    padding: 1rem;
+    padding: 1.1rem; /* More padding */
     background: var(--input-bg-dark);
     color: var(--text-light);
     border: 1px solid var(--border-dark);
-    border-radius: 10px;
+    border-radius: 12px; /* More rounded */
     font-size: 1.1rem;
     font-weight: 500;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    transition: background var(--transition-speed) var(--transition-ease),
-                border-color var(--transition-speed) var(--transition-ease),
-                color var(--transition-speed) var(--transition-ease),
-                box-shadow var(--transition-speed) var(--transition-ease);
+    gap: 12px; /* More space */
+    transition: all 0.3s var(--transition-ease);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
   
-  .sidebar-options-button { /* Style for anchor tag wrapper */
+  /* Styling for buttons wrapped in anchor tags */
+  .sidebar-options-button {
     text-decoration: none;
     display: block; /* Make the anchor tag take full width */
+    width: 100%;
+  }
+
+  .sidebar-options-button button { /* Target the button inside the anchor */
+      /* Inherit styles from .sidebar-options button or define specifically */
+      width: 100%; /* Ensure it takes full width of parent anchor */
   }
 
   .sidebar-options button:hover, .sidebar-options-button button:hover {
     background: var(--primary-neon-blue);
-    color: var(--background-dark); /* Teks menjadi gelap saat hover */
+    color: var(--background-dark);
     border-color: var(--primary-neon-blue);
-    box-shadow: 0 0 15px var(--accent-neon-glow);
+    box-shadow: 0 0 20px var(--accent-neon-glow);
+    transform: translateY(-2px); /* Subtle lift on hover */
   }
 
   .sidebar-options button i, .sidebar-options-button button i {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 
   /* Light/Dark Mode Toggle in Sidebar */
@@ -575,15 +638,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 10px 0;
+    gap: 15px; /* More space */
+    margin-bottom: 25px;
+    padding: 15px 0;
     border-bottom: 1px solid var(--border-dark);
     transition: border-color var(--transition-speed) var(--transition-ease);
   }
 
   .theme-toggle-wrapper span {
-    font-size: 1rem;
+    font-size: 1.05rem;
     color: var(--text-medium);
     transition: color var(--transition-speed) var(--transition-ease);
   }
@@ -591,8 +654,8 @@
   .theme-switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 65px; /* Slightly wider switch */
+    height: 38px; /* Taller switch */
   }
 
   .theme-switch input {
@@ -608,43 +671,44 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #333;
+    background-color: #555; /* Darker default */
     transition: .4s;
-    border-radius: 34px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    border-radius: 38px;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.6); /* Stronger inner shadow */
   }
 
   .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 30px; /* Larger thumb */
+    width: 30px;
     left: 4px;
     bottom: 4px;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
   }
 
   input:checked + .slider {
     background-color: var(--primary-neon-blue);
-    box-shadow: inset 0 0 5px var(--primary-neon-blue);
+    box-shadow: inset 0 0 8px var(--primary-neon-blue);
   }
 
   input:checked + .slider:before {
-    transform: translateX(26px);
+    transform: translateX(27px); /* Adjusted translation */
     background-color: var(--background-dark);
   }
 
-  /* Footer */
+  /* --- Footer --- */
   footer {
     background: var(--surface-dark);
     color: var(--text-medium);
     text-align: center;
-    padding: 1rem 1.5rem;
-    font-size: 0.9rem;
+    padding: 1.2rem 2rem; /* More padding */
+    font-size: 0.95rem;
     border-top: 1px solid var(--border-dark);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease);
   }
@@ -658,10 +722,35 @@
 
   footer a:hover {
     color: var(--primary-neon-purple);
-    text-shadow: 0 0 5px var(--primary-neon-purple);
+    text-shadow: 0 0 8px var(--primary-neon-purple);
   }
 
-  /* Responsive Adjustments */
+  /* --- Responsive Adjustments --- */
+  @media (max-width: 992px) {
+    #main-content {
+        padding: 20px;
+    }
+    #chat-container {
+        max-width: 800px;
+        padding: 1.5rem;
+    }
+    form {
+        padding: 1.5rem 20px;
+    }
+    input[type="text"] {
+        padding: 1.2rem 1.6rem;
+        font-size: 1.05rem;
+    }
+    button[type="submit"] {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+    }
+    .message {
+        max-width: 80%;
+    }
+  }
+
   @media (max-width: 768px) {
     header {
       flex-direction: column;
@@ -669,8 +758,11 @@
       padding: 1rem;
     }
     .logo {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       margin-bottom: 10px;
+    }
+    .logo i {
+        font-size: 1.4rem;
     }
     nav ul {
       width: 100%;
@@ -678,92 +770,210 @@
       gap: 0;
     }
     nav ul li a {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      padding-bottom: 4px;
+    }
+    nav ul li a::after {
+        height: 2px;
     }
     #main-content {
-      padding: 10px;
+      padding: 15px;
     }
     #chat-container {
       margin: 0 auto;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: calc(var(--form-height) + 10px); /* Gunakan --form-height */
+      padding: 1.2rem;
+      border-radius: 15px;
+      margin-bottom: calc(var(--form-height) + 15px);
     }
     #error {
-      margin: 0 10px 10px 10px;
-      padding: 0.8rem;
+      margin: 0 auto 15px auto;
+      padding: 1rem;
     }
     .message {
-      max-width: 85%;
-      padding: 0.8rem 1.2rem;
-      font-size: 0.95rem;
+      max-width: 88%;
+      padding: 1rem 1.4rem;
+      font-size: 0.98rem;
+      border-radius: 20px;
     }
     .avatar {
-      width: 36px;
-      height: 36px;
-      font-size: 0.9rem;
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+      border-width: 2px;
     }
     .message-wrapper.bot .avatar,
     .message-wrapper.user .avatar {
-      margin-right: 10px;
-      margin-left: 10px;
+      margin-right: 12px;
+      margin-left: 12px;
     }
     form {
-      padding: 1rem 10px;
-      gap: 0.5rem;
+      padding: 1.2rem 15px;
+      gap: 0.8rem;
     }
     input[type="text"] {
-      padding: 1rem 1.2rem;
+      padding: 1.1rem 1.5rem;
       font-size: 1rem;
+      border-radius: 25px;
     }
     button[type="submit"] {
-      width: 48px;
-      height: 48px;
-      font-size: 1.1rem;
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
     }
     .typing-indicator {
-      padding: 0.8rem 1.2rem;
+      padding: 0.9rem 1.4rem;
     }
     .typing-dot {
-      width: 8px;
-      height: 8px;
-      margin: 0 3px;
+      width: 9px;
+      height: 9px;
+      margin: 0 4px;
     }
     .sidebar-toggle {
-      top: 10px;
-      right: 10px;
-      width: 45px;
-      height: 45px;
-      font-size: 1.3rem;
+      top: 15px;
+      right: 15px;
+      width: 50px;
+      height: 50px;
+      font-size: 1.4rem;
     }
     #sidebar {
-      width: 250px;
-      --sidebar-width: 250px; /* Update for smaller screens */
+      width: 280px;
+      --sidebar-width: 280px;
+      padding: 25px;
+    }
+    #sidebar h3 {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+    }
+    .sidebar-options button {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    .theme-switch {
+        width: 55px;
+        height: 30px;
+    }
+    .slider:before {
+        height: 24px;
+        width: 24px;
+        left: 3px;
+        bottom: 3px;
+    }
+    input:checked + .slider:before {
+        transform: translateX(25px);
+    }
+    #scrollToBottomBtn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        bottom: calc(var(--form-height) + 60px);
+    }
+    #scrollToBottomBtn.show {
+        bottom: calc(var(--form-height) + 30px);
     }
   }
 
   @media (max-width: 480px) {
     .logo {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
     }
-    nav ul {
-      flex-wrap: wrap;
-      justify-content: center;
+    .logo i {
+        font-size: 1.2rem;
     }
-    nav ul li {
-      margin-bottom: 5px;
+    nav {
+        display: none; /* Hide nav links on very small screens for cleaner header */
+    }
+    #main-content {
+        padding: 10px;
+    }
+    #chat-container {
+        padding: 1rem;
+        margin-bottom: calc(var(--form-height) + 10px);
+    }
+    #error {
+        margin: 0 auto 10px auto;
+        padding: 0.8rem;
+    }
+    .message {
+        max-width: 95%; /* Allow messages to take more width */
+        padding: 0.9rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    .avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+    .message-wrapper.bot .avatar,
+    .message-wrapper.user .avatar {
+      margin-right: 8px;
+      margin-left: 8px;
     }
     form {
-        padding: 0.8rem 10px; /* Sedikit lebih kecil di layar sangat kecil */
+        padding: 1rem 10px;
+        gap: 0.6rem;
     }
     input[type="text"] {
-        padding: 0.9rem 1rem;
+        padding: 1rem 1rem;
         font-size: 0.9rem;
     }
     button[type="submit"] {
-        width: 42px;
-        height: 42px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    .sidebar-toggle {
+        top: 10px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    #sidebar {
+        width: 220px;
+        --sidebar-width: 220px;
+        padding: 20px;
+    }
+    #sidebar h3 {
+        font-size: 1.3rem;
+        margin-bottom: 25px;
+    }
+    .sidebar-options button {
+        font-size: 0.9rem;
+        padding: 0.9rem;
+    }
+    .theme-toggle-wrapper {
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 10px 0;
+    }
+    .theme-toggle-wrapper span {
+        font-size: 0.9rem;
+    }
+    .theme-switch {
+        width: 50px;
+        height: 28px;
+    }
+    .slider:before {
+        height: 22px;
+        width: 22px;
+        left: 3px;
+        bottom: 3px;
+    }
+    input:checked + .slider:before {
+        transform: translateX(20px);
+    }
+    footer {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    #scrollToBottomBtn {
+        width: 35px;
+        height: 35px;
         font-size: 1rem;
+        bottom: calc(var(--form-height) + 50px);
+    }
+    #scrollToBottomBtn.show {
+        bottom: calc(var(--form-height) + 25px);
     }
   }
 </style>
@@ -771,57 +981,82 @@
 <body>
 
 <header>
-  <div class="logo"><i class="fas fa-robot"></i> ALIP AI</div>
-  <nav>
+  <div class="logo" aria-label="Alip AI Logo"><i class="fas fa-robot"></i> ALIP AI</div>
+  <nav aria-label="Main Navigation">
     <ul>
-      <li><a href="#" class="active">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#home-section" class="nav-link active" data-section="home">Home</a></li>
+      <li><a href="#about-section" class="nav-link" data-section="about">About</a></li>
+      <li><a href="#contact-section" class="nav-link" data-section="contact">Contact</a></li>
     </ul>
   </nav>
 </header>
 
 <div id="main-content">
-  <div id="chat-container"></div>
-  <div id="error"></div>
+  <div id="chat-container" aria-live="polite" aria-atomic="true"></div>
+  <div id="error" role="alert" aria-hidden="true"></div>
 
-  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+  <button id="scrollToBottomBtn" title="Scroll ke Bawah" aria-label="Scroll ke pesan terbaru">
+    <i class="fas fa-arrow-down"></i>
+  </button>
+
+  <button class="sidebar-toggle" id="sidebarToggle" aria-controls="sidebar" aria-expanded="false" title="Buka/Tutup Pengaturan">
     <i class="fas fa-bars"></i>
   </button>
 
-  <aside id="sidebar">
+  <aside id="sidebar" aria-label="Pengaturan dan Opsi">
     <h3>Pengaturan AI</h3>
     <div class="theme-toggle-wrapper">
-        <span>Dark Mode</span>
-        <label class="theme-switch">
-            <input type="checkbox" id="darkModeToggle" checked>
+        <span aria-hidden="true">Dark Mode</span>
+        <label class="theme-switch" for="darkModeToggle">
+            <input type="checkbox" id="darkModeToggle" checked aria-label="Tombol mode gelap">
             <span class="slider round"></span>
         </label>
-        <span>Light Mode</span> </div>
+        <span aria-hidden="true">Light Mode</span>
+    </div>
     <div class="sidebar-options">
-      <button id="clearChatBtn"><i class="fas fa-redo"></i> Bersihkan Chat</button>
-      <button id="downloadChatBtn"><i class="fas fa-download"></i> Unduh Chat</button>
-      <a href="https://wa.me/6281249703469" target="_blank" class="sidebar-options-button">
-        <button><i class="fab fa-whatsapp"></i> Laporkan Bug</button>
+      <button id="clearChatBtn" aria-label="Bersihkan semua obrolan"><i class="fas fa-redo"></i> Bersihkan Chat</button>
+      <button id="downloadChatBtn" aria-label="Unduh riwayat obrolan"><i class="fas fa-download"></i> Unduh Chat</button>
+      <a href="https://wa.me/6281249703469" target="_blank" class="sidebar-options-button" rel="noopener noreferrer">
+        <button aria-label="Laporkan bug via WhatsApp"><i class="fab fa-whatsapp"></i> Laporkan Bug</button>
       </a>
+      <button id="newChatBtn" aria-label="Mulai obrolan baru"><i class="fas fa-plus"></i> Obrolan Baru</button>
     </div>
   </aside>
+
+  <section id="about-section" class="info-section" aria-hidden="true">
+    <h2>Tentang Alip AI</h2>
+    <p>Alip AI adalah asisten virtual futuristik yang dirancang untuk membantu Anda dengan berbagai kebutuhan informasi. Dengan teknologi AI terbaru, Alip AI siap menjawab pertanyaan, memberikan ide, dan menjadi teman ngobrol yang menyenangkan.</p>
+    <p>Kami berdedikasi untuk terus meningkatkan kemampuan Alip AI agar selalu relevan dan bermanfaat bagi Anda.</p>
+    <button class="back-to-chat" aria-label="Kembali ke obrolan"><i class="fas fa-comments"></i> Kembali ke Chat</button>
+  </section>
+
+  <section id="contact-section" class="info-section" aria-hidden="true">
+    <h2>Kontak Kami</h2>
+    <p>Ada pertanyaan atau ingin memberikan masukan? Jangan sungkan untuk menghubungi kami!</p>
+    <ul>
+      <li><i class="fas fa-envelope"></i> Email: <a href="mailto:support@alipai.com">support@alipai.com</a></li>
+      <li><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/6281249703469" target="_blank" rel="noopener noreferrer">+62 812-4970-3469</a></li>
+      <li><i class="fas fa-globe"></i> Website: <a href="https://alipai.com" target="_blank" rel="noopener noreferrer">www.alipai.com</a> (Coming Soon!)</li>
+    </ul>
+    <button class="back-to-chat" aria-label="Kembali ke obrolan"><i class="fas fa-comments"></i> Kembali ke Chat</button>
+  </section>
+
 </div>
 
-<form id="form">
-  <input type="text" id="input" placeholder="Ketik pertanyaanmu..." autocomplete="off" required aria-label="Input pesan chat" />
+<form id="chat-form">
+  <input type="text" id="input" placeholder="Ketik pertanyaanmu..." autocomplete="off" required aria-label="Area input pesan" />
   <button type="submit" aria-label="Kirim pesan">
     <i class="fas fa-paper-plane"></i>
   </button>
 </form>
 
 <footer>
-    <span>&copy; 2025 Alip AI. Dibuat dengan <i class="fas fa-heart" style="color: #e0245e;"></i> oleh <a href="https://wa.me/6281249703469" target="_blank">Ahmad Alif</a>.</span>
+    <span>&copy; <span id="currentYear"></span> Alip AI. Dibuat dengan <i class="fas fa-heart" style="color: #e0245e;"></i> oleh <a href="https://wa.me/6281249703469" target="_blank" rel="noopener noreferrer">Ahmad Alif</a>.</span>
 </footer>
 
 <script>
   const chatContainer = document.getElementById('chat-container');
-  const form = document.getElementById('form');
+  const chatForm = document.getElementById('chat-form'); // Renamed from 'form'
   const input = document.getElementById('input');
   const errorDiv = document.getElementById('error');
   const sidebarToggle = document.getElementById('sidebarToggle');
@@ -829,12 +1064,17 @@
   const clearChatBtn = document.getElementById('clearChatBtn');
   const downloadChatBtn = document.getElementById('downloadChatBtn');
   const darkModeToggle = document.getElementById('darkModeToggle');
+  const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const infoSections = document.querySelectorAll('.info-section');
+  const backToChatButtons = document.querySelectorAll('.back-to-chat');
+  const newChatBtn = document.getElementById('newChatBtn'); // New button
 
   // URL Avatar Bot - Disarankan hosting gambar sendiri atau menggunakan CDN yang stabil
   const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
 
   // Array untuk menyimpan riwayat percakapan (untuk konteks)
-  const conversationHistory = [];
+  let conversationHistory = []; // Changed to `let` for re-assignment
 
   // Function to create and add a message to the chat
   function addMessage(text, sender) {
@@ -843,6 +1083,8 @@
 
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
+    avatar.setAttribute('role', 'img');
+    avatar.setAttribute('aria-label', sender === 'bot' ? 'Alip AI Avatar' : 'Your Avatar');
 
     if (sender === 'bot') {
       const avatarImg = document.createElement('img');
@@ -855,16 +1097,16 @@
       };
       avatar.appendChild(avatarImg);
     } else {
-      avatar.textContent = 'YOU'; // Teks untuk avatar user
-      avatar.style.backgroundColor = '#6A1B9A'; /* Warna ungu untuk user avatar */
-      avatar.style.boxShadow = '0 0 10px #6A1B9A';
-      avatar.style.borderColor = '#6A1B9A';
+      avatar.textContent = 'YOU';
+      avatar.style.backgroundColor = 'var(--primary-neon-purple)';
+      avatar.style.boxShadow = '0 0 10px var(--primary-neon-purple)';
+      avatar.style.borderColor = 'var(--primary-neon-purple)';
     }
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    // Untuk keamanan, gunakan textContent untuk mencegah XSS
-    messageDiv.textContent = text; 
+    // Using innerHTML for potential Markdown rendering in the future
+    messageDiv.innerHTML = formatMessage(text); 
 
     if (sender === 'user') {
       messageWrapper.appendChild(messageDiv);
@@ -878,11 +1120,22 @@
     scrollToBottom();
   }
 
+  // Function to format message content (e.g., for code blocks)
+  function formatMessage(text) {
+    // Basic Markdown for code blocks (for example)
+    text = text.replace(/```([\s\S]*?)```/g, (match, code) => {
+        return `<pre><code>${code.trim()}</code></pre>`;
+    });
+    // Add more markdown formatting here if needed (bold, italic, etc.)
+    return text;
+  }
+
   // Function to add typing animation
   function addTypingIndicator() {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', 'bot');
     messageWrapper.id = 'typing-indicator-wrapper';
+    messageWrapper.setAttribute('aria-label', 'Alip AI sedang mengetik');
 
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
@@ -943,52 +1196,62 @@
     messageWrapper.appendChild(messageDiv);
     chatContainer.appendChild(messageWrapper);
     
-    const characters = text.split('');
+    // Using innerHTML for formatting support
+    const formattedText = formatMessage(text); 
+    const characters = formattedText.split('');
     let currentText = '';
     for (let i = 0; i < characters.length; i++) {
       currentText += characters[i];
-      messageDiv.textContent = currentText;
+      messageDiv.innerHTML = currentText;
       scrollToBottom();
-      await new Promise(resolve => setTimeout(resolve, 15)); // Kecepatan mengetik
+      await new Promise(resolve => setTimeout(resolve, 20)); // Adjusted typing speed for smoother effect
     }
   }
 
   // Scroll otomatis ke bawah
   function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
+    scrollToBottomBtn.classList.remove('show'); // Hide button when at bottom
   }
 
-  // Fungsi untuk mengatur margin-bottom chat container dan error div
+  // Function to set dynamic margins based on form height
   function setDynamicMargins() {
-    const formHeight = form.offsetHeight;
+    const formHeight = chatForm.offsetHeight;
     document.documentElement.style.setProperty('--form-height', `${formHeight}px`);
-    // Memastikan margin-bottom chat container dan error div diatur ulang
-    chatContainer.style.marginBottom = `calc(var(--form-height) + 20px)`;
+    chatContainer.style.marginBottom = `calc(var(--form-height) + 30px)`;
     if (errorDiv.style.display !== 'none') {
-        errorDiv.style.marginBottom = `calc(var(--form-height) + 20px)`;
+        errorDiv.style.marginBottom = `calc(var(--form-height) + 30px)`;
     }
   }
 
-  // Panggil saat load dan setiap kali ukuran jendela/form berubah
+  // Initial load and resize observer for dynamic margins
   window.addEventListener('load', () => {
     setDynamicMargins();
+    // Welcome message on load
     const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
   });
 
-  // Panggil saat window di-resize
   window.addEventListener('resize', setDynamicMargins);
+  const resizeObserverForm = new ResizeObserver(setDynamicMargins);
+  resizeObserverForm.observe(chatForm);
 
-  // Observer untuk memantau perubahan ukuran pada form, jika kontennya dinamis
-  const resizeObserverForm = new ResizeObserver(() => {
-    setDynamicMargins();
+  // Show/hide scroll to bottom button
+  chatContainer.addEventListener('scroll', () => {
+    if (chatContainer.scrollHeight - chatContainer.scrollTop > chatContainer.clientHeight + 100) { // Show if not near bottom
+      scrollToBottomBtn.classList.add('show');
+    } else {
+      scrollToBottomBtn.classList.remove('show');
+    }
   });
-  resizeObserverForm.observe(form);
 
-  // Fungsi utama untuk mengirim pesan ke API
+  scrollToBottomBtn.addEventListener('click', scrollToBottom);
+
+  // Main function to send message to API
   async function sendMessageToAPI(message) {
-    const recentHistory = conversationHistory.slice(-10); // Ambil 10 pesan terakhir untuk konteks
+    const recentHistory = conversationHistory.slice(-10); // Take last 10 messages for context
 
     let fullPrompt = `Kamu adalah Alip AI, sebuah AI canggih dan futuristik. Gaya bahasamu santai, to the point, dan keren, mirip obrolan dengan teman. Gunakan bahasa 'lu' dan 'gua'. Jawaban harus singkat, jelas, dan interaktif. Jika ada pertanyaan tentang programming, berikan contoh kodenya (formatnya tidak perlu terlalu panjang, cukup yang penting saja). Jika pertanyaan tidak masuk akal, berikan respons yang humoris tapi sopan.`;
     
@@ -1001,6 +1264,7 @@
     }
     fullPrompt += `Pertanyaan: ${message}`;
 
+    // Consider using a backend proxy to hide your API key if you were using one
     const url = 'https://api.siputzx.my.id/api/ai/gemini-pro?content=' + encodeURIComponent(fullPrompt);
 
     try {
@@ -1027,7 +1291,8 @@
     }
   }
 
-  form.addEventListener('submit', async (e) => {
+  // Event listener for chat form submission
+  chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const userText = input.value.trim();
     if (!userText) return;
@@ -1037,7 +1302,7 @@
 
     input.value = '';
     input.disabled = true;
-    form.querySelector('button').disabled = true;
+    chatForm.querySelector('button').disabled = true;
 
     const typingIndicator = addTypingIndicator();
 
@@ -1048,10 +1313,10 @@
       conversationHistory.push({ role: 'model', parts: reply });
     } catch (error) {
       removeTypingIndicator();
-      // Error sudah ditangani di sendMessageToAPI
+      // Error already handled in sendMessageToAPI
     } finally {
       input.disabled = false;
-      form.querySelector('button').disabled = false;
+      chatForm.querySelector('button').disabled = false;
       input.focus();
       scrollToBottom();
     }
@@ -1059,23 +1324,19 @@
 
   // Sidebar Toggle
   sidebarToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-    const icon = sidebarToggle.querySelector('i');
-    if (sidebar.classList.contains('open')) {
-      icon.classList.remove('fa-bars');
-      icon.classList.add('fa-times'); // Ganti ikon menjadi X
-    } else {
-      icon.classList.remove('fa-times');
-      icon.classList.add('fa-bars');
-    }
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.querySelector('i').classList.toggle('fa-times', isOpen); // Toggle X icon
+    sidebarToggle.querySelector('i').classList.toggle('fa-bars', !isOpen); // Toggle bars icon
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
   });
 
-  // Close sidebar when clicking outside (optional, but good UX)
+  // Close sidebar when clicking outside
   document.addEventListener('click', (e) => {
     if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
       sidebar.classList.remove('open');
       sidebarToggle.querySelector('i').classList.remove('fa-times');
       sidebarToggle.querySelector('i').classList.add('fa-bars');
+      sidebarToggle.setAttribute('aria-expanded', false);
     }
   });
 
@@ -1083,44 +1344,54 @@
   // Clear Chat Functionality
   clearChatBtn.addEventListener('click', () => {
     chatContainer.innerHTML = '';
-    conversationHistory.length = 0; // Kosongkan riwayat
-    errorDiv.style.display = 'none'; // Sembunyikan pesan error jika ada
+    conversationHistory = []; // Reset riwayat
+    errorDiv.style.display = 'none';
     const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
-    sidebar.classList.remove('open'); // Tutup sidebar setelah aksi
+    sidebar.classList.remove('open');
     sidebarToggle.querySelector('i').classList.remove('fa-times');
     sidebarToggle.querySelector('i').classList.add('fa-bars');
+    sidebarToggle.setAttribute('aria-expanded', false);
+    hideInfoSections(); // Ensure info sections are hidden
+  });
+
+  // New Chat Functionality (similar to clear, but can be expanded later for session management)
+  newChatBtn.addEventListener('click', () => {
+    clearChatBtn.click(); // Reuse existing clear chat logic
   });
 
   // Download Chat Functionality
   downloadChatBtn.addEventListener('click', () => {
-    let chatContent = '';
+    let chatContent = 'Riwayat Obrolan Alip AI\n\n';
     const messages = chatContainer.querySelectorAll('.message-wrapper');
     messages.forEach(msgWrapper => {
-      const sender = msgWrapper.classList.contains('user') ? 'Gua' : 'Alip AI'; // Menggunakan "Gua" dan "Alip AI" sesuai persona
-      const messageText = msgWrapper.querySelector('.message').textContent;
-      chatContent += `${sender}: ${messageText}\n`;
+      // Exclude typing indicator messages if it's still present for some reason
+      if (msgWrapper.id === 'typing-indicator-wrapper') return; 
+
+      const sender = msgWrapper.classList.contains('user') ? 'Gua' : 'Alip AI';
+      const messageText = msgWrapper.querySelector('.message').textContent; // Use textContent for plain text download
+      chatContent += `${sender}: ${messageText}\n\n`; // Add extra newline for readability
     });
 
     const blob = new Blob([chatContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'alip_ai_chat_log.txt';
+    a.download = `alip_ai_chat_log_${new Date().toISOString().slice(0,10)}.txt`; // Add date to filename
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    sidebar.classList.remove('open'); // Tutup sidebar setelah aksi
+    sidebar.classList.remove('open');
     sidebarToggle.querySelector('i').classList.remove('fa-times');
     sidebarToggle.querySelector('i').classList.add('fa-bars');
+    sidebarToggle.setAttribute('aria-expanded', false);
   });
 
   // Dark/Light Mode Toggle
   darkModeToggle.addEventListener('change', () => {
     document.body.classList.toggle('light-mode');
-    // Simpan preferensi pengguna di localStorage
     localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
   });
 
@@ -1129,12 +1400,86 @@
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
-        darkModeToggle.checked = false; // Pastikan toggle tidak dicentang jika light mode aktif
+        darkModeToggle.checked = false;
     } else {
-        // Default ke dark mode jika tidak ada preferensi atau preferensi adalah dark
         document.body.classList.remove('light-mode');
-        darkModeToggle.checked = true; // Pastikan toggle dicentang jika dark mode aktif
+        darkModeToggle.checked = true;
     }
+  });
+
+  // --- Navigation and Section Management ---
+  function showSection(sectionId) {
+    infoSections.forEach(section => {
+      section.classList.remove('active-section');
+      section.setAttribute('aria-hidden', true);
+      section.style.display = 'none'; // Hide to ensure it doesn't take up space
+    });
+    chatContainer.style.display = 'none'; // Hide chat container
+    chatForm.style.display = 'none'; // Hide chat form
+    errorDiv.style.display = 'none'; // Hide error
+    scrollToBottomBtn.style.display = 'none'; // Hide scroll button
+
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.style.display = 'flex'; // Use flex for centering content
+      targetSection.classList.add('active-section');
+      targetSection.setAttribute('aria-hidden', false);
+    }
+    sidebar.classList.remove('open');
+    sidebarToggle.querySelector('i').classList.remove('fa-times');
+    sidebarToggle.querySelector('i').classList.add('fa-bars');
+    sidebarToggle.setAttribute('aria-expanded', false);
+  }
+
+  function showChat() {
+    infoSections.forEach(section => {
+      section.classList.remove('active-section');
+      section.setAttribute('aria-hidden', true);
+      section.style.display = 'none';
+    });
+    chatContainer.style.display = 'flex';
+    chatForm.style.display = 'flex';
+    // Error div display depends on its state
+    errorDiv.style.display = errorDiv.textContent ? 'block' : 'none'; 
+    scrollToBottomBtn.style.display = 'flex'; // Show scroll button
+    scrollToBottom(); // Scroll to bottom when returning to chat
+  }
+
+  function hideInfoSections() {
+    infoSections.forEach(section => {
+      section.classList.remove('active-section');
+      section.setAttribute('aria-hidden', true);
+      section.style.display = 'none';
+    });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      navLinks.forEach(nav => nav.classList.remove('active'));
+      e.target.classList.add('active');
+      const sectionId = e.target.dataset.section;
+      if (sectionId === 'home') {
+        showChat();
+      } else {
+        showSection(sectionId);
+      }
+    });
+  });
+
+  backToChatButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      showChat();
+      navLinks.forEach(nav => nav.classList.remove('active'));
+      document.querySelector('.nav-link[data-section="home"]').classList.add('active');
+    });
+  });
+
+  // Initial state: ensure chat is visible and other sections are hidden
+  window.addEventListener('load', () => {
+    showChat();
+    navLinks.forEach(nav => nav.classList.remove('active'));
+    document.querySelector('.nav-link[data-section="home"]').classList.add('active');
   });
 
 </script>
