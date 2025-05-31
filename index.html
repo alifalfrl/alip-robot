@@ -7,30 +7,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  /* --- CSS Variables & Theme Management --- */
+  /* --- Variabel CSS & Manajemen Tema --- */
   :root {
-    /* Dark Mode Colors (Default) */
-    --bg-primary: #17171C; /* Darker, modern background */
-    --surface-main: #202026; /* Main panel/chat background */
-    --surface-light: #2C2C35; /* Header, form, sidebar background */
-    --text-primary: #E0E0E0; /* Light text */
-    --text-secondary: #9CA3AF; /* Lighter grey text */
-    --accent-blue: #4F46E5; /* Calmer purplish blue */
-    --accent-purple: #8B5CF6; /* Calmer purple */
-    --border-color: #3F3F46; /* Subtle border */
-    --input-bg: #3F3F46; /* Input field background */
-    --input-focus-border: #6B7280; /* Input focus border */
-    --user-bubble-bg: #4F46E5; /* User message bubble (accent-blue) */
-    --bot-bubble-bg: #374151; /* Bot message bubble (dark grey) */
-    --error-bg: #FECACA; /* Error background */
-    --error-text: #DC2626; /* Error text */
+    /* Warna Mode Gelap (Default) */
+    --bg-primary: #17171C; /* Lebih gelap, modern */
+    --surface-main: #202026; /* Panel utama */
+    --surface-light: #2C2C35; /* Header, form */
+    --text-primary: #E0E0E0;
+    --text-secondary: #9CA3AF; /* Abu-abu terang */
+    --accent-blue: #4F46E5; /* Biru keunguan yang lebih kalem */
+    --accent-purple: #8B5CF6; /* Ungu yang lebih kalem */
+    --border-color: #3F3F46; /* Border subtle */
+    --input-bg: #3F3F46;
+    --input-focus-border: #6B7280;
+    --user-bubble-bg: #4F46E5; /* Langsung pakai accent-blue */
+    --bot-bubble-bg: #374151; /* Abu-abu tua */
+    --error-bg: #FECACA;
+    --error-text: #DC2626;
     --button-bg: var(--accent-blue);
     --button-hover-bg: var(--accent-purple);
     --shadow-light: rgba(0, 0, 0, 0.1);
     --shadow-medium: rgba(0, 0, 0, 0.2);
     --shadow-strong: rgba(0, 0, 0, 0.4);
 
-    /* Light Mode Colors */
+    /* Warna Mode Terang */
     --light-bg-primary: #F3F4F6;
     --light-surface-main: #FFFFFF;
     --light-surface-light: #E5E7EB;
@@ -51,12 +51,13 @@
     --light-shadow-medium: rgba(0, 0, 0, 0.1);
     --light-shadow-strong: rgba(0, 0, 0, 0.2);
 
-    /* Transitions & Animations */
-    --transition-duration: 0.25s; /* Faster for responsive feel */
+
+    /* Transisi & Animasi */
+    --transition-duration: 0.25s; /* Lebih cepat untuk kesan responsif */
     --transition-ease: ease-in-out;
   }
 
-  /* Activate Light Mode */
+  /* Aktivasi Mode Terang */
   body.light-mode {
     --bg-primary: var(--light-bg-primary);
     --surface-main: var(--light-surface-main);
@@ -91,7 +92,7 @@
   body {
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif; /* Menggunakan Inter sebagai font utama */
     background: var(--bg-primary);
     color: var(--text-primary);
     display: flex;
@@ -103,7 +104,7 @@
     transition: background var(--transition-duration) var(--transition-ease), color var(--transition-duration) var(--transition-ease);
   }
 
-  /* Custom Scrollbar */
+  /* Scrollbar Kustom */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -124,7 +125,7 @@
     background: var(--surface-light);
     padding: 1rem 1.5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Pusat header */
     align-items: center;
     box-shadow: 0 2px 8px var(--shadow-medium);
     z-index: 100;
@@ -150,9 +151,12 @@
     transition: color var(--transition-duration) var(--transition-ease);
   }
 
-  /* Removed nav styles as nav is removed from HTML */
+  /* Navigasi dihapus sesuai permintaan */
+  nav {
+    display: none; /* Sembunyikan navigasi */
+  }
 
-  /* --- Main Content Area --- */
+  /* --- Area Konten Utama --- */
   #main-content {
     flex: 1;
     display: flex;
@@ -161,9 +165,10 @@
     padding: 20px;
     box-sizing: border-box;
     justify-content: center;
+    align-items: center; /* Pusatkan konten vertikal */
   }
 
-  /* Chat Container */
+  /* Wadah Obrolan */
   #chat-container {
     flex: 1;
     display: flex;
@@ -177,7 +182,7 @@
     max-width: 800px;
     width: 100%;
     border: 1px solid var(--border-color);
-    /* margin-bottom handled by JS for dynamic form height */
+    margin-bottom: calc(var(--form-height, 80px) + 20px);
     transition: background var(--transition-duration) var(--transition-ease), border-color var(--transition-duration) var(--transition-ease), box-shadow var(--transition-duration) var(--transition-ease);
   }
 
@@ -246,6 +251,7 @@
     font-size: 0.95rem;
     transition: all 0.3s var(--transition-ease);
     color: var(--text-primary);
+    position: relative; /* Untuk tombol copy */
   }
 
   .message pre {
@@ -257,11 +263,12 @@
     font-family: monospace;
     font-size: 0.85rem;
     line-height: 1.4;
+    position: relative; /* For copy button inside pre */
   }
 
   .user .message {
     background: var(--user-bubble-bg);
-    color: white; /* Better contrast for user bubble */
+    color: white; /* Kontras lebih baik untuk user bubble */
     border-bottom-right-radius: 6px;
   }
 
@@ -270,7 +277,44 @@
     border-bottom-left-radius: 6px;
   }
 
-  /* --- Input Form --- */
+  /* Tombol Copy untuk Bot Message */
+  .copy-btn {
+    position: absolute;
+    top: 5px; /* Sesuaikan posisi */
+    right: 5px; /* Sesuaikan posisi */
+    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  .message:hover .copy-btn {
+    opacity: 1;
+  }
+  .copy-btn:active {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  /* Untuk tombol copy di dalam pre */
+  .message pre .copy-btn {
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+  }
+  .message pre:hover .copy-btn {
+    opacity: 1;
+  }
+  .message pre .copy-btn:active {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+
+  /* --- Formulir Input --- */
   form {
     display: flex;
     padding: 1.2rem 20px;
@@ -310,8 +354,8 @@
 
   input[type="text"]:focus {
     border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3); /* Calmer shadow color */
-    background-color: var(--surface-main); /* Slightly change background on focus */
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3); /* Warna shadow lebih kalem */
+    background-color: var(--surface-main); /* Mengubah background sedikit saat fokus */
   }
 
   button[type="submit"] {
@@ -350,10 +394,10 @@
     transform: none;
   }
 
-  /* Scroll to bottom button */
+  /* Tombol gulir ke bawah */
   #scrollToBottomBtn {
     position: absolute;
-    bottom: calc(var(--form-height, 80px) + 30px); /* Adjusted by JS */
+    bottom: calc(var(--form-height, 80px) + 30px);
     right: 50%;
     transform: translateX(50%);
     background: var(--button-bg);
@@ -377,7 +421,7 @@
   #scrollToBottomBtn.show {
     opacity: 1;
     visibility: visible;
-    bottom: calc(var(--form-height, 80px) + 20px); /* Adjusted by JS */
+    bottom: calc(var(--form-height, 80px) + 20px);
   }
 
   #scrollToBottomBtn:hover {
@@ -385,7 +429,7 @@
     transform: translateX(50%) translateY(-2px) scale(1.03);
   }
 
-  /* --- Error Message --- */
+  /* --- Pesan Error --- */
   #error {
     color: var(--error-text);
     background-color: var(--error-bg);
@@ -393,7 +437,7 @@
     text-align: center;
     padding: 0.8rem;
     border-radius: 8px;
-    margin: 0 auto 15px auto; /* Adjusted by JS for dynamic form height */
+    margin: 0 auto 15px auto;
     font-size: 0.9rem;
     font-weight: 500;
     display: none;
@@ -404,7 +448,7 @@
     transition: margin-bottom var(--transition-duration) var(--transition-ease), background-color var(--transition-duration) var(--transition-ease);
   }
 
-  /* --- Typing Animation --- */
+  /* --- Animasi Mengetik --- */
   .typing-indicator {
     display: flex;
     align-items: center;
@@ -442,7 +486,99 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* --- Sidebar / Floating Menu --- */
+  /* --- Bagian Info (Bantuan) --- */
+  .info-section {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--surface-main);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px var(--shadow-strong);
+    max-width: 800px;
+    width: 100%;
+    padding: 2.5rem;
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-duration) var(--transition-ease);
+    animation: fadeIn 0.6s var(--transition-ease) forwards;
+  }
+
+  .info-section.active-section {
+    display: flex; /* Hanya tampilkan jika aktif */
+  }
+
+  .info-section h2 {
+    font-size: 2rem;
+    color: var(--accent-blue);
+    margin-bottom: 1rem;
+    transition: color var(--transition-duration) var(--transition-ease);
+  }
+
+  .info-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    margin-bottom: 0.8rem;
+    max-width: 600px;
+  }
+
+  .info-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+
+  .info-section ul li {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .info-section ul li i {
+    color: var(--accent-purple);
+    font-size: 1.1rem;
+  }
+
+  .info-section ul li a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .info-section ul li a:hover {
+    color: var(--accent-purple);
+  }
+
+  .back-to-chat {
+    background: var(--button-bg);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.8rem 1.5rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s var(--transition-ease);
+    box-shadow: 0 2px 10px var(--shadow-medium);
+  }
+
+  .back-to-chat:hover {
+    background: var(--button-hover-bg);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow-strong);
+  }
+
+  /* --- Sidebar / Menu Mengambang --- */
   .sidebar-toggle {
     position: fixed;
     top: 20px;
@@ -472,7 +608,7 @@
   #sidebar {
     position: fixed;
     top: 0;
-    right: -250px; /* Default sidebar width */
+    right: -250px; /* Lebar default sidebar */
     width: 250px;
     height: 100%;
     background: var(--surface-light);
@@ -526,7 +662,7 @@
     box-shadow: 0 1px 5px var(--shadow-light);
   }
 
-  .sidebar-options-button { /* For links wrapping buttons */
+  .sidebar-options-button { /* Untuk link yang membungkus tombol */
     text-decoration: none;
     display: block;
     width: 100%;
@@ -544,7 +680,7 @@
     font-size: 1.1rem;
   }
 
-  /* Dark/Light Mode Toggle in Sidebar */
+  /* Toggle Mode Terang/Gelap di Sidebar */
   .theme-toggle-wrapper {
     display: flex;
     align-items: center;
@@ -582,7 +718,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #6B7280; /* Default grey */
+    background-color: #6B7280; /* Abu-abu default */
     transition: .4s;
     border-radius: 28px;
   }
@@ -632,27 +768,102 @@
     color: var(--accent-purple);
   }
 
-  /* --- Responsive Adjustments --- */
+  /* Overlay untuk popup bantuan */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 250;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .help-modal {
+    background: var(--surface-main);
+    color: var(--text-primary);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 8px 30px var(--shadow-strong);
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .modal-overlay.active .help-modal {
+    transform: scale(1);
+  }
+
+  .help-modal h2 {
+    color: var(--accent-blue);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  .help-modal p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .help-modal ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  .help-modal ul li {
+    margin-bottom: 0.5rem;
+  }
+
+  .help-modal .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .help-modal .close-btn:hover {
+    color: var(--accent-blue);
+  }
+
+
+  /* --- Penyesuaian Responsif --- */
   @media (max-width: 768px) {
     header {
-      flex-direction: column;
-      align-items: flex-start;
       padding: 0.8rem;
     }
     .logo {
       font-size: 1.3rem;
-      margin-bottom: 0; /* Remove margin as nav is gone */
     }
     .logo i {
         font-size: 1.1rem;
     }
-    /* Nav styles are removed */
     #main-content {
       padding: 15px;
     }
-    #chat-container {
+    #chat-container, .info-section {
       padding: 1rem;
       border-radius: 10px;
+      margin-bottom: calc(var(--form-height, 80px) + 10px);
     }
     #error {
       margin: 0 auto 10px auto;
@@ -745,9 +956,25 @@
     #scrollToBottomBtn.show {
         bottom: calc(var(--form-height, 80px) + 15px);
     }
+    .info-section h2 {
+      font-size: 1.5rem;
+    }
+    .info-section p, .info-section ul li {
+      font-size: 0.9rem;
+    }
+    .back-to-chat {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.9rem;
+    }
     footer {
         padding: 0.7rem;
         font-size: 0.75rem;
+    }
+    .help-modal {
+      padding: 20px;
+    }
+    .help-modal h2 {
+      font-size: 1.5rem;
     }
   }
 </style>
@@ -756,7 +983,11 @@
 
 <header>
   <div class="logo" aria-label="Alip AI Logo"><i class="fas fa-robot"></i> ALIP AI</div>
-  </header>
+  <nav aria-label="Navigasi Utama">
+    <ul>
+      </ul>
+  </nav>
+</header>
 
 <div id="main-content">
   <div id="chat-container" aria-live="polite" aria-atomic="true"></div>
@@ -786,11 +1017,11 @@
       <a href="https://wa.me/6281249703469" target="_blank" class="sidebar-options-button" rel="noopener noreferrer">
         <button aria-label="Laporkan bug via WhatsApp"><i class="fab fa-whatsapp"></i> Laporkan Bug</button>
       </a>
+      <button id="helpBtn" aria-label="Buka bantuan Alip AI"><i class="fas fa-question-circle"></i> Bantuan</button>
       <button id="newChatBtn" aria-label="Mulai obrolan baru"><i class="fas fa-plus"></i> Obrolan Baru</button>
-      </div>
+    </div>
   </aside>
-
-  </div>
+</div>
 
 <form id="chat-form">
   <input type="text" id="input" placeholder="Ketik pesanmu..." autocomplete="off" required aria-label="Area input pesan" />
@@ -803,8 +1034,26 @@
     <span>&copy; <span id="currentYear"></span> Alip AI. Dibuat dengan <i class="fas fa-heart" style="color: #e0245e;"></i> oleh <a href="https://wa.me/6281249703469" target="_blank" rel="noopener noreferrer">Ahmad Alif</a>.</span>
 </footer>
 
+<div class="modal-overlay" id="helpModalOverlay" aria-hidden="true">
+  <div class="help-modal" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+    <button class="close-btn" id="closeHelpModalBtn" aria-label="Tutup jendela bantuan"><i class="fas fa-times"></i></button>
+    <h2 id="helpModalTitle">Bantuan Alip AI</h2>
+    <p>Selamat datang di Alip AI! Asisten virtual cerdas ini siap membantu Anda dengan berbagai pertanyaan. Berikut adalah beberapa hal yang bisa Anda lakukan:</p>
+    <ul>
+      <li>**Bertanya Apapun:** Cukup ketik pertanyaan Anda, Alip AI akan berusaha memberikan jawaban terbaik.</li>
+      <li>**Minta Ide:** Butuh inspirasi? Minta Alip AI memberikan ide-ide kreatif.</li>
+      <li>**Ngobrol Santai:** Alip AI bisa jadi teman ngobrol yang asyik.</li>
+      <li>**Bersihkan Chat:** Tombol <i class="fas fa-redo"></i> **Bersihkan Chat** akan menghapus semua riwayat percakapan.</li>
+      <li>**Unduh Chat:** Tombol <i class="fas fa-download"></i> **Unduh Chat** memungkinkan Anda menyimpan riwayat obrolan ke file teks.</li>
+      <li>**Ganti Tema:** Gunakan tombol saklar tema untuk beralih antara mode **gelap** dan **terang**.</li>
+      <li>**Laporkan Bug:** Jika menemukan masalah, laporkan via WhatsApp.</li>
+      <li>**Obrolan Baru:** Mulai percakapan baru dengan tombol <i class="fas fa-plus"></i>.</li>
+    </ul>
+    <p>Alip AI terus belajar dan berkembang. Jika ada masukan atau pertanyaan lebih lanjut, jangan ragu untuk menghubungi pengembang.</p>
+  </div>
+</div>
+
 <script>
-  // DOM Element References
   const chatContainer = document.getElementById('chat-container');
   const chatForm = document.getElementById('chat-form');
   const input = document.getElementById('input');
@@ -816,13 +1065,16 @@
   const darkModeToggle = document.getElementById('darkModeToggle');
   const scrollToBottomBtn = document.getElementById('scrollToBottomBtn');
   const newChatBtn = document.getElementById('newChatBtn');
+  const helpBtn = document.getElementById('helpBtn');
+  const helpModalOverlay = document.getElementById('helpModalOverlay');
+  const closeHelpModalBtn = document.getElementById('closeHelpModalBtn');
 
-  // Bot Avatar URL
-  const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg';
+  // URL Avatar Bot
+  const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
 
-  let conversationHistory = []; // Stores chat history for API context
+  let conversationHistory = [];
 
-  // Function to add a message to the chat container
+  // Fungsi untuk menambahkan pesan ke chat
   function addMessage(text, sender) {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', sender);
@@ -830,15 +1082,15 @@
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
     avatar.setAttribute('role', 'img');
-    avatar.setAttribute('aria-label', sender === 'bot' ? 'Alip AI Avatar' : 'Your Avatar');
+    avatar.setAttribute('aria-label', sender === 'bot' ? 'Avatar Alip AI' : 'Avatar Anda');
 
     if (sender === 'bot') {
       const avatarImg = document.createElement('img');
       avatarImg.src = botAvatarUrl;
-      avatarImg.alt = 'Alip AI Avatar';
-      avatarImg.onerror = () => { // Fallback if image fails to load
+      avatarImg.alt = 'Avatar Alip AI';
+      avatarImg.onerror = () => {
         avatar.textContent = 'AI';
-        console.warn('Bot avatar image failed to load. Using text fallback.');
+        console.warn('Gambar avatar bot gagal dimuat. Menggunakan fallback teks.');
         avatarImg.remove();
       };
       avatar.appendChild(avatarImg);
@@ -849,7 +1101,8 @@
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    messageDiv.innerHTML = formatMessage(text); // Format message content
+    // Format pesan dan tambahkan tombol copy jika dari bot
+    messageDiv.innerHTML = formatMessage(text, sender); 
 
     if (sender === 'user') {
       messageWrapper.appendChild(messageDiv);
@@ -860,33 +1113,76 @@
     }
 
     chatContainer.appendChild(messageWrapper);
-    scrollToBottom(); // Always scroll to bottom after new message
+    scrollToBottom();
   }
 
-  // Function to format messages (e.g., for code blocks)
-  function formatMessage(text) {
-    // Basic Markdown for code blocks (```code```)
-    text = text.replace(/```([\s\S]*?)```/g, (match, code) => {
-        return `<pre><code>${code.trim()}</code></pre>`;
+  // Fungsi untuk memformat pesan (Markdown, tombol copy)
+  function formatMessage(text, sender) {
+    let formattedText = text;
+
+    // Basic Markdown for code blocks
+    formattedText = formattedText.replace(/```([\s\S]*?)```/g, (match, code) => {
+        // Tambahkan tombol copy di dalam pre
+        return `<pre><button class="copy-btn" onclick="copyToClipboard(this)">Copy</button><code>${code.trim()}</code></pre>`;
     });
-    return text;
+
+    // Tambahkan tombol copy untuk pesan bot non-code
+    if (sender === 'bot' && !text.includes('```')) {
+      formattedText += `<button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>`;
+    }
+    
+    return formattedText;
   }
 
-  // Function to add a typing indicator for the bot
+  // Fungsi Copy to Clipboard
+  function copyToClipboard(button) {
+    let textToCopy;
+    const parentMessage = button.closest('.message');
+    if (parentMessage) {
+        // Jika tombol copy di dalam <pre><code>
+        const codeElement = parentMessage.querySelector('pre code');
+        if (codeElement) {
+            textToCopy = codeElement.textContent;
+        } else {
+            // Jika tombol copy di luar <pre>
+            textToCopy = parentMessage.textContent.replace('Copy', '').trim(); // Hapus teks "Copy" dari pesan
+        }
+    }
+
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          const originalText = button.textContent;
+          button.textContent = 'Copied!';
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 1500);
+        })
+        .catch(err => {
+          console.error('Gagal menyalin teks: ', err);
+          alert('Gagal menyalin teks. Silakan salin secara manual.');
+        });
+    }
+  }
+  // Buat fungsi copyToClipboard tersedia secara global
+  window.copyToClipboard = copyToClipboard;
+
+
+  // Fungsi untuk menambahkan indikator mengetik
   function addTypingIndicator() {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', 'bot');
-    messageWrapper.id = 'typing-indicator-wrapper'; // Unique ID for easy removal
-    messageWrapper.setAttribute('aria-label', 'Alip AI is typing');
+    messageWrapper.id = 'typing-indicator-wrapper';
+    messageWrapper.setAttribute('aria-label', 'Alip AI sedang mengetik');
 
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
-    const avatarImg = document.createElement('img');
+    const avatarImg = document.createElement('img'); 
     avatarImg.src = botAvatarUrl;
-    avatarImg.alt = 'Alip AI Avatar';
-    avatarImg.onerror = () => { // Fallback if image fails to load
-        avatar.textContent = 'AI';
-        console.warn('Typing indicator avatar image failed to load. Using text fallback.');
+    avatarImg.alt = 'Avatar Alip AI';
+    avatarImg.onerror = () => { 
+        avatar.textContent = 'AI'; 
+        console.warn('Gambar avatar indikator mengetik gagal dimuat. Menggunakan fallback teks.');
         avatarImg.remove();
     };
     avatar.appendChild(avatarImg);
@@ -903,10 +1199,10 @@
     messageWrapper.appendChild(typingDiv);
     chatContainer.appendChild(messageWrapper);
     scrollToBottom();
-    return messageWrapper; // Return the element to easily remove it later
+    return messageWrapper;
   }
 
-  // Function to remove the typing indicator
+  // Fungsi untuk menghapus indikator mengetik
   function removeTypingIndicator() {
     const typingElem = document.getElementById('typing-indicator-wrapper');
     if(typingElem) {
@@ -914,7 +1210,7 @@
     }
   }
 
-  // Function to simulate bot typing out a message character by character
+  // Fungsi untuk mengetik pesan bot dengan efek
   async function typeBotMessage(text) {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', 'bot');
@@ -923,10 +1219,10 @@
     avatar.classList.add('avatar');
     const avatarImg = document.createElement('img');
     avatarImg.src = botAvatarUrl;
-    avatarImg.alt = 'Alip AI Avatar';
-    avatarImg.onerror = () => { // Fallback if image fails to load
-        avatar.textContent = 'AI';
-        console.warn('Bot message avatar image failed to load. Using text fallback.');
+    avatarImg.alt = 'Avatar Alip AI';
+    avatarImg.onerror = () => { 
+        avatar.textContent = 'AI'; 
+        console.warn('Gambar avatar pesan bot gagal dimuat. Menggunakan fallback teks.');
         avatarImg.remove();
     };
     avatar.appendChild(avatarImg);
@@ -938,63 +1234,60 @@
     messageWrapper.appendChild(messageDiv);
     chatContainer.appendChild(messageWrapper);
 
-    const formattedText = formatMessage(text);
-    const characters = formattedText.split('');
+    // Proses teks untuk Markdown sebelum efek ketik
+    let tempDiv = document.createElement('div');
+    tempDiv.innerHTML = formatMessage(text, 'bot'); // Gunakan formatMessage untuk mendapatkan HTML dengan tombol
+
+    const nodes = Array.from(tempDiv.childNodes); // Convert to array to iterate
     let currentText = '';
-    for (let i = 0; i < characters.length; i++) {
-      currentText += characters[i];
-      messageDiv.innerHTML = currentText;
-      scrollToBottom();
-      await new Promise(resolve => setTimeout(resolve, 15)); // Typing speed (15ms per character)
+
+    for (const node of nodes) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const characters = node.textContent.split('');
+            for (let i = 0; i < characters.length; i++) {
+                currentText += characters[i];
+                messageDiv.innerHTML = currentText;
+                scrollToBottom();
+                await new Promise(resolve => setTimeout(resolve, 15)); // Typing speed
+            }
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+            // Append the HTML element directly
+            messageDiv.appendChild(node.cloneNode(true));
+            scrollToBottom();
+            await new Promise(resolve => setTimeout(resolve, 10)); // Slight delay for elements
+        }
     }
   }
 
-  // Scrolls the chat container to the bottom
+  // Fungsi untuk menggulir ke bawah
   function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
-    scrollToBottomBtn.classList.remove('show'); // Hide button if already at bottom
+    scrollToBottomBtn.classList.remove('show');
   }
 
-  // Adjusts chat container margin-bottom dynamically based on form height
+  // Menyesuaikan margin form input dan container chat
   function setDynamicMargins() {
     const formHeight = chatForm.offsetHeight;
     document.documentElement.style.setProperty('--form-height', `${formHeight}px`);
     chatContainer.style.marginBottom = `calc(var(--form-height) + 20px)`;
-    // Adjust error message margin as well if visible
     if (errorDiv.style.display !== 'none') {
         errorDiv.style.marginBottom = `calc(var(--form-height) + 20px)`;
     }
   }
 
-  // Initialize on page load
   window.addEventListener('load', () => {
-    setDynamicMargins(); // Set initial dynamic margins
-    // Check saved theme from localStorage
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light') {
-        document.body.classList.add('light-mode');
-        darkModeToggle.checked = false; // Uncheck for light mode
-    } else {
-        document.body.classList.remove('light-mode');
-        darkModeToggle.checked = true; // Check for dark mode (default)
-    }
-
-    // Display welcome message
+    setDynamicMargins();
     const welcomeMessage = "Halo! Gua Alip AI, asisten virtual cerdas yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
     document.getElementById('currentYear').textContent = new Date().getFullYear();
   });
 
-  // Re-adjust margins on window resize
   window.addEventListener('resize', setDynamicMargins);
-  // Observe changes in form height (e.g., due to font size changes, etc.)
   const resizeObserverForm = new ResizeObserver(setDynamicMargins);
   resizeObserverForm.observe(chatForm);
 
-  // Show/hide scroll to bottom button based on scroll position
   chatContainer.addEventListener('scroll', () => {
-    // Show button if scrolled up significantly
     if (chatContainer.scrollHeight - chatContainer.scrollTop > chatContainer.clientHeight + 150) {
       scrollToBottomBtn.classList.add('show');
     } else {
@@ -1002,50 +1295,37 @@
     }
   });
 
-  // Scroll to bottom button click handler
   scrollToBottomBtn.addEventListener('click', scrollToBottom);
 
-  // Function to send message to API (dummy implementation for now)
+  // Fungsi untuk mengirim pesan ke API
   async function sendMessageToAPI(message) {
-    // Keep only the last 10 messages for context
-    const recentHistory = conversationHistory.slice(-10).map(msg => ({
-        role: msg.role === 'user' ? 'user' : 'model', // Map to API's expected roles
-        parts: [{text: msg.parts}]
-    }));
+    // Mempertahankan 10 pesan terakhir dalam riwayat
+    const recentHistory = conversationHistory.slice(-10);
 
-    // Construct a simpler prompt for API
-    let fullPrompt = `You are Alip AI, a smart and futuristic AI assistant. Your language style is relaxed, to the point, and cool, like chatting with a friend. Use 'lu' (you) and 'gua' (I/me) in your responses. Your answers should be short, clear, and interactive. If there are questions about programming, provide code examples (not too long, just the essentials). If a question is illogical, respond humorously but politely.`;
+    let fullPrompt = `Kamu adalah Alip AI, sebuah AI canggih dan futuristik. Gaya bahasamu santai, to the point, dan keren, mirip obrolan dengan teman. Gunakan bahasa 'lu' dan 'gua'. Jawaban harus singkat, jelas, dan interaktif. Jika ada pertanyaan tentang programming, berikan contoh kodenya (formatnya tidak perlu terlalu panjang, cukup yang penting saja). Jika pertanyaan tidak masuk akal, berikan respons yang humoris tapi sopan.`;
 
-    const requestBody = {
-        contents: [
-            { role: "user", parts: [{ text: fullPrompt }] },
-            ...recentHistory,
-            { role: "user", parts: [{ text: message }] }
-        ]
-    };
+    if (recentHistory.length > 0) {
+        fullPrompt += `\n\nBerikut riwayat percakapan kita:\n`;
+        recentHistory.forEach(msg => {
+            fullPrompt += `${msg.role === 'user' ? 'Gua' : 'Alip AI'}: ${msg.parts}\n`;
+        });
+        fullPrompt += `\nBerdasarkan riwayat di atas, jawab pertanyaan gua ini:\n`;
+    }
+    fullPrompt += `Pertanyaan: ${message}`;
 
-    const url = 'https://api.siputzx.my.id/api/ai/gemini-pro';
+    const url = '[https://api.siputzx.my.id/api/ai/gemini-pro?content=](https://api.siputzx.my.id/api/ai/gemini-pro?content=)' + encodeURIComponent(fullPrompt);
 
     try {
-      errorDiv.style.display = 'none'; // Hide any previous error
-      const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestBody)
-      });
-
+      errorDiv.style.display = 'none'; // Sembunyikan error sebelumnya
+      const response = await fetch(url);
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(`HTTP error! Status: ${response.status} - ${errorData.message || response.statusText}`);
       }
       const data = await response.json();
-
-      if(data.status === true && data.data && data.data.candidates && data.data.candidates.length > 0) {
-        // Extracting text from the first part of the first candidate's content
-        return data.data.candidates[0].content.parts[0].text;
-      } else if (data.error) {
+      if(data.status === true && data.data) {
+        return data.data;
+      } else if(data.error) {
         errorDiv.textContent = `API Alip AI Error: ${data.error}`;
         errorDiv.style.display = 'block';
         return 'Waduh, Alip AI lagi error nih. Coba lagi bentar ya.';
@@ -1059,7 +1339,7 @@
     }
   }
 
-  // Chat form submission handler
+  // Event Listener untuk submit form
   chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const userText = input.value.trim();
@@ -1068,28 +1348,28 @@
     addMessage(userText, 'user');
     conversationHistory.push({ role: 'user', parts: userText });
 
-    input.value = ''; // Clear input field
-    input.disabled = true; // Disable input
-    chatForm.querySelector('button[type="submit"]').disabled = true; // Disable send button
+    input.value = '';
+    input.disabled = true;
+    chatForm.querySelector('button').disabled = true;
 
-    const typingIndicator = addTypingIndicator(); // Show typing indicator
+    const typingIndicator = addTypingIndicator();
 
     try {
-      const reply = await sendMessageToAPI(userText); // Get reply from API
-      removeTypingIndicator(); // Remove typing indicator
-      await typeBotMessage(reply); // Type out bot message
-      conversationHistory.push({ role: 'model', parts: reply }); // Add bot reply to history
+      const reply = await sendMessageToAPI(userText);
+      removeTypingIndicator();
+      await typeBotMessage(reply); // Gunakan efek ketik untuk balasan bot
+      conversationHistory.push({ role: 'model', parts: reply });
     } catch (error) {
-      removeTypingIndicator(); // Ensure typing indicator is removed even on error
+      removeTypingIndicator(); // Pastikan indikator typing dihapus jika ada error
     } finally {
-      input.disabled = false; // Re-enable input
-      chatForm.querySelector('button[type="submit"]').disabled = false; // Re-enable send button
-      input.focus(); // Focus back on input
-      scrollToBottom(); // Scroll to bottom again
+      input.disabled = false;
+      chatForm.querySelector('button').disabled = false;
+      input.focus();
+      scrollToBottom();
     }
   });
 
-  // Sidebar toggle button handler
+  // Event Listener untuk toggle sidebar
   sidebarToggle.addEventListener('click', () => {
     const isOpen = sidebar.classList.toggle('open');
     sidebarToggle.querySelector('i').classList.toggle('fa-times', isOpen);
@@ -1097,9 +1377,9 @@
     sidebarToggle.setAttribute('aria-expanded', isOpen);
   });
 
-  // Close sidebar when clicking outside
+  // Tutup sidebar jika klik di luar
   document.addEventListener('click', (e) => {
-    if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+    if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target) && !helpModalOverlay.contains(e.target)) {
       sidebar.classList.remove('open');
       sidebarToggle.querySelector('i').classList.remove('fa-times');
       sidebarToggle.querySelector('i').classList.add('fa-bars');
@@ -1107,71 +1387,113 @@
     }
   });
 
-  // Clear Chat button handler
+  // Event Listener untuk Clear Chat
   clearChatBtn.addEventListener('click', () => {
-    chatContainer.innerHTML = ''; // Clear all messages
-    conversationHistory = []; // Clear conversation history
-    errorDiv.style.display = 'none'; // Hide error message
-    // Re-add initial welcome message
+    chatContainer.innerHTML = '';
+    conversationHistory = [];
+    errorDiv.style.display = 'none';
     const welcomeMessage = "Halo! Gua Alip AI, asisten virtual cerdas yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
-    // Close sidebar after action
     sidebar.classList.remove('open');
     sidebarToggle.querySelector('i').classList.remove('fa-times');
     sidebarToggle.querySelector('i').classList.add('fa-bars');
     sidebarToggle.setAttribute('aria-expanded', false);
+    showChatElements(); // Pastikan elemen chat terlihat
   });
 
-  // New Chat button handler (same as clear chat for now)
+  // Event Listener untuk New Chat (fungsi sama dengan Clear Chat)
   newChatBtn.addEventListener('click', () => {
-    clearChatBtn.click(); // Simply trigger the clear chat functionality
+    clearChatBtn.click();
   });
 
-  // Download Chat button handler
+  // Event Listener untuk Download Chat
   downloadChatBtn.addEventListener('click', () => {
     let chatContent = 'Riwayat Obrolan Alip AI\n\n';
     const messages = chatContainer.querySelectorAll('.message-wrapper');
     messages.forEach(msgWrapper => {
-      // Skip typing indicator if it exists
-      if (msgWrapper.id === 'typing-indicator-wrapper') return;
+      if (msgWrapper.id === 'typing-indicator-wrapper') return; 
 
       const sender = msgWrapper.classList.contains('user') ? 'Anda' : 'Alip AI';
-      // Use innerHTML to get the formatted text, then strip HTML for plain text file
-      const messageHtml = msgWrapper.querySelector('.message').innerHTML;
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = messageHtml;
-      const messageText = tempDiv.textContent || tempDiv.innerText; // Get plain text
-
+      // Ambil teks asli dari elemen pesan, bukan innerHTML yang mungkin mengandung tombol copy
+      const messageText = msgWrapper.querySelector('.message').textContent;
       chatContent += `${sender}: ${messageText}\n\n`;
     });
 
-    const blob = new Blob([chatContent], { type: 'text/plain;charset=utf-8' });
+    const blob = new Blob([chatContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `alip_ai_chat_log_${new Date().toISOString().slice(0,10)}.txt`; // Dynamic filename
+    a.download = `alip_ai_chat_log_${new Date().toISOString().slice(0,10)}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url); // Clean up URL object
-    // Close sidebar after action
+    URL.revokeObjectURL(url);
     sidebar.classList.remove('open');
     sidebarToggle.querySelector('i').classList.remove('fa-times');
     sidebarToggle.querySelector('i').classList.add('fa-bars');
     sidebarToggle.setAttribute('aria-expanded', false);
   });
 
-  // Dark/Light Mode Toggle handler
+  // Event Listener untuk Ganti Tema (Dark/Light Mode)
   darkModeToggle.addEventListener('change', () => {
     document.body.classList.toggle('light-mode');
-    // Save theme preference to localStorage
     localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
   });
 
-  // No specific "info sections" (Tentang, Kontak) to show/hide as they are removed
-  // The provided code already removes them, so the related JS functions are now obsolete
-  // and have been removed from this final version.
+  // Muat tema yang tersimpan saat DOMContentLoaded
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        darkModeToggle.checked = false; // Checkbox tidak dicentang untuk light mode
+    } else {
+        document.body.classList.remove('light-mode');
+        darkModeToggle.checked = true; // Checkbox dicentang untuk dark mode
+    }
+  });
+
+  // Fungsi untuk menampilkan elemen chat (container chat, form, error, scroll to bottom)
+  function showChatElements() {
+    chatContainer.style.display = 'flex';
+    chatForm.style.display = 'flex';
+    errorDiv.style.display = errorDiv.textContent ? 'block' : 'none'; 
+    scrollToBottomBtn.style.display = 'flex';
+    scrollToBottom();
+  }
+
+  // Fungsi untuk menyembunyikan semua section info (sekarang hanya bantuan)
+  function hideInfoSections() {
+    helpModalOverlay.classList.remove('active');
+    helpModalOverlay.setAttribute('aria-hidden', true);
+  }
+
+  // Event Listener untuk Buka Bantuan (Help)
+  helpBtn.addEventListener('click', () => {
+    helpModalOverlay.classList.add('active');
+    helpModalOverlay.setAttribute('aria-hidden', false);
+    sidebar.classList.remove('open');
+    sidebarToggle.querySelector('i').classList.remove('fa-times');
+    sidebarToggle.querySelector('i').classList.add('fa-bars');
+    sidebarToggle.setAttribute('aria-expanded', false);
+  });
+
+  // Event Listener untuk Tutup Bantuan (Help)
+  closeHelpModalBtn.addEventListener('click', () => {
+    hideInfoSections();
+  });
+
+  // Tutup modal jika klik di luar area modal
+  helpModalOverlay.addEventListener('click', (e) => {
+    if (e.target === helpModalOverlay) {
+      hideInfoSections();
+    }
+  });
+
+  // Init saat load untuk memastikan chat terbuka
+  window.addEventListener('load', () => {
+    showChatElements();
+  });
 </script>
 
 </body>
