@@ -7,30 +7,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-  /* --- Variabel CSS & Manajemen Tema --- */
+  /* --- CSS Variables & Theme Management --- */
   :root {
-    /* Warna Mode Gelap (Default) */
-    --bg-primary: #17171C; /* Lebih gelap, modern */
-    --surface-main: #202026; /* Panel utama */
-    --surface-light: #2C2C35; /* Header, form */
-    --text-primary: #E0E0E0;
-    --text-secondary: #9CA3AF; /* Abu-abu terang */
-    --accent-blue: #4F46E5; /* Biru keunguan yang lebih kalem */
-    --accent-purple: #8B5CF6; /* Ungu yang lebih kalem */
-    --border-color: #3F3F46; /* Border subtle */
-    --input-bg: #3F3F46;
-    --input-focus-border: #6B7280;
-    --user-bubble-bg: #4F46E5; /* Langsung pakai accent-blue */
-    --bot-bubble-bg: #374151; /* Abu-abu tua */
-    --error-bg: #FECACA;
-    --error-text: #DC2626;
+    /* Dark Mode Colors (Default) */
+    --bg-primary: #17171C; /* Darker, modern background */
+    --surface-main: #202026; /* Main panel background */
+    --surface-light: #2C2C35; /* Header, form background */
+    --text-primary: #E0E0E0; /* Main text color */
+    --text-secondary: #9CA3AF; /* Lighter grey text */
+    --accent-blue: #4F46E5; /* Calmer bluish-purple */
+    --accent-purple: #8B5CF6; /* Calmer purple */
+    --border-color: #3F3F46; /* Subtle borders */
+    --input-bg: #3F3F46; /* Input background */
+    --input-focus-border: #6B7280; /* Input focus border */
+    --user-bubble-bg: #4F46E5; /* Directly use accent-blue for user bubble */
+    --bot-bubble-bg: #374151; /* Dark grey for bot bubble */
+    --error-bg: #FECACA; /* Error background */
+    --error-text: #DC2626; /* Error text */
     --button-bg: var(--accent-blue);
     --button-hover-bg: var(--accent-purple);
     --shadow-light: rgba(0, 0, 0, 0.1);
     --shadow-medium: rgba(0, 0, 0, 0.2);
     --shadow-strong: rgba(0, 0, 0, 0.4);
+    --code-bg: rgba(0, 0, 0, 0.2); /* Background for code blocks */
 
-    /* Warna Mode Terang */
+    /* Light Mode Colors */
     --light-bg-primary: #F3F4F6;
     --light-surface-main: #FFFFFF;
     --light-surface-light: #E5E7EB;
@@ -50,14 +51,14 @@
     --light-shadow-light: rgba(0, 0, 0, 0.05);
     --light-shadow-medium: rgba(0, 0, 0, 0.1);
     --light-shadow-strong: rgba(0, 0, 0, 0.2);
+    --light-code-bg: rgba(0, 0, 0, 0.07);
 
-
-    /* Transisi & Animasi */
-    --transition-duration: 0.25s; /* Lebih cepat untuk kesan responsif */
+    /* Transitions & Animations */
+    --transition-duration: 0.25s; /* Faster for responsiveness */
     --transition-ease: ease-in-out;
   }
 
-  /* Aktivasi Mode Terang */
+  /* Light Mode Activation */
   body.light-mode {
     --bg-primary: var(--light-bg-primary);
     --surface-main: var(--light-surface-main);
@@ -78,6 +79,7 @@
     --shadow-light: var(--light-shadow-light);
     --shadow-medium: var(--light-shadow-medium);
     --shadow-strong: var(--light-shadow-strong);
+    --code-bg: var(--light-code-bg);
   }
 
   /* --- Global Styles & Body --- */
@@ -98,13 +100,13 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow: hidden;
+    overflow: hidden; /* Prevent body scroll, content will scroll internally */
     position: relative;
     overscroll-behavior: none;
     transition: background var(--transition-duration) var(--transition-ease), color var(--transition-duration) var(--transition-ease);
   }
 
-  /* Scrollbar Kustom */
+  /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -190,18 +192,18 @@
     width: 100%;
   }
 
-  /* --- Area Konten Utama --- */
+  /* --- Main Content Area --- */
   #main-content {
     flex: 1;
     display: flex;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Handles content scroll */
     padding: 20px;
     box-sizing: border-box;
     justify-content: center;
   }
 
-  /* Wadah Obrolan */
+  /* Chat Container */
   #chat-container {
     flex: 1;
     display: flex;
@@ -215,7 +217,7 @@
     max-width: 800px;
     width: 100%;
     border: 1px solid var(--border-color);
-    margin-bottom: calc(var(--form-height, 80px) + 20px);
+    /* Dynamic margin applied via JS to account for form height */
     transition: background var(--transition-duration) var(--transition-ease), border-color var(--transition-duration) var(--transition-ease), box-shadow var(--transition-duration) var(--transition-ease);
   }
 
@@ -278,16 +280,16 @@
     padding: 0.8rem 1.2rem;
     border-radius: 18px;
     line-height: 1.6;
-    white-space: pre-wrap;
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
     box-shadow: 0 2px 10px var(--shadow-light);
-    word-wrap: break-word;
+    word-wrap: break-word; /* Ensure long words wrap */
     font-size: 0.95rem;
     transition: all 0.3s var(--transition-ease);
     color: var(--text-primary);
   }
 
   .message pre {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--code-bg);
     border-radius: 6px;
     padding: 0.6rem;
     margin: 0.5rem 0;
@@ -295,11 +297,17 @@
     font-family: monospace;
     font-size: 0.85rem;
     line-height: 1.4;
+    color: var(--text-primary); /* Ensure code text is readable */
+    transition: background-color var(--transition-duration) var(--transition-ease);
+  }
+
+  .message pre code {
+    display: block; /* Ensures proper display within pre */
   }
 
   .user .message {
     background: var(--user-bubble-bg);
-    color: white; /* Kontras lebih baik untuk user bubble */
+    color: white; /* Better contrast for user bubble */
     border-bottom-right-radius: 6px;
   }
 
@@ -308,7 +316,7 @@
     border-bottom-left-radius: 6px;
   }
 
-  /* --- Formulir Input --- */
+  /* --- Input Form --- */
   form {
     display: flex;
     padding: 1.2rem 20px;
@@ -348,8 +356,8 @@
 
   input[type="text"]:focus {
     border-color: var(--accent-blue);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3); /* Warna shadow lebih kalem */
-    background-color: var(--surface-main); /* Mengubah background sedikit saat fokus */
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3); /* Calmer shadow color */
+    background-color: var(--surface-main); /* Slightly change background on focus */
   }
 
   button[type="submit"] {
@@ -388,10 +396,10 @@
     transform: none;
   }
 
-  /* Tombol gulir ke bawah */
+  /* Scroll to Bottom Button */
   #scrollToBottomBtn {
     position: absolute;
-    bottom: calc(var(--form-height, 80px) + 30px);
+    /* Adjusted dynamically via JS */
     right: 50%;
     transform: translateX(50%);
     background: var(--button-bg);
@@ -415,7 +423,7 @@
   #scrollToBottomBtn.show {
     opacity: 1;
     visibility: visible;
-    bottom: calc(var(--form-height, 80px) + 20px);
+    /* Adjusted dynamically via JS */
   }
 
   #scrollToBottomBtn:hover {
@@ -423,7 +431,7 @@
     transform: translateX(50%) translateY(-2px) scale(1.03);
   }
 
-  /* --- Pesan Error --- */
+  /* --- Error Message --- */
   #error {
     color: var(--error-text);
     background-color: var(--error-bg);
@@ -431,10 +439,10 @@
     text-align: center;
     padding: 0.8rem;
     border-radius: 8px;
-    margin: 0 auto 15px auto;
+    margin: 0 auto 15px auto; /* Default margin, adjusted via JS */
     font-size: 0.9rem;
     font-weight: 500;
-    display: none;
+    display: none; /* Hidden by default */
     box-shadow: 0 2px 8px var(--shadow-light);
     flex-shrink: 0;
     max-width: 800px;
@@ -442,7 +450,7 @@
     transition: margin-bottom var(--transition-duration) var(--transition-ease), background-color var(--transition-duration) var(--transition-ease);
   }
 
-  /* --- Animasi Mengetik --- */
+  /* --- Typing Animation --- */
   .typing-indicator {
     display: flex;
     align-items: center;
@@ -480,10 +488,10 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* --- Bagian Info (Tentang, Kontak) --- */
+  /* --- Info Sections (About, Contact) --- */
   .info-section {
     flex: 1;
-    display: none;
+    display: none; /* Hidden by default, shown by JS */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -497,6 +505,10 @@
     border: 1px solid var(--border-color);
     transition: all var(--transition-duration) var(--transition-ease);
     animation: fadeIn 0.6s var(--transition-ease) forwards;
+  }
+
+  .info-section.active-section {
+    display: flex;
   }
 
   .info-section h2 {
@@ -568,7 +580,7 @@
     box-shadow: 0 4px 12px var(--shadow-strong);
   }
 
-  /* --- Sidebar / Menu Mengambang --- */
+  /* --- Sidebar / Floating Menu --- */
   .sidebar-toggle {
     position: fixed;
     top: 20px;
@@ -598,7 +610,7 @@
   #sidebar {
     position: fixed;
     top: 0;
-    right: -250px; /* Lebar default sidebar */
+    right: -250px; /* Default sidebar width */
     width: 250px;
     height: 100%;
     background: var(--surface-light);
@@ -652,7 +664,7 @@
     box-shadow: 0 1px 5px var(--shadow-light);
   }
 
-  .sidebar-options-button { /* Untuk link yang membungkus tombol */
+  .sidebar-options-button { /* For links wrapping buttons */
     text-decoration: none;
     display: block;
     width: 100%;
@@ -670,7 +682,7 @@
     font-size: 1.1rem;
   }
 
-  /* Toggle Mode Terang/Gelap di Sidebar */
+  /* Light/Dark Mode Toggle in Sidebar */
   .theme-toggle-wrapper {
     display: flex;
     align-items: center;
@@ -708,7 +720,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #6B7280; /* Abu-abu default */
+    background-color: #6B7280; /* Default grey */
     transition: .4s;
     border-radius: 28px;
   }
@@ -758,7 +770,7 @@
     color: var(--accent-purple);
   }
 
-  /* --- Penyesuaian Responsif --- */
+  /* --- Responsive Adjustments --- */
   @media (max-width: 768px) {
     header {
       flex-direction: column;
@@ -787,10 +799,10 @@
     #chat-container, .info-section {
       padding: 1rem;
       border-radius: 10px;
-      margin-bottom: calc(var(--form-height, 80px) + 10px);
+      /* Dynamic margin applied via JS */
     }
     #error {
-      margin: 0 auto 10px auto;
+      margin: 0 auto 10px auto; /* Default margin, adjusted via JS */
       padding: 0.7rem;
     }
     .message {
@@ -875,10 +887,10 @@
         width: 35px;
         height: 35px;
         font-size: 0.9rem;
-        bottom: calc(var(--form-height, 80px) + 25px);
+        /* Adjusted dynamically via JS */
     }
     #scrollToBottomBtn.show {
-        bottom: calc(var(--form-height, 80px) + 15px);
+        /* Adjusted dynamically via JS */
     }
     .info-section h2 {
       font-size: 1.5rem;
@@ -901,7 +913,7 @@
 
 <header>
   <div class="logo" aria-label="Alip AI Logo"><i class="fas fa-robot"></i> ALIP AI</div>
-  <nav aria-label="Navigasi Utama">
+  <nav aria-label="Main Navigation">
     <ul>
       <li><a href="#home-section" class="nav-link active" data-section="home">Beranda</a></li>
       <li><a href="#about-section" class="nav-link" data-section="about">Tentang</a></li>
@@ -989,12 +1001,19 @@
   const backToChatButtons = document.querySelectorAll('.back-to-chat');
   const newChatBtn = document.getElementById('newChatBtn');
 
-  // URL Avatar Bot
+  // Bot Avatar URL (fallback to text 'AI' if image fails)
   const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
 
-  let conversationHistory = [];
+  let conversationHistory = []; // Stores chat history for API context
 
-  function addMessage(text, sender) {
+  /**
+   * Adds a message bubble to the chat container.
+   * @param {string} text - The message content.
+   * @param {'user' | 'bot'} sender - The sender of the message.
+   * @param {boolean} [animate=false] - Whether to animate typing for bot messages.
+   * @returns {HTMLElement} The created messageDiv for further manipulation (e.g., typing effect).
+   */
+  function addMessage(text, sender, animate = false) {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', sender);
 
@@ -1009,18 +1028,21 @@
       avatarImg.alt = 'Avatar Alip AI';
       avatarImg.onerror = () => {
         avatar.textContent = 'AI';
-        console.warn('Gambar avatar bot gagal dimuat. Menggunakan fallback teks.');
+        console.warn('Bot avatar image failed to load. Using fallback text.');
         avatarImg.remove();
       };
       avatar.appendChild(avatarImg);
     } else {
       avatar.textContent = 'Anda';
-      avatar.style.backgroundColor = 'var(--accent-purple)';
+      avatar.style.backgroundColor = 'var(--accent-purple)'; // Consistent color for user avatar
     }
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    messageDiv.innerHTML = formatMessage(text); 
+    // If animating, content will be filled by typeBotMessage
+    if (!animate) { 
+      messageDiv.innerHTML = formatMessage(text); 
+    }
 
     if (sender === 'user') {
       messageWrapper.appendChild(messageDiv);
@@ -1032,20 +1054,34 @@
 
     chatContainer.appendChild(messageWrapper);
     scrollToBottom();
+    return messageDiv; // Return the messageDiv for typewriter effect
   }
 
+  /**
+   * Formats text, specifically for rendering code blocks.
+   * @param {string} text - The raw message text.
+   * @returns {string} The HTML formatted text.
+   */
   function formatMessage(text) {
-    // Basic Markdown for code blocks
-    text = text.replace(/```([\s\S]*?)```/g, (match, code) => {
+    // Escape HTML to prevent XSS and ensure proper display of raw text before markdown processing
+    let formattedText = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    // Markdown for code blocks (triple backticks)
+    formattedText = formattedText.replace(/```(.*?)```/gs, (match, code) => {
+        // 'gs' flags for global and dotAll (matches newlines)
         return `<pre><code>${code.trim()}</code></pre>`;
     });
-    return text;
+    return formattedText;
   }
 
+  /**
+   * Adds a typing indicator to the chat container.
+   * @returns {HTMLElement} The typing indicator wrapper element.
+   */
   function addTypingIndicator() {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', 'bot');
-    messageWrapper.id = 'typing-indicator-wrapper';
+    messageWrapper.id = 'typing-indicator-wrapper'; // Unique ID for easy removal
     messageWrapper.setAttribute('aria-label', 'Alip AI sedang mengetik');
 
     const avatar = document.createElement('div');
@@ -1055,7 +1091,7 @@
     avatarImg.alt = 'Avatar Alip AI';
     avatarImg.onerror = () => { 
         avatar.textContent = 'AI'; 
-        console.warn('Gambar avatar indikator mengetik gagal dimuat. Menggunakan fallback teks.');
+        console.warn('Typing indicator avatar image failed to load. Using fallback text.');
         avatarImg.remove();
     };
     avatar.appendChild(avatarImg);
@@ -1075,6 +1111,9 @@
     return messageWrapper;
   }
 
+  /**
+   * Removes the typing indicator from the chat container.
+   */
   function removeTypingIndicator() {
     const typingElem = document.getElementById('typing-indicator-wrapper');
     if(typingElem) {
@@ -1082,67 +1121,71 @@
     }
   }
 
+  /**
+   * Simulates typing effect for bot messages.
+   * @param {string} text - The full text of the bot's message.
+   */
   async function typeBotMessage(text) {
-    const messageWrapper = document.createElement('div');
-    messageWrapper.classList.add('message-wrapper', 'bot');
+    // Use addMessage with animate=true to get the messageDiv ready
+    const messageDiv = addMessage('', 'bot', true); 
+    const formattedText = formatMessage(text);
+    let i = 0;
+    const typingSpeed = 15; // Milliseconds per character
 
-    const avatar = document.createElement('div');
-    avatar.classList.add('avatar');
-    const avatarImg = document.createElement('img');
-    avatarImg.src = botAvatarUrl;
-    avatarImg.alt = 'Avatar Alip AI';
-    avatarImg.onerror = () => { 
-        avatar.textContent = 'AI'; 
-        console.warn('Gambar avatar pesan bot gagal dimuat. Menggunakan fallback teks.');
-        avatarImg.remove();
-    };
-    avatar.appendChild(avatarImg);
-
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message');
-
-    messageWrapper.appendChild(avatar);
-    messageWrapper.appendChild(messageDiv);
-    chatContainer.appendChild(messageWrapper);
-
-    const formattedText = formatMessage(text); 
-    const characters = formattedText.split('');
-    let currentText = '';
-    for (let i = 0; i < characters.length; i++) {
-      currentText += characters[i];
-      messageDiv.innerHTML = currentText;
-      scrollToBottom();
-      await new Promise(resolve => setTimeout(resolve, 15)); // Typing speed
+    function typeCharacter() {
+        if (i < formattedText.length) {
+            messageDiv.innerHTML += formattedText.charAt(i);
+            i++;
+            scrollToBottom();
+            setTimeout(typeCharacter, typingSpeed);
+        }
     }
+    typeCharacter();
   }
 
+  /**
+   * Scrolls the chat container to the bottom.
+   */
   function scrollToBottom() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
-    scrollToBottomBtn.classList.remove('show');
+    scrollToBottomBtn.classList.remove('show'); // Hide button when at bottom
   }
 
+  /**
+   * Sets dynamic margins for chat container and error message based on form height.
+   */
   function setDynamicMargins() {
     const formHeight = chatForm.offsetHeight;
     document.documentElement.style.setProperty('--form-height', `${formHeight}px`);
     chatContainer.style.marginBottom = `calc(var(--form-height) + 20px)`;
+    
+    // Adjust error message position if it's visible
     if (errorDiv.style.display !== 'none') {
         errorDiv.style.marginBottom = `calc(var(--form-height) + 20px)`;
+    } else {
+        errorDiv.style.marginBottom = `15px`; // Default margin when not affecting chat flow
     }
+
+    // Adjust scroll-to-bottom button position
+    scrollToBottomBtn.style.bottom = `calc(var(--form-height) + 20px)`;
   }
 
+  // Event Listeners for UI
   window.addEventListener('load', () => {
-    setDynamicMargins();
+    setDynamicMargins(); // Set initial margins
     const welcomeMessage = "Halo! Gua Alip AI, asisten virtual cerdas yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
-    addMessage(welcomeMessage, 'bot');
+    typeBotMessage(welcomeMessage); // Use typing effect for welcome message
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
     document.getElementById('currentYear').textContent = new Date().getFullYear();
   });
 
   window.addEventListener('resize', setDynamicMargins);
+  // Observe changes in form height (e.g., due to virtual keyboard on mobile)
   const resizeObserverForm = new ResizeObserver(setDynamicMargins);
   resizeObserverForm.observe(chatForm);
 
   chatContainer.addEventListener('scroll', () => {
+    // Show scroll to bottom button if not at the very bottom
     if (chatContainer.scrollHeight - chatContainer.scrollTop > chatContainer.clientHeight + 150) {
       scrollToBottomBtn.classList.add('show');
     } else {
@@ -1152,32 +1195,43 @@
 
   scrollToBottomBtn.addEventListener('click', scrollToBottom);
 
+  /**
+   * Sends a message to the AI API and handles the response.
+   * @param {string} message - The user's message.
+   * @returns {Promise<string>} The AI's reply.
+   */
   async function sendMessageToAPI(message) {
-    const recentHistory = conversationHistory.slice(-10);
+    // Keep only the last 10 messages for context, plus the new user message
+    const relevantHistory = conversationHistory.slice(-10); 
 
     let fullPrompt = `Kamu adalah Alip AI, sebuah AI canggih dan futuristik. Gaya bahasamu santai, to the point, dan keren, mirip obrolan dengan teman. Gunakan bahasa 'lu' dan 'gua'. Jawaban harus singkat, jelas, dan interaktif. Jika ada pertanyaan tentang programming, berikan contoh kodenya (formatnya tidak perlu terlalu panjang, cukup yang penting saja). Jika pertanyaan tidak masuk akal, berikan respons yang humoris tapi sopan.`;
 
-    if (recentHistory.length > 0) {
+    if (relevantHistory.length > 0) {
         fullPrompt += `\n\nBerikut riwayat percakapan kita:\n`;
-        recentHistory.forEach(msg => {
+        relevantHistory.forEach(msg => {
+            // Using a simple identifier for roles in the prompt
             fullPrompt += `${msg.role === 'user' ? 'Gua' : 'Alip AI'}: ${msg.parts}\n`;
         });
         fullPrompt += `\nBerdasarkan riwayat di atas, jawab pertanyaan gua ini:\n`;
     }
     fullPrompt += `Pertanyaan: ${message}`;
 
+    // Construct the API URL with the encoded prompt
     const url = 'https://api.siputzx.my.id/api/ai/gemini-pro?content=' + encodeURIComponent(fullPrompt);
 
     try {
-      errorDiv.style.display = 'none';
+      errorDiv.style.display = 'none'; // Hide previous errors
       const response = await fetch(url);
+      
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
+        const errorData = await response.json().catch(() => ({})); // Try to parse error message
         throw new Error(`HTTP error! Status: ${response.status} - ${errorData.message || response.statusText}`);
       }
+      
       const data = await response.json();
+      
       if(data.status === true && data.data) {
-        return data.data;
+        return data.data; // Return AI's response
       } else if(data.error) {
         errorDiv.textContent = `API Alip AI Error: ${data.error}`;
         errorDiv.style.display = 'block';
@@ -1192,6 +1246,7 @@
     }
   }
 
+  // Chat form submission handler
   chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const userText = input.value.trim();
@@ -1201,26 +1256,28 @@
     conversationHistory.push({ role: 'user', parts: userText });
 
     input.value = '';
-    input.disabled = true;
+    input.disabled = true; // Disable input and button while AI is thinking
     chatForm.querySelector('button').disabled = true;
 
-    const typingIndicator = addTypingIndicator();
+    const typingIndicator = addTypingIndicator(); // Show typing indicator
 
     try {
       const reply = await sendMessageToAPI(userText);
-      removeTypingIndicator();
-      await typeBotMessage(reply);
+      removeTypingIndicator(); // Remove indicator
+      await typeBotMessage(reply); // Type out the bot's response
       conversationHistory.push({ role: 'model', parts: reply });
     } catch (error) {
-      removeTypingIndicator();
+      removeTypingIndicator(); // Ensure indicator is removed even on error
+      // Error message is already displayed by sendMessageToAPI
     } finally {
       input.disabled = false;
       chatForm.querySelector('button').disabled = false;
-      input.focus();
+      input.focus(); // Focus input for next message
       scrollToBottom();
     }
   });
 
+  // Sidebar toggle functionality
   sidebarToggle.addEventListener('click', () => {
     const isOpen = sidebar.classList.toggle('open');
     sidebarToggle.querySelector('i').classList.toggle('fa-times', isOpen);
@@ -1228,6 +1285,7 @@
     sidebarToggle.setAttribute('aria-expanded', isOpen);
   });
 
+  // Close sidebar when clicking outside
   document.addEventListener('click', (e) => {
     if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
       sidebar.classList.remove('open');
@@ -1237,32 +1295,33 @@
     }
   });
 
+  // Clear Chat button functionality
   clearChatBtn.addEventListener('click', () => {
-    chatContainer.innerHTML = '';
-    conversationHistory = [];
-    errorDiv.style.display = 'none';
+    chatContainer.innerHTML = ''; // Clear all messages
+    conversationHistory = []; // Reset history
+    errorDiv.style.display = 'none'; // Hide error message
+    // Re-add welcome message
     const welcomeMessage = "Halo! Gua Alip AI, asisten virtual cerdas yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
-    addMessage(welcomeMessage, 'bot');
+    typeBotMessage(welcomeMessage);
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
-    sidebar.classList.remove('open');
-    sidebarToggle.querySelector('i').classList.remove('fa-times');
-    sidebarToggle.querySelector('i').classList.add('fa-bars');
-    sidebarToggle.setAttribute('aria-expanded', false);
-    hideInfoSections();
+    closeSidebar(); // Close sidebar after action
+    showChat(); // Ensure chat view is active
   });
 
+  // New Chat button functionality (same as clear chat)
   newChatBtn.addEventListener('click', () => {
-    clearChatBtn.click();
+    clearChatBtn.click(); // Reuses the clearChatBtn logic
   });
 
+  // Download Chat button functionality
   downloadChatBtn.addEventListener('click', () => {
     let chatContent = 'Riwayat Obrolan Alip AI\n\n';
     const messages = chatContainer.querySelectorAll('.message-wrapper');
     messages.forEach(msgWrapper => {
-      if (msgWrapper.id === 'typing-indicator-wrapper') return; 
+      if (msgWrapper.id === 'typing-indicator-wrapper') return; // Skip typing indicator
 
       const sender = msgWrapper.classList.contains('user') ? 'Anda' : 'Alip AI';
-      const messageText = msgWrapper.querySelector('.message').textContent;
+      const messageText = msgWrapper.querySelector('.message').textContent; // Get plain text content
       chatContent += `${sender}: ${messageText}\n\n`;
     });
 
@@ -1270,34 +1329,38 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `alip_ai_chat_log_${new Date().toISOString().slice(0,10)}.txt`;
+    a.download = `alip_ai_chat_log_${new Date().toISOString().slice(0,10)}.txt`; // Filename with date
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    sidebar.classList.remove('open');
-    sidebarToggle.querySelector('i').classList.remove('fa-times');
-    sidebarToggle.querySelector('i').classList.add('fa-bars');
-    sidebarToggle.setAttribute('aria-expanded', false);
+    URL.revokeObjectURL(url); // Clean up URL object
+    closeSidebar(); // Close sidebar after action
   });
 
+  // Dark/Light Mode toggle functionality
   darkModeToggle.addEventListener('change', () => {
     document.body.classList.toggle('light-mode');
     localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
   });
 
+  // Load saved theme from localStorage on page load
   window.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
-        darkModeToggle.checked = false;
+        darkModeToggle.checked = false; // Uncheck for light mode
     } else {
         document.body.classList.remove('light-mode');
-        darkModeToggle.checked = true;
+        darkModeToggle.checked = true; // Check for dark mode
     }
   });
 
+  /**
+   * Displays a specific info section (About/Contact) and hides others.
+   * @param {string} sectionId - The ID of the section to show.
+   */
   function showSection(sectionId) {
+    // Hide all info sections and chat elements
     infoSections.forEach(section => {
       section.classList.remove('active-section');
       section.setAttribute('aria-hidden', true);
@@ -1305,48 +1368,57 @@
     });
     chatContainer.style.display = 'none';
     chatForm.style.display = 'none';
-    errorDiv.style.display = 'none';
+    errorDiv.style.display = 'none'; // Always hide error when not in chat view
     scrollToBottomBtn.style.display = 'none';
 
+    // Show the target info section
     const targetSection = document.getElementById(sectionId);
     if (targetSection) {
       targetSection.style.display = 'flex';
       targetSection.classList.add('active-section');
       targetSection.setAttribute('aria-hidden', false);
     }
+    closeSidebar(); // Close sidebar when navigating
+  }
+
+  /**
+   * Displays the chat interface and hides info sections.
+   */
+  function showChat() {
+    // Hide all info sections
+    infoSections.forEach(section => {
+      section.classList.remove('active-section');
+      section.setAttribute('aria-hidden', true);
+      section.style.display = 'none';
+    });
+    // Show chat elements
+    chatContainer.style.display = 'flex';
+    chatForm.style.display = 'flex';
+    // Only show error if it has content
+    errorDiv.style.display = errorDiv.textContent ? 'block' : 'none'; 
+    scrollToBottomBtn.style.display = 'flex';
+    scrollToBottom(); // Scroll to bottom when returning to chat
+  }
+
+  /**
+   * Helper function to close the sidebar.
+   */
+  function closeSidebar() {
     sidebar.classList.remove('open');
     sidebarToggle.querySelector('i').classList.remove('fa-times');
     sidebarToggle.querySelector('i').classList.add('fa-bars');
     sidebarToggle.setAttribute('aria-expanded', false);
   }
 
-  function showChat() {
-    infoSections.forEach(section => {
-      section.classList.remove('active-section');
-      section.setAttribute('aria-hidden', true);
-      section.style.display = 'none';
-    });
-    chatContainer.style.display = 'flex';
-    chatForm.style.display = 'flex';
-    errorDiv.style.display = errorDiv.textContent ? 'block' : 'none'; 
-    scrollToBottomBtn.style.display = 'flex';
-    scrollToBottom();
-  }
-
-  function hideInfoSections() {
-    infoSections.forEach(section => {
-      section.classList.remove('active-section');
-      section.setAttribute('aria-hidden', true);
-      section.style.display = 'none';
-    });
-  }
-
+  // Navigation links functionality
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
+      // Remove 'active' from all links
       navLinks.forEach(nav => nav.classList.remove('active'));
+      // Add 'active' to the clicked link
       e.target.classList.add('active');
-      const sectionId = e.target.dataset.section;
+      const sectionId = e.target.dataset.section; // Get section ID from data-section attribute
       if (sectionId === 'home') {
         showChat();
       } else {
@@ -1355,16 +1427,20 @@
     });
   });
 
+  // "Back to Chat" buttons functionality in info sections
   backToChatButtons.forEach(button => {
     button.addEventListener('click', () => {
-      showChat();
+      showChat(); // Show chat interface
+      // Set 'Beranda' (Home) as active in navigation
       navLinks.forEach(nav => nav.classList.remove('active'));
       document.querySelector('.nav-link[data-section="home"]').classList.add('active');
     });
   });
 
+  // Ensure chat is shown by default on initial load
   window.addEventListener('load', () => {
     showChat();
+    // Set 'Beranda' (Home) as active in navigation on load
     navLinks.forEach(nav => nav.classList.remove('active'));
     document.querySelector('.nav-link[data-section="home"]').classList.add('active');
   });
