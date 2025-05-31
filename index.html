@@ -23,8 +23,6 @@
     --header-shadow: rgba(0, 0, 0, 0.15);
     --border-radius-large: 12px;
     --border-radius-pill: 30px;
-    --form-height: 80px; /* Perkiraan tinggi form + padding */
-    --contact-btn-height: 48px; /* Perkiraan tinggi tombol kontak + padding */
   }
 
   body {
@@ -78,7 +76,6 @@
     border-radius: var(--border-radius-large);
     margin: 1.5rem;
     box-shadow: 0 5px 20px var(--shadow-medium);
-    /* margin-bottom diatur oleh JS agar tidak tertutup form dan tombol */
     transition: margin-bottom 0.3s ease; /* Animasi saat margin berubah */
   }
 
@@ -257,7 +254,6 @@
     border-radius: 20px;
     box-shadow: 0 2px 8px var(--shadow-light);
     max-width: fit-content;
-    /* margin-left akan diatur oleh message-wrapper.bot .avatar */
   }
 
   .typing-dot {
@@ -401,7 +397,7 @@
 <div id="main-content">
   <div id="chat-container"></div>
   <div id="error"></div>
-  
+
   <a href="https://wa.me/6281249703469" target="_blank" class="contact-owner-btn">
     <i class="fab fa-whatsapp"></i> Laporkan Bug
   </a>
@@ -435,7 +431,7 @@
 
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
-    
+
     if (sender === 'bot') {
       const avatarImg = document.createElement('img');
       avatarImg.src = botAvatarUrl;
@@ -447,7 +443,9 @@
       };
       avatar.appendChild(avatarImg);
     } else {
-      avatar.textContent = ''; // Kosongkan avatar user untuk kesederhanaan, bisa diganti inisial atau gambar
+      // Untuk avatar user, bisa pakai inisial atau gambar default jika mau
+      // Contoh: avatar.textContent = 'Me';
+      avatar.textContent = ''; 
     }
 
     const messageDiv = document.createElement('div');
@@ -553,7 +551,7 @@
 
     // Set margin-bottom chat container agar tidak tertutup form dan tombol
     chatContainer.style.marginBottom = `${formHeight + btnHeight + defaultMargin + spacingBetweenBtnAndForm}px`;
-    
+
     // Set margin-bottom error div juga jika sedang terlihat
     if (errorDiv.style.display !== 'none') {
         errorDiv.style.marginBottom = `${formHeight + btnHeight + defaultMargin + spacingBetweenBtnAndForm}px`;
@@ -566,7 +564,7 @@
   // Panggil saat load dan setiap kali ukuran jendela/form berubah
   window.addEventListener('load', () => {
     setDynamicMargins();
-    const welcomeMessage = "Hai, aku Alip AI, siap nemenin lu kapanpun dimanapun, anggep aja temen sendiri";
+    const welcomeMessage = "Hai, aku Alip AI, siap nemenin lu kapanpun dimanapun, anggep aja temen sendiri!";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
   });
@@ -583,11 +581,14 @@
 
   // Fungsi utama untuk mengirim pesan ke API
   async function sendMessageToAPI(message) {
-    const recentHistory = conversationHistory.slice(-10); // Batasi riwayat untuk konteks
+    // Ambil riwayat percakapan terbaru untuk menjaga konteks
+    // Batasi jumlah pesan untuk menghindari payload terlalu besar dan biaya API yang tinggi
+    const recentHistory = conversationHistory.slice(-10); // Ambil 10 pesan terakhir
+
+    let fullPrompt = `Kamu adalah AI bernama Alip AI, gaul, keren, dengan bahasa yang singkat pake "gua" "lu" dan ngobrol seperti lagi nongkrong.`;
     
-    let fullPrompt = `Kamu adalah AI bernama Alip AI, gaul, keren, dengan bahasa yang singkat pake "gua" "lu" dan ngobrol seperti lagi nongkrong`;
     if (recentHistory.length > 0) {
-        fullPrompt += `Berikut riwayat percakapan kita:\n`;
+        fullPrompt += ` Berikut riwayat percakapan kita:\n`;
         recentHistory.forEach(msg => {
             fullPrompt += `${msg.role === 'user' ? 'Saya' : 'Alip'}: ${msg.parts}\n`;
         });
@@ -598,13 +599,16 @@
     const url = 'https://api.siputzx.my.id/api/ai/gemini-pro?content=' + encodeURIComponent(fullPrompt);
 
     try {
-      errorDiv.style.display = 'none';
+      errorDiv.style.display = 'none'; // Sembunyikan error sebelumnya
       const response = await fetch(url);
+      
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(`HTTP error! Status: ${response.status} - ${errorData.message || response.statusText}`);
+        throw new Error(`HTTP error! Status: ${response.status} - ${errorData.message || response.statusText || 'Unknown error'}`);
       }
+      
       const data = await response.json();
+      
       if(data.status === true && data.data) {
         return data.data;
       } else if(data.error) {
@@ -642,7 +646,7 @@
       conversationHistory.push({ role: 'model', parts: reply });
     } catch (error) {
       removeTypingIndicator();
-      // Error sudah ditangani di sendMessageToAPI
+      // Error sudah ditangani di sendMessageToAPI, jadi tidak perlu addMessage lagi di sini
     } finally {
       input.disabled = false;
       form.querySelector('button').disabled = false;
