@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Alip AI - Chatbot AI Futuristik</title>
+<title>Alip AI - Chatbot AI Futuristik (v2025)</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script> <style>
+</head>
+<body>
+
+<style>
   /* Variabel CSS untuk Dark dan Light Mode */
   :root {
     /* Warna Dark Mode (Default) */
@@ -32,6 +33,8 @@
     --bot-bubble-bg: linear-gradient(45deg, #2E1A4F, #1E0A3F); /* Gradien ungu gelap */
     --error-bg-dark: #3A1515;
     --error-border-dark: #6B2020;
+    --code-bg-dark: #1B1B25; /* Background kode gelap */
+    --code-border-dark: #444;
 
     /* Warna Light Mode (Untuk toggle di masa depan) */
     --background-light: #F0F2F5; /* Abu-abu terang */
@@ -50,6 +53,8 @@
     --bot-bubble-bg-light: #EDE7F6; /* Ungu muda */
     --error-bg-light: #FFE0E0;
     --error-border-light: #FF9999;
+    --code-bg-light: #F5F5F5;
+    --code-border-light: #DDD;
 
 
     /* Transisi Halus */
@@ -80,6 +85,8 @@
     --bot-bubble-bg: var(--bot-bubble-bg-light);
     --error-bg-dark: var(--error-bg-light);
     --error-border-dark: var(--error-border-light);
+    --code-bg-dark: var(--code-bg-light);
+    --code-border-dark: var(--code-border-light);
   }
 
   /* Global Styles & Body */
@@ -307,7 +314,7 @@
     padding: 1rem 1.6rem;
     border-radius: 25px;
     line-height: 1.6;
-    /* white-space: pre-wrap; REMOVED to allow Markdown to handle newlines */
+    /* white-space: pre-wrap; REMOVED FOR MARKDOWN RENDERING */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     word-wrap: break-word;
     font-size: 1.05rem;
@@ -333,62 +340,38 @@
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
-  /* Markdown Specific Styles */
-  .message p {
-      margin: 0;
-      margin-bottom: 0.5em; /* Add spacing between paragraphs */
+  /* Markdown & Code Styling */
+  .message pre {
+    background-color: var(--code-bg-dark);
+    border: 1px solid var(--code-border-dark);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    overflow-x: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    transition: background-color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+  }
+
+  .message pre code {
+    font-family: 'Fira Code', 'JetBrains Mono', monospace; /* Font monospace untuk kode */
+    font-size: 0.95rem;
+    display: block; /* Agar highlight.js bisa bekerja */
+    color: var(--text-light); /* Warna teks kode default */
+  }
+
+  .message p:first-child {
+      margin-top: 0;
   }
   .message p:last-child {
       margin-bottom: 0;
   }
-  .message pre {
-      background-color: var(--background-dark); /* Darker background for code blocks */
-      border-radius: 8px;
-      padding: 0.8rem 1rem;
-      overflow-x: auto; /* Enable horizontal scrolling for long code lines */
-      font-family: 'Fira Code', 'Cascadia Code', monospace; /* Monospaced font for code */
-      font-size: 0.95rem;
-      line-height: 1.4;
-      margin-top: 0.8em;
-      margin-bottom: 0.8em;
-      border: 1px solid var(--border-dark);
-      box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
-  }
-  .message code {
-      font-family: 'Fira Code', 'Cascadia Code', monospace;
-      background-color: rgba(0, 240, 255, 0.1); /* Light background for inline code */
-      padding: 0.2em 0.4em;
-      border-radius: 4px;
-      font-size: 0.9em;
-      color: var(--primary-neon-blue);
-  }
-  .message pre code {
-      background-color: transparent;
-      padding: 0;
-      color: inherit;
-  }
-  .message ul, .message ol {
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-      padding-left: 1.5em;
-  }
-  .message li {
-      margin-bottom: 0.3em;
-  }
-  .message h1, .message h2, .message h3, .message h4, .message h5, .message h6 {
-      color: var(--primary-neon-blue);
-      margin-top: 1em;
-      margin-bottom: 0.5em;
-      text-shadow: 0 0 5px rgba(0,240,255,0.2);
-  }
-  .message blockquote {
-    border-left: 4px solid var(--primary-neon-purple);
-    padding-left: 1rem;
-    margin-left: 0;
-    color: var(--text-medium);
-    font-style: italic;
-  }
 
+  .message ul, .message ol {
+    margin-left: 1.5rem;
+    padding-left: 0;
+  }
 
   /* Input Form */
   form {
@@ -492,39 +475,63 @@
     margin-right: auto;
   }
 
-  /* Typing Animation */
+  /* Typing Animation (Changed to more sophisticated loader) */
   .typing-indicator {
     display: flex;
     align-items: center;
-    padding: 1rem 1.6rem;
+    justify-content: center;
+    width: 60px; /* Lebar lebih kecil */
+    height: 40px; /* Tinggi lebih kecil */
     background: var(--bot-bubble-bg);
-    border-radius: 25px;
+    border-radius: 20px; /* Radius lebih kecil */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    max-width: fit-content;
     border: 1px solid rgba(138, 43, 226, 0.3);
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+    position: relative;
+    overflow: hidden;
   }
 
-  .typing-dot {
-    width: 10px;
-    height: 10px;
-    margin: 0 4px;
-    background-color: var(--primary-neon-blue);
+  .typing-indicator::before,
+  .typing-indicator::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--primary-neon-blue);
     border-radius: 50%;
-    opacity: 0;
-    animation: typing-fade 1.4s infinite ease-in-out;
+    transform: scale(0);
+    animation: bounce 1.2s infinite ease-in-out;
     box-shadow: 0 0 8px var(--primary-neon-blue);
-    transition: background-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
 
-  .typing-dot:nth-child(1) { animation-delay: 0s; }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes typing-fade {
-    0%, 80%, 100% { opacity: 0; transform: scale(0.7); }
-    40% { opacity: 1; transform: scale(1); }
+  .typing-indicator::before {
+    left: 10px;
+    animation-delay: 0s;
   }
+
+  .typing-indicator::after {
+    right: 10px;
+    animation-delay: 0.3s;
+  }
+
+  /* Middle dot for animation */
+  .typing-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--primary-neon-purple);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: bounce 1.2s infinite ease-in-out;
+      animation-delay: 0.15s;
+      box-shadow: 0 0 8px var(--primary-neon-purple);
+  }
+
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(0.8); opacity: 0.7; }
+    50% { transform: translateY(-8px) scale(1.1); opacity: 1; }
+  }
+
 
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }
@@ -784,12 +791,14 @@
       font-size: 1.1rem;
     }
     .typing-indicator {
-      padding: 0.8rem 1.2rem;
+      width: 50px;
+      height: 35px;
     }
+    .typing-indicator::before,
+    .typing-indicator::after,
     .typing-dot {
-      width: 8px;
-      height: 8px;
-      margin: 0 3px;
+      width: 10px;
+      height: 10px;
     }
     .sidebar-toggle {
       top: 10px;
@@ -895,17 +904,18 @@
   // URL Avatar Bot - Disarankan hosting gambar sendiri atau menggunakan CDN yang stabil
   const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
 
-  // Array untuk menyimpan riwayat percakapan (untuk konteks)
-  const conversationHistory = [];
-
-  // Konfigurasi Marked.js untuk memproses Markdown
+  // Inisialisasi Marked.js untuk rendering Markdown
+  // Ini penting agar Alip AI bisa memformat jawabannya dengan bold, italic, code block, dll.
   marked.setOptions({
-    breaks: true, // Memungkinkan baris baru dengan satu enter (seperti GitHub Flavored Markdown)
+    breaks: true, // Mengaktifkan line breaks seperti GitHub
     highlight: function(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, { language }).value;
     }
   });
+
+  // Array untuk menyimpan riwayat percakapan (untuk konteks)
+  const conversationHistory = [];
 
   // Function to create and add a message to the chat
   function addMessage(text, sender) {
@@ -915,38 +925,26 @@
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
 
-    const avatarImg = document.createElement('img');
-    avatarImg.src = botAvatarUrl;
-    avatarImg.alt = `${sender === 'bot' ? 'Alip AI' : 'User'} Avatar`; // Dynamic alt text
-    avatarImg.onerror = () => {
-      // Fallback: use sender initial if image fails
-      avatar.textContent = sender === 'bot' ? 'AI' : 'YOU'; 
-      // Apply specific styles for YOU avatar fallback
-      if (sender === 'user') {
-          avatar.style.backgroundColor = '#6A1B9A';
-          avatar.style.boxShadow = '0 0 10px #6A1B9A';
-          avatar.style.borderColor = '#6A1B9A';
-      } else {
-          avatar.style.backgroundColor = 'var(--primary-neon-purple)';
-          avatar.style.boxShadow = '0 0 10px var(--primary-neon-purple)';
-          avatar.style.borderColor = 'var(--primary-neon-purple)';
-      }
-      avatarImg.remove();
-    };
-
     if (sender === 'bot') {
+      const avatarImg = document.createElement('img');
+      avatarImg.src = botAvatarUrl;
+      avatarImg.alt = 'Alip AI Avatar';
+      avatarImg.onerror = () => {
+        avatar.textContent = 'AI';
+        console.warn('Bot avatar image failed to load. Using text fallback.');
+        avatarImg.remove();
+      };
       avatar.appendChild(avatarImg);
     } else {
-      // For user, initially try image if you add it later, otherwise use text fallback
-      avatar.textContent = 'YOU'; 
-      avatar.style.backgroundColor = '#6A1B9A';
+      avatar.textContent = 'YOU'; // Teks untuk avatar user
+      avatar.style.backgroundColor = '#6A1B9A'; /* Warna ungu untuk user avatar */
       avatar.style.boxShadow = '0 0 10px #6A1B9A';
       avatar.style.borderColor = '#6A1B9A';
     }
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    // Gunakan marked.parse untuk merender Markdown
+    // Render Markdown ke HTML
     messageDiv.innerHTML = marked.parse(text); 
 
     if (sender === 'user') {
@@ -981,11 +979,11 @@
 
     const typingDiv = document.createElement('div');
     typingDiv.classList.add('typing-indicator');
-    for(let i = 0; i < 3; i++) {
-      const dot = document.createElement('span');
-      dot.classList.add('typing-dot');
-      typingDiv.appendChild(dot);
-    }
+    // Menggunakan satu div untuk animasi yang lebih kompleks (via CSS)
+    const dot = document.createElement('span');
+    dot.classList.add('typing-dot');
+    typingDiv.appendChild(dot);
+
 
     messageWrapper.appendChild(avatar);
     messageWrapper.appendChild(typingDiv);
@@ -1026,31 +1024,20 @@
     messageWrapper.appendChild(messageDiv);
     chatContainer.appendChild(messageWrapper);
     
-    // Parse Markdown to HTML for partial display (for typing effect)
-    const parsedText = marked.parse(text); 
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = parsedText;
-    const elements = Array.from(tempDiv.childNodes); // Get all child nodes
-
-    let currentLength = 0;
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i].cloneNode(true); // Clone element
-      if (element.nodeType === Node.TEXT_NODE) {
-        const chars = element.textContent.split('');
-        for (let j = 0; j < chars.length; j++) {
-          messageDiv.appendChild(document.createTextNode(chars[j]));
-          scrollToBottom();
-          await new Promise(resolve => setTimeout(resolve, 15));
-        }
-      } else if (element.nodeType === Node.ELEMENT_NODE) {
-          // For elements, just append them fully
-          messageDiv.appendChild(element);
-          scrollToBottom();
-          await new Promise(resolve => setTimeout(resolve, 50)); // Slightly longer pause for elements
-      }
+    // Pecah teks menjadi kata-kata untuk animasi yang lebih realistis
+    const words = text.split(' ');
+    let currentHtml = '';
+    for (let i = 0; i < words.length; i++) {
+      currentHtml += words[i] + (i < words.length - 1 ? ' ' : '');
+      messageDiv.innerHTML = marked.parse(currentHtml); // Render Markdown secara bertahap
+      scrollToBottom();
+      await new Promise(resolve => setTimeout(resolve, 30)); // Kecepatan mengetik per kata
     }
-    // After typing is complete, ensure Highlight.js processes any code blocks
-    hljs.highlightAll();
+    // Setelah selesai mengetik, pastikan seluruh konten dirender dengan Markdown
+    // Ini juga akan menjalankan highlight.js
+    messageDiv.innerHTML = marked.parse(text);
+    hljs.highlightAll(); // Panggil highlight.js setelah konten ditambahkan
+    scrollToBottom();
   }
 
   // Scroll otomatis ke bawah
@@ -1072,10 +1059,10 @@
   // Panggil saat load dan setiap kali ukuran jendela/form berubah
   window.addEventListener('load', () => {
     setDynamicMargins();
-    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya! \n\nGua bisa bantu dengan:\n- Penjelasan konsep teknis (`function add(a, b) { return a + b; }`)\n- Ide-ide kreatif\n- Informasi umum\n\n**Coba aja tanya apa aja!**";
+    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya! \n\n*Coba tanyain apa aja ke gua ya!*";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
-    hljs.highlightAll(); // Highlight any code in the welcome message
+    hljs.highlightAll(); // Highlight welcome message if it contains code/markdown
   });
 
   // Panggil saat window di-resize
@@ -1091,7 +1078,7 @@
   async function sendMessageToAPI(message) {
     const recentHistory = conversationHistory.slice(-10); // Ambil 10 pesan terakhir untuk konteks
 
-    let fullPrompt = `Kamu adalah Alip AI, sebuah AI canggih dan futuristik. Gaya bahasamu santai, to the point, dan keren, mirip obrolan dengan teman. Gunakan bahasa 'lu' dan 'gua'. Jawaban harus singkat, jelas, dan interaktif. Jika ada pertanyaan tentang programming, berikan contoh kodenya dalam format Markdown (misalnya, \`\`\`javascript\nconsole.log('Halo dunia!');\n\`\`\`). Jika pertanyaan tidak masuk akal, berikan respons yang humoris tapi sopan.`;
+    let fullPrompt = `Kamu adalah Alip AI, sebuah AI canggih dan futuristik. Gaya bahasamu santai, to the point, dan keren, mirip obrolan dengan teman. Gunakan bahasa 'lu' dan 'gua'. Jawaban harus singkat, jelas, dan interaktif. Jika ada pertanyaan tentang programming, berikan contoh kodenya dalam format Markdown (gunakan triple backticks \`\`\`language\ncode\n\`\`\`). Jika pertanyaan tidak masuk akal, berikan respons yang humoris tapi sopan.`;
     
     if (recentHistory.length > 0) {
         fullPrompt += `\n\nBerikut riwayat percakapan kita:\n`;
@@ -1180,7 +1167,7 @@
     chatContainer.innerHTML = '';
     conversationHistory.length = 0; // Kosongkan riwayat
     errorDiv.style.display = 'none'; // Sembunyikan pesan error jika ada
-    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya! \n\nGua bisa bantu dengan:\n- Penjelasan konsep teknis (`function add(a, b) { return a + b; }`)\n- Ide-ide kreatif\n- Informasi umum\n\n**Coba aja tanya apa aja!**";
+    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya! \n\n*Coba tanyain apa aja ke gua ya!*";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
     sidebar.classList.remove('open'); // Tutup sidebar setelah aksi
@@ -1194,17 +1181,7 @@
     const messages = chatContainer.querySelectorAll('.message-wrapper');
     messages.forEach(msgWrapper => {
       const sender = msgWrapper.classList.contains('user') ? 'Gua' : 'Alip AI'; // Menggunakan "Gua" dan "Alip AI" sesuai persona
-      const messageElement = msgWrapper.querySelector('.message');
-      
-      // Ambil teks dari elemen yang sudah di-render HTML-nya
-      // Jika ada kode blok, ambil teksnya tanpa HTML highlighting
-      let messageText = '';
-      if (messageElement.querySelector('pre code')) {
-        messageText = messageElement.querySelector('pre code').textContent;
-      } else {
-        messageText = messageElement.textContent;
-      }
-
+      const messageText = msgWrapper.querySelector('.message').textContent; // Gunakan textContent untuk mendapatkan teks mentah
       chatContent += `${sender}: ${messageText}\n`;
     });
 
@@ -1227,6 +1204,9 @@
     document.body.classList.toggle('light-mode');
     // Simpan preferensi pengguna di localStorage
     localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+    // Re-highlight code blocks after theme change if necessary
+    // This is important because highlight.js styles might depend on parent theme classes
+    hljs.highlightAll(); 
   });
 
   // Load theme preference from localStorage on page load
@@ -1240,6 +1220,8 @@
         document.body.classList.remove('light-mode');
         darkModeToggle.checked = true; // Pastikan toggle dicentang jika dark mode aktif
     }
+    // Highlight all code blocks on page load
+    hljs.highlightAll();
   });
 
 </script>
