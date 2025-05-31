@@ -6,7 +6,12 @@
 <title>Alip AI - Chatbot AI Futuristik</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script> <style>
   /* Variabel CSS untuk Dark dan Light Mode */
   :root {
     /* Warna Dark Mode (Default) */
@@ -302,7 +307,7 @@
     padding: 1rem 1.6rem;
     border-radius: 25px;
     line-height: 1.6;
-    white-space: pre-wrap;
+    /* white-space: pre-wrap; REMOVED to allow Markdown to handle newlines */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     word-wrap: break-word;
     font-size: 1.05rem;
@@ -327,6 +332,63 @@
     box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
     transition: background var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
   }
+
+  /* Markdown Specific Styles */
+  .message p {
+      margin: 0;
+      margin-bottom: 0.5em; /* Add spacing between paragraphs */
+  }
+  .message p:last-child {
+      margin-bottom: 0;
+  }
+  .message pre {
+      background-color: var(--background-dark); /* Darker background for code blocks */
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      overflow-x: auto; /* Enable horizontal scrolling for long code lines */
+      font-family: 'Fira Code', 'Cascadia Code', monospace; /* Monospaced font for code */
+      font-size: 0.95rem;
+      line-height: 1.4;
+      margin-top: 0.8em;
+      margin-bottom: 0.8em;
+      border: 1px solid var(--border-dark);
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+  }
+  .message code {
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      background-color: rgba(0, 240, 255, 0.1); /* Light background for inline code */
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: var(--primary-neon-blue);
+  }
+  .message pre code {
+      background-color: transparent;
+      padding: 0;
+      color: inherit;
+  }
+  .message ul, .message ol {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      padding-left: 1.5em;
+  }
+  .message li {
+      margin-bottom: 0.3em;
+  }
+  .message h1, .message h2, .message h3, .message h4, .message h5, .message h6 {
+      color: var(--primary-neon-blue);
+      margin-top: 1em;
+      margin-bottom: 0.5em;
+      text-shadow: 0 0 5px rgba(0,240,255,0.2);
+  }
+  .message blockquote {
+    border-left: 4px solid var(--primary-neon-purple);
+    padding-left: 1rem;
+    margin-left: 0;
+    color: var(--text-medium);
+    font-style: italic;
+  }
+
 
   /* Input Form */
   form {
@@ -836,6 +898,15 @@
   // Array untuk menyimpan riwayat percakapan (untuk konteks)
   const conversationHistory = [];
 
+  // Konfigurasi Marked.js untuk memproses Markdown
+  marked.setOptions({
+    breaks: true, // Memungkinkan baris baru dengan satu enter (seperti GitHub Flavored Markdown)
+    highlight: function(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    }
+  });
+
   // Function to create and add a message to the chat
   function addMessage(text, sender) {
     const messageWrapper = document.createElement('div');
@@ -844,27 +915,39 @@
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
 
+    const avatarImg = document.createElement('img');
+    avatarImg.src = botAvatarUrl;
+    avatarImg.alt = `${sender === 'bot' ? 'Alip AI' : 'User'} Avatar`; // Dynamic alt text
+    avatarImg.onerror = () => {
+      // Fallback: use sender initial if image fails
+      avatar.textContent = sender === 'bot' ? 'AI' : 'YOU'; 
+      // Apply specific styles for YOU avatar fallback
+      if (sender === 'user') {
+          avatar.style.backgroundColor = '#6A1B9A';
+          avatar.style.boxShadow = '0 0 10px #6A1B9A';
+          avatar.style.borderColor = '#6A1B9A';
+      } else {
+          avatar.style.backgroundColor = 'var(--primary-neon-purple)';
+          avatar.style.boxShadow = '0 0 10px var(--primary-neon-purple)';
+          avatar.style.borderColor = 'var(--primary-neon-purple)';
+      }
+      avatarImg.remove();
+    };
+
     if (sender === 'bot') {
-      const avatarImg = document.createElement('img');
-      avatarImg.src = botAvatarUrl;
-      avatarImg.alt = 'Alip AI Avatar';
-      avatarImg.onerror = () => {
-        avatar.textContent = 'AI';
-        console.warn('Bot avatar image failed to load. Using text fallback.');
-        avatarImg.remove();
-      };
       avatar.appendChild(avatarImg);
     } else {
-      avatar.textContent = 'YOU'; // Teks untuk avatar user
-      avatar.style.backgroundColor = '#6A1B9A'; /* Warna ungu untuk user avatar */
+      // For user, initially try image if you add it later, otherwise use text fallback
+      avatar.textContent = 'YOU'; 
+      avatar.style.backgroundColor = '#6A1B9A';
       avatar.style.boxShadow = '0 0 10px #6A1B9A';
       avatar.style.borderColor = '#6A1B9A';
     }
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    // Untuk keamanan, gunakan textContent untuk mencegah XSS
-    messageDiv.textContent = text; 
+    // Gunakan marked.parse untuk merender Markdown
+    messageDiv.innerHTML = marked.parse(text); 
 
     if (sender === 'user') {
       messageWrapper.appendChild(messageDiv);
@@ -943,14 +1026,31 @@
     messageWrapper.appendChild(messageDiv);
     chatContainer.appendChild(messageWrapper);
     
-    const characters = text.split('');
-    let currentText = '';
-    for (let i = 0; i < characters.length; i++) {
-      currentText += characters[i];
-      messageDiv.textContent = currentText;
-      scrollToBottom();
-      await new Promise(resolve => setTimeout(resolve, 15)); // Kecepatan mengetik
+    // Parse Markdown to HTML for partial display (for typing effect)
+    const parsedText = marked.parse(text); 
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = parsedText;
+    const elements = Array.from(tempDiv.childNodes); // Get all child nodes
+
+    let currentLength = 0;
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i].cloneNode(true); // Clone element
+      if (element.nodeType === Node.TEXT_NODE) {
+        const chars = element.textContent.split('');
+        for (let j = 0; j < chars.length; j++) {
+          messageDiv.appendChild(document.createTextNode(chars[j]));
+          scrollToBottom();
+          await new Promise(resolve => setTimeout(resolve, 15));
+        }
+      } else if (element.nodeType === Node.ELEMENT_NODE) {
+          // For elements, just append them fully
+          messageDiv.appendChild(element);
+          scrollToBottom();
+          await new Promise(resolve => setTimeout(resolve, 50)); // Slightly longer pause for elements
+      }
     }
+    // After typing is complete, ensure Highlight.js processes any code blocks
+    hljs.highlightAll();
   }
 
   // Scroll otomatis ke bawah
@@ -972,9 +1072,10 @@
   // Panggil saat load dan setiap kali ukuran jendela/form berubah
   window.addEventListener('load', () => {
     setDynamicMargins();
-    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
+    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya! \n\nGua bisa bantu dengan:\n- Penjelasan konsep teknis (`function add(a, b) { return a + b; }`)\n- Ide-ide kreatif\n- Informasi umum\n\n**Coba aja tanya apa aja!**";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
+    hljs.highlightAll(); // Highlight any code in the welcome message
   });
 
   // Panggil saat window di-resize
@@ -990,7 +1091,7 @@
   async function sendMessageToAPI(message) {
     const recentHistory = conversationHistory.slice(-10); // Ambil 10 pesan terakhir untuk konteks
 
-    let fullPrompt = `Kamu adalah Alip AI, sebuah AI canggih dan futuristik. Gaya bahasamu santai, to the point, dan keren, mirip obrolan dengan teman. Gunakan bahasa 'lu' dan 'gua'. Jawaban harus singkat, jelas, dan interaktif. Jika ada pertanyaan tentang programming, berikan contoh kodenya (formatnya tidak perlu terlalu panjang, cukup yang penting saja). Jika pertanyaan tidak masuk akal, berikan respons yang humoris tapi sopan.`;
+    let fullPrompt = `Kamu adalah Alip AI, sebuah AI canggih dan futuristik. Gaya bahasamu santai, to the point, dan keren, mirip obrolan dengan teman. Gunakan bahasa 'lu' dan 'gua'. Jawaban harus singkat, jelas, dan interaktif. Jika ada pertanyaan tentang programming, berikan contoh kodenya dalam format Markdown (misalnya, \`\`\`javascript\nconsole.log('Halo dunia!');\n\`\`\`). Jika pertanyaan tidak masuk akal, berikan respons yang humoris tapi sopan.`;
     
     if (recentHistory.length > 0) {
         fullPrompt += `\n\nBerikut riwayat percakapan kita:\n`;
@@ -1079,7 +1180,7 @@
     chatContainer.innerHTML = '';
     conversationHistory.length = 0; // Kosongkan riwayat
     errorDiv.style.display = 'none'; // Sembunyikan pesan error jika ada
-    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya!";
+    const welcomeMessage = "Halo! Gua Alip AI, asisten virtual futuristik yang siap bantu lu. Ada apa nih? Gua siap nemenin lu ngobrol, nanyain apa aja, atau sekadar curhat. Santai aja ya! \n\nGua bisa bantu dengan:\n- Penjelasan konsep teknis (`function add(a, b) { return a + b; }`)\n- Ide-ide kreatif\n- Informasi umum\n\n**Coba aja tanya apa aja!**";
     addMessage(welcomeMessage, 'bot');
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
     sidebar.classList.remove('open'); // Tutup sidebar setelah aksi
@@ -1093,7 +1194,17 @@
     const messages = chatContainer.querySelectorAll('.message-wrapper');
     messages.forEach(msgWrapper => {
       const sender = msgWrapper.classList.contains('user') ? 'Gua' : 'Alip AI'; // Menggunakan "Gua" dan "Alip AI" sesuai persona
-      const messageText = msgWrapper.querySelector('.message').textContent;
+      const messageElement = msgWrapper.querySelector('.message');
+      
+      // Ambil teks dari elemen yang sudah di-render HTML-nya
+      // Jika ada kode blok, ambil teksnya tanpa HTML highlighting
+      let messageText = '';
+      if (messageElement.querySelector('pre code')) {
+        messageText = messageElement.querySelector('pre code').textContent;
+      } else {
+        messageText = messageElement.textContent;
+      }
+
       chatContent += `${sender}: ${messageText}\n`;
     });
 
