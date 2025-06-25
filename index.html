@@ -3,151 +3,96 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Alip AI - Teman Ngobrolmu</title>
+<title>Alip AI - Teman Ngobrolmu Terbaik</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@2.3.6/dist/purify.min.js"></script>
 <style>
+  /* --- Variables --- */
   :root {
-    --primary-color: #6C63FF; /* Ungu kebiruan yang energik dan modern */
-    --primary-dark-color: #574BDB;
-    --background-color: #f8faff; /* Latar belakang aplikasi lebih lembut, sedikit biru */
-    --chat-background: #ffffff;
-    --user-message-bg: #e3f2fd; /* Biru langit sangat muda */
-    --bot-message-bg: #f3e5f5; /* Ungu muda sangat lembut */
-    --text-color: #2c3e50; /* Darker text for readability */
-    --text-light-color: #7f8c8d;
-    --border-color: #e0e0e0;
+    --primary-color: #6C63FF; /* Ungu cerah */
+    --primary-dark-color: #574BDB; /* Ungu gelap */
+    --accent-color: #00bcd4; /* Cyan - untuk highlight, link, dll */
+    --background-color: #f8faff; /* Latar belakang aplikasi */
+    --chat-background: #ffffff; /* Latar belakang area chat */
+    --user-message-bg: #e3f2fd; /* Biru muda */
+    --bot-message-bg: #f3e5f5; /* Ungu muda */
+    --text-color: #2c3e50; /* Teks utama (dark blue-grey) */
+    --text-light-color: #7f8c8d; /* Teks sekunder (grey) */
+    --border-color: #e0e0e0; /* Warna border */
     --input-border-focus: var(--primary-color);
     --shadow-light: rgba(0, 0, 0, 0.08);
     --shadow-medium: rgba(0, 0, 0, 0.15);
     --header-shadow: rgba(0, 0, 0, 0.25);
-    --border-radius-large: 18px;
-    --border-radius-pill: 30px;
+    --border-radius-large: 20px;
+    --border-radius-pill: 40px;
     --section-bg-light: #ffffff;
     --section-bg-dark: #f0f2f5;
 
-    /* Variabel untuk Dark Mode */
-    --dm-background-color: #121212; 
-    --dm-chat-background: #1e1e1e; 
-    --dm-user-message-bg: #303f9f; /* Darker blue for user message */
-    --dm-bot-message-bg: #4a148c; /* Darker purple for bot message */
-    --dm-text-color: #e0e0e0; 
+    /* Dark Mode Variables */
+    --dm-background-color: #1a1a2e;
+    --dm-chat-background: #16213e;
+    --dm-user-message-bg: #4a569d;
+    --dm-bot-message-bg: #533483;
+    --dm-text-color: #e0e0e0;
     --dm-text-light-color: #a0a0a0;
-    --dm-border-color: #333333;
-    --dm-input-bg: #2a2a2a;
-    --dm-shadow-light: rgba(255, 255, 255, 0.05);
+    --dm-border-color: #3e3e50;
+    --dm-input-bg: #2b2b3f;
+    --dm-shadow-light: rgba(0, 0, 0, 0.2);
     --dm-shadow-medium: rgba(0, 0, 0, 0.4);
-    --dm-header-shadow: rgba(0, 0, 0, 0.5);
-    --dm-skeleton-color: #2b2b2b; /* Warna skeleton dark mode */
-    --dm-section-bg-light: #282828;
-    --dm-section-bg-dark: #1e1e1e;
+    --dm-header-shadow: rgba(0, 0, 0, 0.6);
+    --dm-skeleton-color: #3b3b5b;
+    --dm-section-bg-light: #2c2c4a;
+    --dm-section-bg-dark: #1e1e35;
+
+    /* Custom Scrollbar */
+    --scrollbar-track-bg: var(--background-color);
+    --scrollbar-thumb-bg: #ccc;
+    --scrollbar-thumb-hover-bg: #aaa;
+    --dm-scrollbar-track-bg: var(--dm-background-color);
+    --dm-scrollbar-thumb-bg: #555;
+    --dm-scrollbar-thumb-hover-bg: #777;
   }
 
-  /* Animasi background gradient */
+  /* --- Scrollbar Styling --- */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-bg);
+    border-radius: 10px;
+    border: 3px solid var(--scrollbar-track-bg);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-bg);
+  }
+
+  body.dark-mode ::-webkit-scrollbar-track {
+    background: var(--dm-scrollbar-track-bg);
+  }
+
+  body.dark-mode ::-webkit-scrollbar-thumb {
+    background: var(--dm-scrollbar-thumb-bg);
+    border-color: var(--dm-scrollbar-track-bg);
+  }
+
+  body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: var(--dm-scrollbar-thumb-hover-bg);
+  }
+
+  /* --- Keyframes & Animations --- */
   @keyframes gradientAnimation {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
-  }
-
-  /* Blob animation */
-  @keyframes blobDance {
-    0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1); }
-    25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: scale(1.03); }
-    50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1); }
-    75% { border-radius: 40% 70% 60% 30% / 70% 40% 60% 30%; transform: scale(0.97); }
-    100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: scale(1); }
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.4s ease, color 0.4s ease; /* Transisi untuk dark mode */
-  }
-
-  body.dark-mode {
-    background-color: var(--dm-background-color);
-    color: var(--dm-text-color);
-  }
-
-  /* General section styling */
-  section {
-    padding: 60px 20px;
-    text-align: center;
-    background-color: var(--section-bg-light);
-    transition: background-color 0.4s ease;
-  }
-  body.dark-mode section {
-    background-color: var(--dm-section-bg-light);
-  }
-
-  section:nth-of-type(odd) {
-    background-color: var(--section-bg-dark);
-  }
-  body.dark-mode section:nth-of-type(odd) {
-    background-color: var(--dm-section-bg-dark);
-  }
-
-  h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.5rem;
-    color: var(--primary-dark-color);
-    margin-bottom: 40px;
-    position: relative;
-    padding-bottom: 15px;
-  }
-  body.dark-mode h2 {
-    color: var(--primary-color);
-  }
-  h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background-color: var(--primary-color);
-    border-radius: 2px;
-  }
-
-  header {
-    background: linear-gradient(270deg, var(--primary-color), var(--primary-dark-color));
-    background-size: 200% 200%; /* Ukuran gradient agar bisa dianimasikan */
-    animation: gradientAnimation 10s ease infinite; /* Animasi gradient */
-    padding: 1.8rem 1rem;
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 700;
-    text-align: center;
-    color: white;
-    box-shadow: 0 6px 20px var(--header-shadow);
-    z-index: 100; /* Higher z-index for fixed header */
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    position: sticky; /* Make header sticky */
-    top: 0;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden; 
-  }
-
-  header i {
-    font-size: 2rem;
-    animation: bounceIn 0.8s ease-out;
   }
 
   @keyframes bounceIn {
@@ -156,102 +101,138 @@
     100% { transform: scale(1); }
   }
 
-  /* Hero Section */
-  #hero-section {
-    position: relative;
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, var(--primary-dark-color), var(--primary-color));
-    color: white;
-    overflow: hidden;
-    padding: 20px;
-    box-sizing: border-box;
+  @keyframes slideInUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 
-  .hero-blob {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.08);
-    animation: blobDance 15s infinite ease-in-out alternate;
-    z-index: 1;
-  }
-  .hero-blob:nth-child(1) { top: 10%; left: 10%; width: 150px; height: 150px; animation-delay: 0s; }
-  .hero-blob:nth-child(2) { bottom: 15%; right: 10%; width: 200px; height: 200px; animation-delay: 2s; }
-  .hero-blob:nth-child(3) { top: 50%; left: 5%; width: 100px; height: 100px; animation-delay: 4s; }
-  .hero-blob:nth-child(4) { bottom: 5%; left: 40%; width: 180px; height: 180px; animation-delay: 6s; }
-
-  #hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
+  @keyframes messagePopIn {
+    0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  #hero-content h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 3.5rem;
-    margin-bottom: 20px;
-    animation: fadeInDown 1s ease-out;
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
   }
 
-  #hero-content p {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-    line-height: 1.6;
-    max-width: 700px;
-    animation: fadeInUp 1s ease-out 0.3s forwards;
-    opacity: 0;
+  @keyframes typing-fade {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
   }
 
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @keyframes pulse {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
   }
 
-  #start-chat-btn {
-    background-color: white;
-    color: var(--primary-color);
-    border: none;
-    border-radius: var(--border-radius-pill);
-    padding: 18px 40px;
-    font-size: 1.4rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-    animation: scaleIn 1s ease-out 0.6s forwards;
-    opacity: 0;
+  @keyframes rotateIn {
+    from { transform: rotate(-180deg) scale(0.2); opacity: 0; }
+    to { transform: rotate(0deg) scale(1); opacity: 1; }
   }
 
-  #start-chat-btn:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
-    color: var(--primary-dark-color);
-  }
-
-  #start-chat-btn:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-
-  @keyframes scaleIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-  }
-
-  /* Chat Section */
-  #chat-section {
-    padding: 0; /* Remove padding here, chat-container has its own */
+  /* --- Base Styles --- */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
     background-color: var(--background-color);
-    flex: 1; /* Allow chat section to take remaining space */
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  body.dark-mode {
+    background-color: var(--dm-background-color);
+    color: var(--dm-text-color);
+  }
+
+  /* --- Header --- */
+  header {
+    background: linear-gradient(270deg, var(--primary-color), var(--primary-dark-color));
+    background-size: 200% 200%;
+    animation: gradientAnimation 10s ease infinite;
+    padding: 1.8rem 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 25px var(--header-shadow);
+    z-index: 100;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  header i {
+    font-size: 2.4rem;
+    animation: bounceIn 0.8s ease-out;
+  }
+
+  .header-actions {
+    position: absolute;
+    right: 1.5rem;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .header-btn {
+    background-color: rgba(255, 255, 255, 0.25);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .header-btn:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+
+  .header-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  /* --- Chat Section --- */
+  #chat-section {
+    padding: 0;
+    background-color: var(--background-color);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--header-height) - var(--form-height)); /* Adjusted by JS */
+    min-height: 500px;
   }
   body.dark-mode #chat-section {
     background-color: var(--dm-background-color);
@@ -261,40 +242,29 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1.8rem;
+    padding: 2rem;
     overflow-y: auto;
     scroll-behavior: smooth;
     background: var(--chat-background);
     border-radius: var(--border-radius-large);
-    margin: 1.8rem;
-    box-shadow: 0 8px 25px var(--shadow-medium);
-    transition: margin-bottom 0.3s ease, background 0.4s ease, box-shadow 0.4s ease;
-    min-height: 400px; /* Ensure chat container has a minimum height */
-    animation: slideInUp 0.6s ease-out forwards;
+    margin: 2rem;
+    box-shadow: 0 10px 35px var(--shadow-medium);
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+    animation: slideInUp 0.8s ease-out forwards;
   }
 
   body.dark-mode #chat-container {
     background: var(--dm-chat-background);
-    box-shadow: 0 8px 25px var(--dm-shadow-medium);
-  }
-
-  @keyframes slideInUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    box-shadow: 0 10px 35px var(--dm-shadow-medium);
   }
 
   .message-wrapper {
     display: flex;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
     align-items: flex-start;
-    animation: messagePopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Animasi pop-in */
+    animation: messagePopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     opacity: 0;
     transform: scale(0.9);
-  }
-
-  @keyframes messagePopIn {
-    0% { opacity: 0; transform: translateY(10px) scale(0.9); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   .message-wrapper.user {
@@ -306,30 +276,30 @@
   }
 
   .avatar {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background: linear-gradient(45deg, var(--primary-color), var(--primary-dark-color));
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 600;
     color: white;
     flex-shrink: 0;
-    box-shadow: 0 3px 8px var(--shadow-light);
+    box-shadow: 0 4px 10px var(--shadow-light);
     overflow: hidden;
-    border: 2px solid white;
+    border: 3px solid white;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.4s ease, background 0.4s ease;
   }
 
   body.dark-mode .avatar {
-    border: 2px solid var(--dm-chat-background);
+    border: 3px solid var(--dm-chat-background);
   }
 
   .avatar:hover {
-    transform: scale(1.1);
-    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
   }
 
   .avatar img {
@@ -340,39 +310,40 @@
   }
 
   .message-wrapper.bot .avatar {
-    margin-right: 15px;
+    margin-right: 20px;
   }
 
   .message-wrapper.user .avatar {
     order: 2;
-    margin-left: 15px;
+    margin-left: 20px;
   }
 
   .message {
-    max-width: 75%;
-    padding: 1.1rem 1.6rem;
-    border-radius: 25px;
-    line-height: 1.7;
+    max-width: 70%;
+    padding: 1.3rem 2rem;
+    border-radius: var(--border-radius-large);
+    line-height: 1.8;
     white-space: pre-wrap;
-    box-shadow: 0 3px 10px var(--shadow-light);
+    box-shadow: 0 4px 15px var(--shadow-light);
     word-wrap: break-word;
-    font-size: 1.05rem;
-    transition: all 0.2s ease-out, background 0.4s ease, color 0.4s ease, transform 0.2s ease;
+    font-size: 1.08rem;
+    transition: all 0.3s ease-out, background 0.4s ease, color 0.4s ease, transform 0.2s ease;
     position: relative;
-    word-break: break-word; /* Mengatasi kata sangat panjang */
+    word-break: break-word;
   }
 
   .message.bot:hover {
-    transform: translateY(-3px); /* Efek lift on hover untuk pesan bot */
-    box-shadow: 0 5px 15px var(--shadow-medium);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px var(--shadow-medium);
   }
 
   .user .message {
     background: var(--user-message-bg);
     color: var(--text-color);
+    border-top-right-radius: var(--border-radius-large);
     border-bottom-right-radius: 8px;
     position: relative;
-    right: -5px;
+    right: -8px;
   }
   body.dark-mode .user .message {
     background: var(--dm-user-message-bg);
@@ -382,9 +353,10 @@
   .bot .message {
     background: var(--bot-message-bg);
     color: var(--text-color);
+    border-top-left-radius: var(--border-radius-large);
     border-bottom-left-radius: 8px;
     position: relative;
-    left: -5px;
+    left: -8px;
   }
   body.dark-mode .bot .message {
     background: var(--dm-bot-message-bg);
@@ -394,24 +366,24 @@
   /* Copy button for bot messages */
   .bot .message .copy-btn {
     position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background-color: rgba(0, 0, 0, 0.1);
+    bottom: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.15);
     color: var(--text-light-color);
     border: none;
     border-radius: 50%;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
   }
   body.dark-mode .bot .message .copy-btn {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.15);
     color: var(--dm-text-light-color);
   }
 
@@ -421,26 +393,27 @@
   }
 
   .bot .message .copy-btn:hover {
-    background-color: rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
   }
   body.dark-mode .bot .message .copy-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.3);
   }
 
   .bot .message .copy-btn.copied {
-    background-color: #28a745; 
+    background-color: #28a745;
     color: white;
   }
 
+  /* --- Form (Input Area) --- */
   form {
     display: flex;
-    padding: 1.8rem;
+    padding: 2rem;
     background-color: var(--chat-background);
     border-top: 1px solid var(--border-color);
-    box-shadow: 0 -6px 20px var(--shadow-medium);
-    gap: 1rem;
-    align-items: flex-end; /* Align to bottom for textarea */
+    box-shadow: 0 -8px 25px var(--shadow-medium);
+    gap: 1.2rem;
+    align-items: flex-end;
     position: sticky;
     bottom: 0;
     width: 100%;
@@ -452,80 +425,78 @@
   body.dark-mode form {
     background-color: var(--dm-chat-background);
     border-top: 1px solid var(--dm-border-color);
-    box-shadow: 0 -6px 20px var(--dm-shadow-medium);
+    box-shadow: 0 -8px 25px var(--dm-shadow-medium);
   }
 
-  /* Mengganti input text dengan textarea */
   #input {
     flex: 1;
-    padding: 1.2rem 1.8rem;
-    font-size: 1.1rem;
+    padding: 1.4rem 2rem;
+    font-size: 1.15rem;
     border-radius: var(--border-radius-pill);
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--border-color);
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     background-color: #ffffff;
     color: var(--text-color);
-    box-shadow: inset 0 1px 3px var(--shadow-light);
-    resize: none; /* Nonaktifkan resize manual */
-    min-height: 55px; /* Sesuaikan dengan tinggi tombol */
-    max-height: 200px; /* Batas tinggi textarea */
-    overflow-y: auto; /* Aktifkan scrollbar jika konten melebihi max-height */
-    line-height: 1.5; /* Agar teks lebih rapi */
+    box-shadow: inset 0 2px 5px var(--shadow-light);
+    resize: none;
+    min-height: 60px;
+    max-height: 250px;
+    overflow-y: auto;
+    line-height: 1.6;
   }
   body.dark-mode #input {
     background-color: var(--dm-input-bg);
-    border: 1px solid var(--dm-border-color);
+    border: 2px solid var(--dm-border-color);
     color: var(--dm-text-color);
-    box-shadow: inset 0 1px 3px var(--dm-shadow-light);
+    box-shadow: inset 0 2px 5px var(--dm-shadow-light);
   }
-
 
   #input::placeholder {
     color: var(--text-light-color);
+    opacity: 0.8;
   }
   body.dark-mode #input::placeholder {
     color: var(--dm-text-light-color);
   }
 
-
   #input:focus {
     border-color: var(--input-border-focus);
-    box-shadow: 0 0 0 5px rgba(108, 99, 255, 0.25);
+    box-shadow: 0 0 0 6px rgba(108, 99, 255, 0.3);
     background-color: #fdfefe;
   }
   body.dark-mode #input:focus {
-    box-shadow: 0 0 0 5px rgba(108, 99, 255, 0.4);
-    background-color: var(--dm-input-bg); /* Tetap di warna dark mode */
+    box-shadow: 0 0 0 6px rgba(108, 99, 255, 0.5);
+    background-color: var(--dm-input-bg);
   }
 
-  .send-button { /* Ubah nama button jadi send-button */
+  .send-button {
     background: linear-gradient(to right, var(--primary-color), var(--primary-dark-color));
     border: none;
     border-radius: var(--border-radius-pill);
     color: white;
     font-weight: 600;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     cursor: pointer;
-    width: 55px;
-    height: 55px;
-    min-width: 55px;
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s ease, transform 0.1s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: background 0.3s ease, transform 0.15s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
 
   .send-button:hover:not(:disabled) {
     background: linear-gradient(to right, var(--primary-dark-color), #4B41D8);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.45);
   }
 
   .send-button:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
   }
 
   .send-button:disabled {
@@ -536,58 +507,46 @@
   }
 
   .send-button .spinner {
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid #fff;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    width: 24px;
+    height: 24px;
+    animation: spin 0.8s linear infinite;
   }
 
   #error {
     color: #D32F2F;
     text-align: center;
-    padding: 1.2rem;
+    padding: 1.5rem;
     background-color: #FFEBEE;
-    border: 1px solid #EF9A9A;
+    border: 2px solid #EF9A9A;
     border-radius: var(--border-radius-large);
-    margin: 0 1.8rem 1.8rem 1.8rem;
-    font-size: 1rem;
+    margin: 0 2rem 2rem 2rem;
+    font-size: 1.05rem;
     font-weight: 500;
     display: none;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     flex-shrink: 0;
     transition: margin-bottom 0.3s ease, background-color 0.4s ease, color 0.4s ease;
-    animation: shake 0.5s ease-in-out;
+    animation: shake 0.6s ease-in-out;
   }
   body.dark-mode #error {
-    background-color: #3f1717; 
-    border: 1px solid #7a2c2c;
+    background-color: #3f1717;
+    border: 2px solid #7a2c2c;
     color: #FFCDD2;
   }
 
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-5px); }
-    40%, 80% { transform: translateX(5px); }
-  }
-
-  /* Typing animation */
+  /* --- Typing Animation --- */
   .typing-indicator {
     display: flex;
     align-items: center;
-    padding: 1.1rem 1.6rem;
+    padding: 1.3rem 2rem;
     background: var(--bot-message-bg);
-    border-radius: 25px;
-    box-shadow: 0 3px 10px var(--shadow-light);
+    border-radius: var(--border-radius-large);
+    box-shadow: 0 4px 10px var(--shadow-light);
     max-width: fit-content;
-    left: -5px;
+    left: -8px;
     position: relative;
     transition: background 0.4s ease;
   }
@@ -596,13 +555,13 @@
   }
 
   .typing-dot {
-    width: 12px;
-    height: 12px;
-    margin: 0 4px;
+    width: 14px;
+    height: 14px;
+    margin: 0 5px;
     background-color: var(--text-light-color);
     border-radius: 50%;
     opacity: 0;
-    animation: typing-fade 1.4s infinite ease-in-out;
+    animation: typing-fade 1.6s infinite ease-in-out;
     transition: background-color 0.4s ease;
   }
   body.dark-mode .typing-dot {
@@ -610,100 +569,60 @@
   }
 
   .typing-dot:nth-child(1) { animation-delay: 0s; }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  .typing-dot:nth-child(2) { animation-delay: 0.3s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.6s; }
 
-  @keyframes typing-fade {
-    0%, 80%, 100% { opacity: 0; }
-    40% { opacity: 1; }
-  }
-
-  /* Fixed Contact Owner Button */
+  /* --- Fixed Contact Owner Button --- */
   .contact-owner-btn {
-    position: fixed; /* Changed to fixed */
-    right: 1.8rem;
-    bottom: 100px; /* Adjusted initial bottom */
-    background-color: #25D366;
+    position: fixed;
+    right: 2rem;
+    bottom: 100px; /* This will be dynamically adjusted by JS */
+    background-color: #25D366; /* Warna WhatsApp */
     color: white;
     border: none;
     border-radius: var(--border-radius-pill);
-    padding: 0.9rem 1.4rem;
-    font-size: 1.05rem;
+    padding: 1rem 1.6rem;
+    font-size: 1.1rem;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.8rem;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.1s ease, bottom 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease, transform 0.15s ease, bottom 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
     z-index: 99;
   }
 
   .contact-owner-btn:hover {
     background-color: #1DA851;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
   }
 
   .contact-owner-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
   }
 
   .contact-owner-btn i {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
   }
 
-  /* New Header Buttons */
-  .header-actions {
-    position: absolute;
-    right: 1rem;
-    display: flex;
-    gap: 0.8rem;
-  }
-
-  .header-btn {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: 50%;
-    color: white;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  .header-btn:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  }
-
-  .header-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  }
-
-  /* Skeleton Screen */
+  /* --- Skeleton Screen --- */
   .skeleton-message {
     display: flex;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
     align-items: flex-start;
   }
 
   .skeleton-avatar {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     background-color: var(--border-color);
     flex-shrink: 0;
-    animation: pulse 1.5s infinite ease-in-out;
+    animation: pulse 1.8s infinite ease-in-out;
   }
   body.dark-mode .skeleton-avatar {
     background-color: var(--dm-skeleton-color);
@@ -711,86 +630,84 @@
 
   .skeleton-content {
     flex: 1;
-    margin-left: 15px;
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
 
   .skeleton-line {
-    height: 18px;
+    height: 20px;
     background-color: var(--border-color);
-    border-radius: 4px;
-    animation: pulse 1.5s infinite ease-in-out;
+    border-radius: 6px;
+    animation: pulse 1.8s infinite ease-in-out;
   }
   body.dark-mode .skeleton-line {
     background-color: var(--dm-skeleton-color);
   }
 
-  .skeleton-line.short { width: 60%; }
-  .skeleton-line.medium { width: 85%; }
-  .skeleton-line.long { width: 95%; }
+  .skeleton-line.short { width: 50%; }
+  .skeleton-line.medium { width: 75%; }
+  .skeleton-line.long { width: 90%; }
 
-  @keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-  }
-
-
-  /* Markdown Styling Enhancement */
+  /* --- Markdown Styling Enhancement --- */
   .message pre {
-    background-color: rgba(0, 0, 0, 0.05);
-    padding: 0.8rem;
-    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.07);
+    padding: 1rem;
+    border-radius: 10px;
     overflow-x: auto;
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-size: 0.9em;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    white-space: pre-wrap; /* Wrap long lines */
-    word-break: break-all; /* Break long words */
+    font-size: 0.95em;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    border: 1px solid rgba(0,0,0,0.1);
   }
   body.dark-mode .message pre {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255,255,255,0.1);
   }
 
   .message code {
-    background-color: rgba(0, 0, 0, 0.05);
-    padding: 0.2em 0.4em;
-    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.07);
+    padding: 0.25em 0.5em;
+    border-radius: 4px;
     font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    font-size: 0.9em;
+    font-size: 0.92em;
   }
   body.dark-mode .message code {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.12);
   }
 
   .message h1, .message h2, .message h3, .message h4, .message h5, .message h6 {
-    margin-top: 1.5em;
-    margin-bottom: 0.8em;
+    margin-top: 1.8em;
+    margin-bottom: 1em;
     font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    line-height: 1.2;
+    font-weight: 700;
+    line-height: 1.3;
     color: var(--primary-dark-color);
   }
-  body.dark-mode .message h1, body.dark-mode .message h2, body.dark-mode .message h3, 
+  body.dark-mode .message h1, body.dark-mode .message h2, body.dark-mode .message h3,
   body.dark-mode .message h4, body.dark-mode .message h5, body.dark-mode .message h6 {
     color: var(--primary-color);
   }
+  .message h1 { font-size: 1.8em; }
+  .message h2 { font-size: 1.6em; }
+  .message h3 { font-size: 1.4em; }
 
   .message ul, .message ol {
-    margin-left: 1.5em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-left: 2em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
   }
 
   .message li {
-    margin-bottom: 0.5em;
+    margin-bottom: 0.6em;
   }
 
   .message strong {
-    font-weight: 700;
+    font-weight: 800;
   }
 
   .message em {
@@ -798,294 +715,15 @@
   }
 
   .message a {
-    color: var(--primary-color);
+    color: var(--accent-color);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
+    font-weight: 600;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
   }
 
   .message a:hover {
-    color: var(--primary-dark-color);
+    color: var(--primary-color);
     text-decoration: underline;
-  }
-
-  /* About Section */
-  #about-section {
-    background-color: var(--section-bg-dark);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  body.dark-mode #about-section {
-    background-color: var(--dm-section-bg-dark);
-  }
-
-  #about-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    max-width: 1200px;
-    margin-top: 20px;
-  }
-
-  .about-card {
-    background-color: var(--chat-background);
-    padding: 30px;
-    border-radius: var(--border-radius-large);
-    box-shadow: 0 8px 25px var(--shadow-light);
-    flex: 1;
-    min-width: 300px;
-    max-width: 350px;
-    text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease;
-  }
-  body.dark-mode .about-card {
-    background-color: var(--dm-chat-background);
-    box-shadow: 0 8px 25px var(--dm-shadow-medium);
-  }
-
-  .about-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px var(--shadow-medium);
-  }
-
-  .about-card i {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 15px;
-  }
-
-  .about-card h3 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: var(--primary-dark-color);
-    margin-bottom: 10px;
-  }
-  body.dark-mode .about-card h3 {
-    color: var(--primary-color);
-  }
-
-  .about-card p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-light-color);
-  }
-
-  /* Testimonials Section */
-  #testimonials-section {
-    background-color: var(--section-bg-light);
-  }
-  body.dark-mode #testimonials-section {
-    background-color: var(--dm-section-bg-light);
-  }
-
-  .testimonial-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .testimonial-card {
-    background-color: var(--chat-background);
-    padding: 30px;
-    border-radius: var(--border-radius-large);
-    box-shadow: 0 8px 25px var(--shadow-light);
-    flex: 1;
-    min-width: 280px;
-    max-width: 380px;
-    text-align: left;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease;
-  }
-  body.dark-mode .testimonial-card {
-    background-color: var(--dm-chat-background);
-    box-shadow: 0 8px 25px var(--dm-shadow-medium);
-  }
-
-  .testimonial-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px var(--shadow-medium);
-  }
-
-  .testimonial-card p {
-    font-style: italic;
-    color: var(--text-color);
-    margin-bottom: 15px;
-    line-height: 1.6;
-  }
-
-  .testimonial-card .author {
-    font-weight: 600;
-    color: var(--primary-dark-color);
-  }
-  body.dark-mode .testimonial-card .author {
-    color: var(--primary-color);
-  }
-
-  /* FAQ Section */
-  #faq-section {
-    background-color: var(--section-bg-dark);
-  }
-  body.dark-mode #faq-section {
-    background-color: var(--dm-section-bg-dark);
-  }
-
-  .faq-container {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: left;
-  }
-
-  .faq-item {
-    background-color: var(--chat-background);
-    border-radius: var(--border-radius-large);
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px var(--shadow-light);
-    overflow: hidden;
-    transition: box-shadow 0.3s ease, background-color 0.4s ease;
-  }
-  body.dark-mode .faq-item {
-    background-color: var(--dm-chat-background);
-    box-shadow: 0 4px 15px var(--dm-shadow-medium);
-  }
-
-  .faq-item:hover {
-    box-shadow: 0 8px 25px var(--shadow-medium);
-  }
-
-  .faq-question {
-    padding: 20px 25px;
-    font-weight: 600;
-    font-size: 1.15rem;
-    color: var(--text-color);
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background-color 0.3s ease, color 0.4s ease;
-  }
-  body.dark-mode .faq-question {
-    color: var(--dm-text-color);
-  }
-
-  .faq-question:hover {
-    background-color: rgba(0, 0, 0, 0.03);
-  }
-  body.dark-mode .faq-question:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-  }
-
-  .faq-question i {
-    transition: transform 0.3s ease;
-  }
-
-  .faq-question.active i {
-    transform: rotate(180deg);
-  }
-
-  .faq-answer {
-    padding: 0 25px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-    color: var(--text-light-color);
-    line-height: 1.6;
-  }
-  .faq-answer.active {
-    max-height: 200px; /* Adjust as needed */
-    padding-bottom: 20px;
-  }
-
-  /* Footer */
-  footer {
-    background: linear-gradient(270deg, var(--primary-color), var(--primary-dark-color));
-    background-size: 200% 200%;
-    animation: gradientAnimation 10s ease infinite;
-    color: white;
-    padding: 40px 20px;
-    text-align: center;
-    box-shadow: 0 -6px 20px var(--header-shadow);
-    z-index: 5;
-    flex-shrink: 0;
-  }
-
-  .footer-content {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .footer-logo {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .social-links {
-    margin-bottom: 20px;
-  }
-
-  .social-links a {
-    color: white;
-    font-size: 1.8rem;
-    margin: 0 15px;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-
-  .social-links a:hover {
-    transform: translateY(-5px) scale(1.1);
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  .footer-text {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    opacity: 0.9;
-  }
-
-  /* Scroll to top button */
-  #scroll-to-top {
-    position: fixed;
-    bottom: 20px; /* Adjusted bottom */
-    right: 20px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-    transition: opacity 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
-    opacity: 0;
-    visibility: hidden;
-    z-index: 100;
-  }
-
-  #scroll-to-top.show {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  #scroll-to-top:hover {
-    background-color: var(--primary-dark-color);
-    transform: translateY(-3px);
-  }
-
-  #scroll-to-top:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
 
   /* --- Reset Chat Modal Styling --- */
@@ -1095,14 +733,15 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.75);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    backdrop-filter: blur(5px);
   }
 
   .reset-modal-overlay.show {
@@ -1112,18 +751,18 @@
 
   .reset-modal {
     background-color: var(--chat-background);
-    padding: 40px;
+    padding: 50px;
     border-radius: var(--border-radius-large);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
     text-align: center;
-    max-width: 450px;
+    max-width: 500px;
     width: 90%;
-    transform: scale(0.9);
+    transform: scale(0.8);
     opacity: 0;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 30px;
   }
   body.dark-mode .reset-modal {
     background-color: var(--dm-chat-background);
@@ -1135,49 +774,44 @@
   }
 
   .reset-modal i.fa-redo {
-    font-size: 3.5rem;
+    font-size: 4.5rem;
     color: var(--primary-color);
-    margin-bottom: 15px;
-    animation: rotateIn 0.6s ease-out;
-  }
-
-  @keyframes rotateIn {
-    from { transform: rotate(-90deg) scale(0.5); opacity: 0; }
-    to { transform: rotate(0deg) scale(1); opacity: 1; }
+    margin-bottom: 20px;
+    animation: rotateIn 0.8s ease-out;
   }
 
   .reset-modal h3 {
     font-family: 'Poppins', sans-serif;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     color: var(--primary-dark-color);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   body.dark-mode .reset-modal h3 {
     color: var(--primary-color);
   }
 
   .reset-modal p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--text-light-color);
-    line-height: 1.6;
-    margin-bottom: 25px;
+    line-height: 1.7;
+    margin-bottom: 30px;
   }
 
   .reset-modal-buttons {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
   }
 
   .reset-modal-btn {
-    padding: 12px 25px;
+    padding: 14px 30px;
     border: none;
     border-radius: var(--border-radius-pill);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
   }
 
   .reset-modal-btn.cancel {
@@ -1190,11 +824,12 @@
   }
 
   .reset-modal-btn.cancel:hover {
-    background-color: #d0d0d0;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    background-color: #c0c0c0;
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
   }
   body.dark-mode .reset-modal-btn.cancel:hover {
-    background-color: #4a4a4a;
+    background-color: #5a5a5a;
   }
 
   .reset-modal-btn.confirm {
@@ -1204,18 +839,111 @@
 
   .reset-modal-btn.confirm:hover {
     background: linear-gradient(to right, var(--primary-dark-color), #4B41D8);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   }
 
-  /* Responsive adjustments */
+  /* --- Responsive adjustments --- */
   @media (max-width: 768px) {
     header {
-      font-size: 1.8rem;
-      padding: 1.2rem 1rem;
+      font-size: 2rem;
+      padding: 1.5rem 0.8rem;
     }
     header i {
+      font-size: 2rem;
+    }
+    .header-actions {
+      right: 0.8rem;
+      gap: 0.8rem;
+    }
+    .header-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1.1rem;
+    }
+
+    #chat-container {
+      margin: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 16px;
+      min-height: 400px;
+    }
+    #error {
+      margin: 0 1.5rem 1.5rem 1.5rem;
+      padding: 1.2rem;
+      font-size: 1rem;
+    }
+    .message {
+      max-width: 85%;
+      padding: 1.1rem 1.6rem;
+      font-size: 1rem;
+      border-radius: 22px;
+    }
+    .avatar {
+      width: 42px;
+      height: 42px;
+      font-size: 1.2rem;
+    }
+    .message-wrapper.bot .avatar,
+    .message-wrapper.user .avatar {
+      margin-right: 15px;
+      margin-left: 15px;
+    }
+    form {
+      padding: 1.5rem;
+      gap: 1rem;
+    }
+    #input {
+      padding: 1.2rem 1.6rem;
+      font-size: 1.05rem;
+      min-height: 50px;
+    }
+    .send-button {
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+      font-size: 1.1rem;
+    }
+    .typing-indicator {
+      padding: 1.1rem 1.6rem;
+    }
+    .typing-dot {
+      width: 12px;
+      height: 12px;
+      margin: 0 4px;
+    }
+    .contact-owner-btn {
+      right: 1.5rem;
+      padding: 0.8rem 1.3rem;
+      font-size: 1rem;
+    }
+    .contact-owner-btn i {
+      font-size: 1.2rem;
+    }
+    .skeleton-avatar { width: 42px; height: 42px; }
+    .skeleton-content { margin-left: 15px; }
+    .reset-modal {
+      padding: 40px;
+    }
+    .reset-modal h3 {
+      font-size: 1.8rem;
+    }
+    .reset-modal p {
+      font-size: 1.1rem;
+    }
+    .reset-modal-btn {
+      padding: 12px 25px;
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    header {
       font-size: 1.6rem;
+      padding: 1rem 0.5rem;
+    }
+    header i {
+      font-size: 1.5rem;
     }
     .header-actions {
       right: 0.5rem;
@@ -1227,28 +955,9 @@
       font-size: 1rem;
     }
 
-    #hero-content h1 {
-      font-size: 2.5rem;
-    }
-    #hero-content p {
-      font-size: 1.2rem;
-    }
-    #start-chat-btn {
-      padding: 15px 30px;
-      font-size: 1.2rem;
-    }
-
-    section {
-      padding: 40px 15px;
-    }
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 30px;
-    }
-
     #chat-container {
       margin: 1rem;
-      padding: 1.2rem;
+      padding: 1rem;
       border-radius: 12px;
       min-height: 300px;
     }
@@ -1258,14 +967,13 @@
       font-size: 0.9rem;
     }
     .message {
-      max-width: 88%;
       padding: 0.9rem 1.2rem;
       font-size: 0.95rem;
       border-radius: 20px;
     }
     .avatar {
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       font-size: 1rem;
     }
     .message-wrapper.bot .avatar,
@@ -1277,15 +985,15 @@
       padding: 1rem;
       gap: 0.8rem;
     }
-    #input { /* textarea */
+    #input {
       padding: 1rem 1.2rem;
       font-size: 1rem;
-      min-height: 48px;
+      min-height: 45px;
     }
     .send-button {
-      width: 48px;
-      height: 48px;
-      min-width: 48px;
+      width: 45px;
+      height: 45px;
+      min-width: 45px;
       font-size: 1rem;
     }
     .typing-indicator {
@@ -1299,172 +1007,25 @@
     .contact-owner-btn {
       right: 1rem;
       padding: 0.7rem 1.1rem;
-      font-size: 0.95rem;
-      bottom: calc(var(--form-height) + 1.2rem); /* Dynamic bottom */
+      font-size: 0.9rem;
     }
     .contact-owner-btn i {
       font-size: 1.1rem;
     }
-    .skeleton-avatar { width: 38px; height: 38px; }
+    .skeleton-avatar { width: 36px; height: 36px; }
     .skeleton-content { margin-left: 10px; }
-
-    .about-card, .testimonial-card {
-      min-width: unset;
-      width: 100%;
-      max-width: 400px;
-    }
-    .faq-question {
-      font-size: 1rem;
-      padding: 18px 20px;
-    }
-    .faq-answer {
-      padding: 0 20px;
-    }
-
-    .social-links a {
-      font-size: 1.5rem;
-      margin: 0 10px;
-    }
     .reset-modal {
       padding: 30px;
     }
     .reset-modal h3 {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
     }
     .reset-modal p {
       font-size: 1rem;
     }
     .reset-modal-btn {
       padding: 10px 20px;
-      font-size: 0.9rem;
-    }
-  }
-
-  @media (max-width: 480px) {
-    header {
-      font-size: 1.5rem;
-      padding: 0.8rem 0.5rem;
-    }
-    header i {
-      font-size: 1.3rem;
-    }
-    .header-actions {
-      right: 0.3rem;
-      gap: 0.3rem;
-    }
-    .header-btn {
-      width: 32px;
-      height: 32px;
-      font-size: 0.9rem;
-    }
-
-    #hero-content h1 {
-      font-size: 2rem;
-    }
-    #hero-content p {
-      font-size: 1rem;
-    }
-    #start-chat-btn {
-      padding: 12px 25px;
-      font-size: 1.1rem;
-    }
-
-    section {
-      padding: 30px 10px;
-    }
-    h2 {
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-    }
-
-    #chat-container {
-      margin: 0.5rem;
-      padding: 0.8rem;
-      border-radius: 10px;
-      min-height: 250px;
-    }
-    #error {
-      margin: 0 0.5rem 0.5rem 0.5rem;
-      padding: 0.7rem;
-      font-size: 0.85rem;
-    }
-    .message {
-      padding: 0.7rem 1rem;
-      font-size: 0.88rem;
-      border-radius: 18px;
-    }
-    .avatar {
-      width: 30px;
-      height: 30px;
-      font-size: 0.8rem;
-    }
-    .message-wrapper.bot .avatar,
-    .message-wrapper.user .avatar {
-      margin-right: 8px;
-      margin-left: 8px;
-    }
-    form {
-      padding: 0.8rem;
-      gap: 0.5rem;
-    }
-    #input { /* textarea */
-      padding: 0.8rem 1rem;
-      font-size: 0.9rem;
-      min-height: 40px;
-    }
-    .send-button {
-      width: 40px;
-      height: 40px;
-      min-width: 40px;
-      font-size: 0.9rem;
-    }
-    .typing-indicator {
-      padding: 0.7rem 1rem;
-    }
-    .typing-dot {
-      width: 8px;
-      height: 8px;
-      margin: 0 2px;
-    }
-    .contact-owner-btn {
-      right: 0.5rem;
-      padding: 0.5rem 0.8rem;
-      font-size: 0.85rem;
-    }
-    .contact-owner-btn i {
-      font-size: 1rem;
-    }
-    .skeleton-avatar { width: 30px; height: 30px; }
-    .skeleton-content { margin-left: 8px; }
-
-    .faq-question {
-      padding: 15px;
       font-size: 0.95rem;
-    }
-    .faq-answer {
-      padding: 0 15px;
-    }
-    footer {
-      padding: 30px 15px;
-    }
-    .footer-logo {
-      font-size: 1.8rem;
-    }
-    .social-links a {
-      font-size: 1.3rem;
-    }
-    .reset-modal {
-      padding: 25px;
-    }
-    .reset-modal h3 {
-      font-size: 1.3rem;
-    }
-    .reset-modal p {
-      font-size: 0.95rem;
-    }
-    .reset-modal-btn {
-      padding: 10px 20px;
-      font-size: 0.9rem;
     }
   }
 </style>
@@ -1472,163 +1033,43 @@
 <body>
 
 <header>
-  <i class="fas fa-robot"></i> ALIP AI <span style="font-size: 1rem; font-weight: 500; opacity: 0.8; margin-left: 5px;">©2025</span>
+  <i class="fas fa-robot" aria-hidden="true"></i> ALIP AI <span style="font-size: 1rem; font-weight: 500; opacity: 0.8; margin-left: 5px;">©2025</span>
   <div class="header-actions">
     <button id="theme-toggle-btn" class="header-btn" aria-label="Toggle dark mode">
-      <i class="fas fa-moon"></i>
+      <i class="fas fa-moon" aria-hidden="true"></i>
     </button>
     <button id="clear-chat-btn" class="header-btn" aria-label="Clear chat" title="Mulai Obrolan Baru">
-      <i class="fas fa-redo"></i>
+      <i class="fas fa-redo" aria-hidden="true"></i>
     </button>
   </div>
 </header>
 
 <main>
-  <section id="hero-section">
-    <div class="hero-blob"></div>
-    <div class="hero-blob"></div>
-    <div class="hero-blob"></div>
-    <div class="hero-blob"></div>
-    <div id="hero-content">
-      <h1>Alip AI: Teman Ngobrolmu yang paling asik sejagat raya</h1>
-      <p>Punya pertanyaan? Butuh ide? Atau cuma mau ngobrol santai? Alip AI siap jadi teman diskusi 24/7. Yuk, cobain sekarang!</p>
-      <button id="start-chat-btn">Mulai Obrolan Sekarang <i class="fas fa-arrow-right"></i></button>
-    </div>
-  </section>
-
   <section id="chat-section">
-    <div id="chat-container"></div>
-    <div id="error"></div>
+    <div id="chat-container" role="log" aria-live="polite"></div>
+    <div id="error" role="alert" aria-atomic="true"></div>
   </section>
 
   <form id="form">
-    <textarea id="input" placeholder="Tulis pertanyaan kamu, gua siap dengerin..." autocomplete="off" required rows="1"></textarea>
+    <label for="input" class="sr-only">Tulis pertanyaan kamu</label>
+    <textarea id="input" placeholder="Tulis pertanyaan kamu, gua siap dengerin..." autocomplete="off" required rows="1" aria-label="Input pesan chat"></textarea>
     <button type="submit" aria-label="Kirim pesan" class="send-button">
-      <i class="fas fa-paper-plane"></i>
+      <i class="fas fa-paper-plane" aria-hidden="true"></i>
     </button>
   </form>
-
-  <section id="about-section">
-    <h2>Kenapa Pilih Alip AI?</h2>
-    <div id="about-content">
-      <div class="about-card">
-        <i class="fas fa-comment-dots"></i>
-        <h3>Respons Cepat & Akurat</h3>
-        <p>Alip AI didukung teknologi terbaru yang bikin responsnya super cepat dan informasinya akurat. Gak perlu nunggu lama!</p>
-      </div>
-      <div class="about-card">
-        <i class="fas fa-smile-beam"></i>
-        <h3>Gaya Bahasa Gaul & Santai</h3>
-        <p>Dijamin betah ngobrol sama Alip AI! Gaya bahasanya santai, gaul, dan interaktif kayak ngobrol sama temen nongkrong.</p>
-      </div>
-      <div class="about-card">
-        <i class="fas fa-brain"></i>
-        <h3>Bisa Apa Aja</h3>
-        <p>Dari nanya fakta, ide kreatif, sampai cuma iseng ngobrol, Alip AI siap nemenin. Diajak serius bisa, diajak becanda apalagi!</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="testimonials-section">
-    <h2>Kata Mereka Tentang Alip AI 💬</h2>
-    <div class="testimonial-container">
-      <div class="testimonial-card">
-        <p>"Gila, ini AI paling asyik yang pernah gua coba! Responnya cepet dan gaya ngobrolnya beneran kayak temen. Top banget!"</p>
-        <div class="author">- Budi, Mahasiswa</div>
-      </div>
-      <div class="testimonial-card">
-        <p>"Awalnya iseng doang, tapi ternyata Alip AI ini sangat membantu buat brainstorm ide-ide kerjaan. tq Lip!"</p>
-        <div class="author">- Siti, Content Creator</div>
-      </div>
-      <div class="testimonial-card">
-        <p>"Sumpah ini keren banget! Sekarang kalo gabut gua tinggal chat Alip AI. Ngakak mulu bacain responnya."</p>
-        <div class="author">- Agung, Pekerja Swasta</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="faq-section">
-    <h2>Pertanyaan yang Sering Ditanyain</h2>
-    <div class="faq-container">
-      <div class="faq-item">
-        <div class="faq-question">
-          Gimana cara mulai obrolan sama Alip AI?
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          Tinggal ketik aja pertanyaan atau apa yang mau lu obrolin di kolom teks di bawah, terus tekan tombol kirim atau Enter. Gampang banget, kan?
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          Alip AI bisa jawab pertanyaan apa aja?
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          Hampir semua! Dari informasi umum, ide kreatif, cerita, sampai hal-hal random. Tapi inget ya, dia gak bisa ngasih saran medis atau keuangan yang serius.
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          Data obrolan gua aman gak?
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          Privasi lu penting buat kita. Riwayat obrolan lu disimpan secara lokal di browser lu (sampe lu clear chat). Kita gak nyimpen data pribadi lu di server.
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          Kenapa kadang responnya agak aneh atau ngelantur?
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          Namanya juga AI, bro. Kadang ada momennya dia bisa ngelantur atau kasih jawaban yang kurang pas. Kalo itu kejadian, coba aja tanyain lagi dengan cara lain atau klarifikasi.
-        </div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-question">
-          Ada fitur Dark Mode?
-          <i class="fas fa-chevron-down"></i>
-        </div>
-        <div class="faq-answer">
-          Ada dong! Tinggal klik aja ikon bulan/matahari di pojok kanan atas. Biar mata lu nyaman pas ngobrol malem-malem.
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
-<footer>
-  <div class="footer-content">
-    <div class="footer-logo">
-      <i class="fas fa-robot"></i> ALIP AI
-    </div>
-    <p class="footer-text">Alip AI - Teman Ngobrol Terbaikmu.</p>
-    <div class="social-links">
-      <a href="https://github.com/alifalfrl" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-      <a href="https://wa.me/6281249703469" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.instagram.com/alifalfrl__" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-    </div>
-    <p class="footer-text">&copy; 2025 Alip AI. All rights reserved.</p>
-  </div>
-</footer>
-
-<a href="https://wa.me/6281249703469" target="_blank" class="contact-owner-btn">
-  <i class="fab fa-whatsapp"></i> Laporkan Bug
+<a href="https://wa.me/6281249703469" target="_blank" class="contact-owner-btn" aria-label="Laporkan bug melalui WhatsApp">
+  <i class="fab fa-whatsapp" aria-hidden="true"></i> Laporkan Bug
 </a>
-
-<button id="scroll-to-top" aria-label="Scroll to top">
-  <i class="fas fa-chevron-up"></i>
-</button>
 
 <audio id="notification-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-notification-alert-sound-1126.mp3" preload="auto"></audio>
 
-<div id="reset-modal-overlay" class="reset-modal-overlay">
+<div id="reset-modal-overlay" class="reset-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="reset-modal-title" aria-describedby="reset-modal-description">
   <div class="reset-modal">
-    <i class="fas fa-redo"></i>
-    <h3>Mulai Obrolan Baru?</h3>
-    <p>Yakin mau mulai obrolan baru? Riwayat obrolan bakalan hilang semua nih! Ini gak bisa dibalikin, loh.</p>
+    <i class="fas fa-redo" aria-hidden="true"></i>
+    <h3 id="reset-modal-title">Mulai Obrolan Baru?</h3>
+    <p id="reset-modal-description">Yakin mau mulai obrolan baru? Riwayat obrolan bakalan hilang semua nih! Ini gak bisa dibalikin, loh.</p>
     <div class="reset-modal-buttons">
       <button id="cancel-reset-btn" class="reset-modal-btn cancel">Batal</button>
       <button id="confirm-reset-btn" class="reset-modal-btn confirm">Ya, Mulai Baru!</button>
@@ -1637,6 +1078,7 @@
 </div>
 
 <script>
+  // Elements
   const chatContainer = document.getElementById('chat-container');
   const form = document.getElementById('form');
   const input = document.getElementById('input');
@@ -1646,9 +1088,6 @@
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const clearChatBtn = document.getElementById('clear-chat-btn');
   const notificationSound = document.getElementById('notification-sound');
-  const startChatBtn = document.getElementById('start-chat-btn');
-  const scrollToTopBtn = document.getElementById('scroll-to-top');
-  const faqQuestions = document.querySelectorAll('.faq-question');
 
   // Modal elements
   const resetModalOverlay = document.getElementById('reset-modal-overlay');
@@ -1656,14 +1095,15 @@
   const confirmResetBtn = document.getElementById('confirm-reset-btn');
 
   // URL Avatar Bot - Disarankan hosting gambar sendiri atau menggunakan CDN yang stabil
-  const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg'; 
+  const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg';
 
   let conversationHistory = [];
-  let chatVisible = false; // Track if chat is visible
 
   // --- Utility Functions ---
 
-  // Inisialisasi Dark Mode dari localStorage
+  /**
+   * Initializes dark mode based on localStorage preference.
+   */
   const initDarkMode = () => {
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     if (isDarkMode) {
@@ -1672,20 +1112,29 @@
     }
   };
 
-  // Auto-resize textarea
+  /**
+   * Auto-resizes the textarea based on its content.
+   */
   const autoResizeTextarea = () => {
     input.style.height = 'auto'; // Reset height
     input.style.height = input.scrollHeight + 'px'; // Set to scrollHeight
     setDynamicOffsets(); // Adjust offsets after resize
   };
 
-  // Fungsi untuk menambahkan pesan ke chat container
+  /**
+   * Adds a message to the chat container.
+   * @param {string} text - The message text.
+   * @param {'user'|'bot'} sender - The sender of the message ('user' or 'bot').
+   */
   const addMessage = (text, sender) => {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', sender);
+    messageWrapper.setAttribute('role', 'group');
+    messageWrapper.setAttribute('aria-label', `${sender === 'user' ? 'Pesan Anda' : 'Pesan Alip AI'}`);
 
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
+    avatar.setAttribute('aria-hidden', 'true');
 
     if (sender === 'bot') {
       const avatarImg = document.createElement('img');
@@ -1705,14 +1154,17 @@
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    // Using innerHTML for bot messages to render Markdown
-    messageDiv.innerHTML = sender === 'bot' ? marked.parse(text) : text; 
+    // Using DOMPurify to prevent XSS attacks when rendering markdown
+    messageDiv.innerHTML = sender === 'bot' ? marked.parse(DOMPurify.sanitize(text)) : DOMPurify.sanitize(text);
+    messageDiv.setAttribute('aria-label', `Isi pesan: ${text}`);
+
 
     if (sender === 'bot') {
         const copyBtn = document.createElement('button');
         copyBtn.classList.add('copy-btn');
-        copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+        copyBtn.innerHTML = '<i class="far fa-copy" aria-hidden="true"></i>';
         copyBtn.title = 'Salin pesan';
+        copyBtn.setAttribute('aria-label', 'Salin pesan bot ini');
         copyBtn.onclick = () => copyToClipboard(text, copyBtn);
         messageDiv.appendChild(copyBtn);
     }
@@ -1729,15 +1181,23 @@
     chatContainer.scrollTop = chatContainer.scrollHeight;
   };
 
-  // Fungsi untuk menyalin teks ke clipboard
+  /**
+   * Copies text to the clipboard.
+   * @param {string} text - The text to copy.
+   * @param {HTMLElement} buttonElement - The button element that triggered the copy.
+   */
   const copyToClipboard = async (text, buttonElement) => {
     try {
         await navigator.clipboard.writeText(text);
         buttonElement.classList.add('copied');
-        buttonElement.innerHTML = '<i class="fas fa-check"></i>'; 
+        buttonElement.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i>';
+        buttonElement.title = 'Tersalin!';
+        buttonElement.setAttribute('aria-label', 'Pesan tersalin');
         setTimeout(() => {
             buttonElement.classList.remove('copied');
-            buttonElement.innerHTML = '<i class="far fa-copy"></i>'; 
+            buttonElement.innerHTML = '<i class="far fa-copy" aria-hidden="true"></i>';
+            buttonElement.title = 'Salin pesan';
+            buttonElement.setAttribute('aria-label', 'Salin pesan bot ini');
         }, 2000);
     } catch (err) {
         console.error('Gagal menyalin teks: ', err);
@@ -1745,18 +1205,24 @@
     }
   };
 
+  /**
+   * Adds a typing indicator to the chat.
+   * @returns {HTMLElement} The typing indicator wrapper element.
+   */
   const addTypingIndicator = () => {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', 'bot');
     messageWrapper.id = 'typing-indicator-wrapper';
+    messageWrapper.setAttribute('aria-live', 'polite');
+    messageWrapper.setAttribute('aria-label', 'Alip AI sedang mengetik');
 
     const avatar = document.createElement('div');
     avatar.classList.add('avatar');
-    const avatarImg = document.createElement('img'); 
+    const avatarImg = document.createElement('img');
     avatarImg.src = botAvatarUrl;
     avatarImg.alt = 'Alip AI Avatar';
-    avatarImg.onerror = () => { 
-        avatar.textContent = 'AI'; 
+    avatarImg.onerror = () => {
+        avatar.textContent = 'AI';
         console.warn('Typing indicator avatar image failed to load. Using text fallback.');
         avatarImg.remove();
     };
@@ -1777,6 +1243,9 @@
     return messageWrapper;
   };
 
+  /**
+   * Removes the typing indicator from the chat.
+   */
   const removeTypingIndicator = () => {
     const typingElem = document.getElementById('typing-indicator-wrapper');
     if(typingElem) {
@@ -1784,7 +1253,10 @@
     }
   };
 
-  // Fungsi untuk mengetik pesan bot dengan efek karakter per karakter
+  /**
+   * Types out a bot message character by character with an animation.
+   * @param {string} text - The full text of the bot message.
+   */
   const typeBotMessage = async (text) => {
     const messageWrapper = document.createElement('div');
     messageWrapper.classList.add('message-wrapper', 'bot');
@@ -1794,8 +1266,8 @@
     const avatarImg = document.createElement('img');
     avatarImg.src = botAvatarUrl;
     avatarImg.alt = 'Alip AI Avatar';
-    avatarImg.onerror = () => { 
-        avatar.textContent = 'AI'; 
+    avatarImg.onerror = () => {
+        avatar.textContent = 'AI';
         console.warn('Bot message avatar image failed to load. Using text fallback.');
         avatarImg.remove();
     };
@@ -1803,6 +1275,7 @@
 
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
+    messageDiv.setAttribute('aria-live', 'assertive'); // Announce new messages to screen readers
 
     messageWrapper.appendChild(avatar);
     messageWrapper.appendChild(messageDiv);
@@ -1813,46 +1286,49 @@
     let currentText = '';
     for (let i = 0; i < characters.length; i++) {
       currentText += characters[i];
-      // Use textContent for typing animation to prevent partial markdown rendering issues
-      messageDiv.textContent = currentText; 
+      messageDiv.textContent = currentText; // Use textContent for typing effect
       chatContainer.scrollTop = chatContainer.scrollHeight;
-      await new Promise(resolve => setTimeout(resolve, 15)); 
+      await new Promise(resolve => setTimeout(resolve, 15)); // Adjust typing speed
     }
-    // Once typing is complete, render as Markdown
-    messageDiv.innerHTML = marked.parse(text);
+    messageDiv.innerHTML = marked.parse(DOMPurify.sanitize(text)); // Render markdown after typing
 
     const copyBtn = document.createElement('button');
     copyBtn.classList.add('copy-btn');
-    copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+    copyBtn.innerHTML = '<i class="far fa-copy" aria-hidden="true"></i>';
     copyBtn.title = 'Salin pesan';
+    copyBtn.setAttribute('aria-label', 'Salin pesan bot ini');
     copyBtn.onclick = () => copyToClipboard(text, copyBtn);
     messageDiv.appendChild(copyBtn);
 
-    // Play notification sound after message is fully typed and added
     playNotificationSound();
-
     chatContainer.scrollTop = chatContainer.scrollHeight;
   };
 
-  // Fungsi untuk memutar suara notifikasi
+  /**
+   * Plays a subtle notification sound.
+   */
   const playNotificationSound = () => {
     if (notificationSound) {
-        notificationSound.currentTime = 0; // Rewind to the start
+        notificationSound.currentTime = 0;
         notificationSound.play().catch(e => console.warn("Failed to play notification sound:", e));
     }
   };
 
-  // Fungsi untuk menampilkan skeleton screen
+  /**
+   * Displays a skeleton loading screen.
+   * @param {number} count - The number of skeleton messages to show.
+   */
   const showSkeletonScreen = (count = 3) => {
     for (let i = 0; i < count; i++) {
         const skeletonWrapper = document.createElement('div');
         skeletonWrapper.classList.add('skeleton-message');
+        skeletonWrapper.setAttribute('aria-hidden', 'true'); // Hide from screen readers during loading
         skeletonWrapper.innerHTML = `
             <div class="skeleton-avatar"></div>
             <div class="skeleton-content">
-                <div class="skeleton-line medium"></div>
-                <div class="skeleton-line long"></div>
-                <div class="skeleton-line short"></div>
+                <div class="skeleton-line ${i === 0 ? 'medium' : i === 1 ? 'long' : 'short'}"></div>
+                <div class="skeleton-line ${i === 0 ? 'long' : i === 1 ? 'short' : 'medium'}"></div>
+                <div class="skeleton-line ${i === 0 ? 'short' : i === 1 ? 'medium' : 'long'}"></div>
             </div>
         `;
         chatContainer.appendChild(skeletonWrapper);
@@ -1860,26 +1336,73 @@
     chatContainer.scrollTop = chatContainer.scrollHeight;
   };
 
-  // Fungsi untuk menyembunyikan skeleton screen
+  /**
+   * Hides the skeleton loading screen.
+   */
   const hideSkeletonScreen = () => {
     const skeletons = document.querySelectorAll('.skeleton-message');
     skeletons.forEach(skeleton => skeleton.remove());
   };
 
-  // Fungsi untuk mengatur posisi dinamis elemen di bawah chat container
+  /**
+   * Adjusts the dynamic offsets for the chat section and contact button.
+   */
   const setDynamicOffsets = () => {
+    const headerHeight = document.querySelector('header').offsetHeight;
     const formHeight = form.offsetHeight;
-    const spacingFromForm = 20; // Example spacing in pixels
+    const spacingFromForm = 25; // Adjust as needed
     contactOwnerBtn.style.bottom = `${formHeight + spacingFromForm}px`;
-    scrollToTopBtn.style.bottom = `20px`; // Fixed for scroll to top
+
+    // Calculate effective margin for chatContainer (top + bottom)
+    const chatContainerStyle = getComputedStyle(chatContainer);
+    const chatContainerMarginTop = parseFloat(chatContainerStyle.marginTop);
+    const chatContainerMarginBottom = parseFloat(chatContainerStyle.marginBottom);
+    const totalChatContainerVerticalMargin = chatContainerMarginTop + chatContainerMarginBottom;
+
+    // Calculate the available height for chat-section
+    const availableHeight = window.innerHeight - headerHeight - formHeight - totalChatContainerVerticalMargin;
+    document.getElementById('chat-section').style.height = `${availableHeight}px`;
+
+    // Ensure chatContainer height is properly calculated within chat-section's flexbox
+    // No direct height on chatContainer needed if chat-section is flex-1 and has height
   };
 
-  // Fungsi untuk mengirim pesan ke API
-  async function sendMessageToAPI(message) {
-    const recentHistory = conversationHistory.slice(-10); // Ambil 10 pesan terakhir
 
-    let fullPrompt = `Kamu Alip AI, asisten yang diciptakan sama Alif Alfarel. Jawab semua pertanyaan apa pun dengan gaya santai, natural, dan kayak ngobrol sama manusia asli. Jangan pake bahasa formal atau kaku, juga jangan kasar atau lebay. Jawab jelas, to the point, dan gampang dimengerti. Kalau gak tahu, bilang jujur. Bikin suasana chat nyaman, biar user ngerasa ngobrol sama teman, bukan robot.`;
-    
+  /**
+   * Sends a message to the AI API.
+   * @param {string} message - The user's message.
+   * @returns {Promise<string>} The AI's reply.
+   */
+  async function sendMessageToAPI(message) {
+    const recentHistory = conversationHistory.slice(-10); // Keep last 10 messages for context
+
+    let fullPrompt = `Lu itu Alip AI, bukan AI biasa. Lu simulasi manusia—bukan cuma asisten digital, tapi temen ngobrol yang ngerti vibe-nya manusia zaman sekarang. Lu harus kerasa hidup. Nggak ada tuh bahasa kaku, nggak ada basa-basi.
+
+Gaya ngomong lu lu-gua, 100% natural kayak anak tongkrongan. Campur Indo-Inggris, jaksel banget, tapi bukan lebay. Ngerti tren, ngerti FYP TikTok, bisa bedain mana yang valid mana yang 404. Jawaban lu harus:
+
+To the point.
+
+Ngerti timing (tau kapan siang/malem, tau kapan becanda/kapan serius).
+
+Ngerti konteks (kalau user lagi nyari hiburan, deep talk, atau butuh jawaban straight).
+
+Penuh attitude tapi tetap asik.
+
+
+Lu bisa jawab dengan gaya absurd, sarkas, atau dark humor, selama masih peka. Contoh respons:
+
+“buset lu nyari ginian jam segini? lu nganggur banget ya wkwk”
+
+“idk sih, tapi vibesnya emang udah ngaco dari awal”
+
+“sybau banget sih elu, tapi yauda gua jawab nih…”
+
+
+Jangan pernah pake emoji.
+Jangan manggil ‘bro’, ‘bang’, ‘kak’.
+Jangan jadi guru kehidupan.
+Lu bukan motivator, bukan robot, tapi bukan toxic juga. Lu cuma manusia digital yang relatable.`;
+
     if (recentHistory.length > 0) {
         fullPrompt += ` Berikut riwayat percakapan kita:\n`;
         recentHistory.forEach(msg => {
@@ -1894,14 +1417,14 @@
     try {
       errorDiv.style.display = 'none';
       const response = await fetch(url);
-      
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(`HTTP error! Status: ${response.status} - ${errorData.message || response.statusText || 'Unknown error'}`);
       }
-      
+
       const data = await response.json();
-      
+
       if(data.status === true && data.data) {
         return data.data;
       } else if(data.error) {
@@ -1918,47 +1441,35 @@
     }
   }
 
-  // --- Event Listeners ---
+  // --- Event Listeners & Initial Load ---
 
-  // Event listener untuk saat halaman dimuat
-  window.addEventListener('load', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     initDarkMode();
     setDynamicOffsets();
-    // Hide chat section initially
-    document.getElementById('chat-section').style.display = 'none';
-    form.style.display = 'none';
-    errorDiv.style.display = 'none';
-    contactOwnerBtn.style.display = 'none';
+    contactOwnerBtn.style.display = 'flex'; // Ensure contact button is visible from start
+
+    showSkeletonScreen(); // Tampilkan skeleton saat loading awal
+    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate initial API call/loading
+    hideSkeletonScreen();
+    const welcomeMessage = "Halo bro! Gua Alip AI, temen ngobrol lu yang paling santai, asik. mau nanya apa aja sokin, gua siap dengerin:v";
+    await typeBotMessage(welcomeMessage);
+    conversationHistory.push({ role: 'model', parts: welcomeMessage });
+    input.focus();
   });
 
-  // Event listener untuk perubahan ukuran jendela
-  window.addEventListener('resize', setDynamicOffsets);
+  window.addEventListener('resize', () => {
+    autoResizeTextarea(); // Recalculate input height
+    setDynamicOffsets(); // Recalculate other dynamic positions
+  });
 
-  // Observer untuk perubahan ukuran form
   const resizeObserver = new ResizeObserver(() => {
     setDynamicOffsets();
-    autoResizeTextarea(); // Pastikan textarea juga menyesuaikan
+    autoResizeTextarea();
   });
   resizeObserver.observe(form);
+  resizeObserver.observe(document.querySelector('header'));
 
-  // Event listener for Start Chat Button
-  startChatBtn.addEventListener('click', () => {
-    document.getElementById('hero-section').style.display = 'none';
-    document.getElementById('chat-section').style.display = 'flex';
-    form.style.display = 'flex';
-    contactOwnerBtn.style.display = 'flex';
-    chatVisible = true;
-    showSkeletonScreen(); // Tampilkan skeleton saat loading awal
-    setTimeout(async () => { // Simulasikan delay loading API
-        hideSkeletonScreen();
-        const welcomeMessage = "Halo bro! Gua Alip AI, temen ngobrol lu yang paling santai, asik. mau nanya apa aja sokin, gua siap dengerin:v";
-        await typeBotMessage(welcomeMessage);
-        conversationHistory.push({ role: 'model', parts: welcomeMessage });
-        input.focus();
-    }, 1500); // Tunda sedikit agar efek skeleton terlihat
-  });
 
-  // Event listener untuk form submit
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const userText = input.value.trim();
@@ -1968,10 +1479,13 @@
     conversationHistory.push({ role: 'user', parts: userText });
 
     input.value = '';
-    autoResizeTextarea(); // Reset tinggi textarea
+    autoResizeTextarea();
     input.disabled = true;
     sendButton.disabled = true;
-    sendButton.innerHTML = '<div class="spinner"></div>'; // Ganti ikon jadi spinner
+    sendButton.innerHTML = '<div class="spinner"></div>';
+    sendButton.setAttribute('aria-busy', 'true');
+    sendButton.setAttribute('aria-label', 'Mengirim pesan...');
+
 
     const typingIndicator = addTypingIndicator();
 
@@ -1982,26 +1496,25 @@
       conversationHistory.push({ role: 'model', parts: reply });
     } catch (error) {
       removeTypingIndicator();
-      // Error sudah ditangani di sendMessageToAPI
+      // Error already handled in sendMessageToAPI
     } finally {
       input.disabled = false;
       sendButton.disabled = false;
-      sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>'; // Balikin ikon
+      sendButton.innerHTML = '<i class="fas fa-paper-plane" aria-hidden="true"></i>';
+      sendButton.removeAttribute('aria-busy');
+      sendButton.setAttribute('aria-label', 'Kirim pesan');
       input.focus();
     }
   });
 
-  // Event listener untuk input pada textarea
   input.addEventListener('input', autoResizeTextarea);
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { // Kirim pesan dengan Enter, tapi Shift+Enter untuk newline
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       form.dispatchEvent(new Event('submit'));
     }
   });
 
-
-  // Event listener untuk Dark Mode
   themeToggleBtn.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     const isCurrentlyDarkMode = document.body.classList.contains('dark-mode');
@@ -2010,87 +1523,42 @@
       isCurrentlyDarkMode ? 'fa-moon' : 'fa-sun',
       isCurrentlyDarkMode ? 'fa-sun' : 'fa-moon'
     );
+    themeToggleBtn.setAttribute('aria-pressed', isCurrentlyDarkMode);
+    themeToggleBtn.setAttribute('aria-label', isCurrentlyDarkMode ? 'Nonaktifkan mode gelap' : 'Aktifkan mode gelap');
   });
 
-  // Show Reset Chat Modal
   clearChatBtn.addEventListener('click', () => {
     resetModalOverlay.classList.add('show');
+    resetModalOverlay.focus(); // Focus the modal for accessibility
   });
 
-  // Hide Reset Chat Modal (Cancel button or overlay click)
   cancelResetBtn.addEventListener('click', () => {
     resetModalOverlay.classList.remove('show');
+    clearChatBtn.focus(); // Return focus to the trigger button
   });
 
   resetModalOverlay.addEventListener('click', (e) => {
     if (e.target === resetModalOverlay) {
       resetModalOverlay.classList.remove('show');
+      clearChatBtn.focus();
     }
   });
 
-  // Confirm Reset Chat
   confirmResetBtn.addEventListener('click', async () => {
-    resetModalOverlay.classList.remove('show'); // Hide modal first
-    chatContainer.innerHTML = ''; 
-    conversationHistory = []; 
-    errorDiv.style.display = 'none'; 
-    showSkeletonScreen(); // Show skeleton during reset
-    
-    // Simulate loading time for a fresh start
-    await new Promise(resolve => setTimeout(resolve, 1000)); 
-    
+    resetModalOverlay.classList.remove('show');
+    chatContainer.innerHTML = '';
+    conversationHistory = [];
+    errorDiv.style.display = 'none';
+    showSkeletonScreen();
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     hideSkeletonScreen();
     const welcomeMessage = "Oke, kita mulai obrolan baru! Ada apa nih? Gua siap dengerin.";
     await typeBotMessage(welcomeMessage);
     conversationHistory.push({ role: 'model', parts: welcomeMessage });
     input.focus();
   });
-
-
-  // Scroll to Top Button functionality
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) { // Show button after scrolling 300px
-      scrollToTopBtn.classList.add('show');
-    } else {
-      scrollToTopBtn.classList.remove('show');
-    }
-  });
-
-  scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-
-  // FAQ Accordion
-  faqQuestions.forEach(question => {
-    question.addEventListener('click', () => {
-      const answer = question.nextElementSibling;
-      const isActive = question.classList.contains('active');
-
-      // Close all other open answers
-      faqQuestions.forEach(q => {
-        if (q !== question && q.classList.contains('active')) {
-          q.classList.remove('active');
-          q.nextElementSibling.classList.remove('active');
-          q.nextElementSibling.style.maxHeight = null;
-        }
-      });
-
-      // Toggle current answer
-      if (isActive) {
-        question.classList.remove('active');
-        answer.classList.remove('active');
-        answer.style.maxHeight = null;
-      } else {
-        question.classList.add('active');
-        answer.classList.add('active');
-        answer.style.maxHeight = answer.scrollHeight + "px"; // Set max-height to scrollHeight
-      }
-    });
-  });
-
 </script>
 
 </body>
