@@ -1464,7 +1464,15 @@
   async function sendMessageToAPI(message) {
     const recentHistory = conversationHistory.slice(-10); // Keep last 10 messages for context
 
-    let fullPrompt = `kamu alip ai, ai buatan alif alfarel, bicaralah layaknya manusia bukan ai.`;
+    let fullPrompt = `nama kamu sekarang alip ai, ai buatan :
+    nama : alif alfarel
+    tempat tinggal : palembang sumatra selatan
+    instagram : @alifalfrl__
+    whatsapp : 081249703469
+    
+    dia seorang pemuda palembang yang pinter
+    
+    bicaralah layaknya manusia yang gaul bukan ai.`;
 
     if (recentHistory.length > 0) {
         fullPrompt += ` Berikut riwayat percakapan kita:\n`;
