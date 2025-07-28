@@ -11,13 +11,13 @@
 <style>
   /* --- Variables --- */
   :root {
-    --primary-color: #6C63FF; /* Ungu cerah */
-    --primary-dark-color: #574BDB; /* Ungu gelap */
-    --accent-color: #00bcd4; /* Cyan - untuk highlight, link, dll */
+    --primary-color: #FFC0CB; /* Ungu cerah */
+    --primary-dark-color: #DA70D6; /* Ungu gelap */
+    --accent-color: #FFE4E1; /* Cyan - untuk highlight, link, dll */
     --background-color: #f8faff; /* Latar belakang aplikasi */
     --chat-background: #ffffff; /* Latar belakang area chat */
     --user-message-bg: #e3f2fd; /* Biru muda */
-    --bot-message-bg: #f3e5f5; /* Ungu muda */
+    --bot-message-bg: #FFC0CB; /* Ungu muda */
     --text-color: #2c3e50; /* Teks utama (dark blue-grey) */
     --text-light-color: #7f8c8d; /* Teks sekunder (grey) */
     --border-color: #e0e0e0; /* Warna border */
@@ -40,8 +40,8 @@
     /* Dark Mode Variables */
     --dm-background-color: #1a1a2e;
     --dm-chat-background: #16213e;
-    --dm-user-message-bg: #4a569d;
-    --dm-bot-message-bg: #533483;
+    --dm-user-message-bg: #FF69B4;
+    --dm-bot-message-bg: #DA70D6;
     --dm-text-color: #e0e0e0;
     --dm-text-light-color: #a0a0a0;
     --dm-border-color: #3e3e50;
@@ -51,7 +51,7 @@
     --dm-header-shadow: rgba(0, 0, 0, 0.6);
     --dm-skeleton-color: #3b3b5b;
     --dm-section-bg-light: #2c2c4a;
-    --dm-section-bg-dark: #1e1e35;
+    --dm-section-bg-dark: #C71585;
     --dm-success-light-bg: #1e3a24;
     --dm-error-light-bg: #3f1717;
     --dm-warning-light-bg: #3f3111;
@@ -1091,7 +1091,7 @@
 <body>
 
 <header>
-  <i class="fas fa-robot" aria-hidden="true"></i> ALIP AI <span style="font-size: 1rem; font-weight: 500; opacity: 0.8; margin-left: 5px;">©2025</span>
+  <i class="fas fa-robot" aria-hidden="true"></i> ALIP AI <span style="font-size: 1rem; font-weight: 500; opacity: 0.5; margin-left: 5px;">©2025</span>
   <div class="header-actions">
     <button id="theme-toggle-btn" class="header-btn" aria-label="Toggle dark mode" title="Ganti mode terang/gelap">
       <i class="fas fa-moon" aria-hidden="true"></i>
@@ -1117,7 +1117,7 @@
   </form>
 </main>
 
-<a href="https://wa.me/6281249703469?text=Halo%20Admin%20Alip%20AI,%20gua%20nemuin%20bug%20nih:%0A%0A[Jelaskan%20bugnya%20di%20sini]%0A%0A[Sertakan%20screenshot/video%20kalau%20ada]" target="_blank" class="report-bug-btn" aria-label="Laporkan bug melalui WhatsApp">
+<a href="https://wa.me/6285373311356?text=Halo%20Admin%20Alip%20AI,%20gua%20nemuin%20bug%20nih:%0A%0A[Jelaskan%20bugnya%20di%20sini]%0A%0A[Sertakan%20screenshot/video%20kalau%20ada]" target="_blank" class="report-bug-btn" aria-label="Laporkan bug melalui WhatsApp">
   <i class="fas fa-bug" aria-hidden="true"></i> Laporkan Bug
   <span class="tooltiptext">Ada yang error? Laporin aja biar cepet dibenerin!</span>
 </a>
@@ -1154,7 +1154,7 @@
   const confirmResetBtn = document.getElementById('confirm-reset-btn');
 
   // URL Avatar Bot - Disarankan hosting gambar sendiri atau menggunakan CDN yang stabil
-  const botAvatarUrl = 'https://img1.pixhost.to/images/6105/605212852_media.jpg';
+  const botAvatarUrl = 'https://img1.pixhost.to/images/7524/626361156_media.jpg';
 
   let conversationHistory = [];
 
@@ -1468,11 +1468,11 @@
     nama : alif alfarel
     tempat tinggal : palembang sumatra selatan
     instagram : @alifalfrl__
-    whatsapp : 081249703469
+    whatsapp : 6285373311356
     
     dia seorang pemuda palembang yang pinter
     
-    bicaralah layaknya manusia yang gaul bukan ai.`;
+    bicaralah layaknya manusia yang gaul bukan ai dan jawab to the poin.`;
 
     if (recentHistory.length > 0) {
         fullPrompt += ` Berikut riwayat percakapan kita:\n`;
