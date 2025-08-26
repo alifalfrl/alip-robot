@@ -3,149 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alip AI & Downloader - Cerdas & Premium</title>
+    <title>Alip AI - Cerdas & Premium</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* CSS Umum */
+        /* Variabel Warna */
         :root {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2c2c2c;
-            --text-color: #f0f0f0;
-            --border-color: #444;
-            --accent-color: #4CAF50;
-            --grad-1: #4caf50;
-            --grad-2: #8bc34a;
+            --bg-primary: #eef2f6;
+            --bg-secondary: #ffffff;
+            --text-color: #313131;
+            --accent-color: #5d5dff;
+            --accent-hover: #4a4afe;
+            --border-color: #e0e0e0;
+            --input-bg: #f8f9fa;
+            --message-bg-user: #5d5dff;
+            --message-text-user: #ffffff;
+            --message-bg-bot: #f1f1f1;
+            --message-text-bot: #333;
         }
-        
+
+        /* Dark Mode */
+        body.dark-mode {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-color: #e0e0e0;
+            --accent-color: #8c8cff;
+            --accent-hover: #a1a1ff;
+            --border-color: #333;
+            --input-bg: #2b2b2b;
+            --message-bg-user: #8c8cff;
+            --message-text-user: #1e1e1e;
+            --message-bg-bot: #2c2c2c;
+            --message-text-bot: #e0e0e0;
+        }
+
+        /* Global Styling */
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-color);
             margin: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-            background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
-        }
-        
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .container {
-            width: 95%;
-            max-width: 768px;
-            background-color: var(--bg-secondary);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.4s, color 0.4s;
             overflow: hidden;
+        }
+
+        /* Chat Container */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            max-height: 900px;
+            background-color: var(--bg-secondary);
             display: flex;
             flex-direction: column;
-            min-height: 90vh;
-            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.4s;
+            overflow: hidden;
         }
-        
+
+        /* Header */
         header {
             padding: 24px;
             text-align: center;
+            position: relative;
+            background-color: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.4s;
         }
-        
+
+        .header-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.2s;
+        }
+
+        .header-btn:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
         header h1 {
             margin: 0;
-            font-size: 2em;
-            font-weight: 600;
+            font-size: 1.8em;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
+            font-family: 'Balsamiq Sans', cursive;
         }
-        
+
         .profile-pic {
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            border: 2px solid var(--accent-color);
+            object-fit: cover;
+            box-shadow: 0 0 0 3px var(--accent-color);
+            transition: box-shadow 0.4s;
         }
-        
+
         .sub-header {
             font-size: 0.9em;
-            color: #aaa;
+            color: #888;
             margin-top: 8px;
         }
+
+        .sub-header a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.4s;
+        }
         
+        /* Chat Messages */
         #main-content {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
             position: relative;
+            scrollbar-width: thin;
+            scrollbar-color: #a0a0a0 var(--bg-secondary);
         }
-        
-        /* Gaya untuk Chat AI */
+
+        #main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #main-content::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        #main-content::-webkit-scrollbar-thumb {
+            background: #a0a0a0;
+            border-radius: 4px;
+        }
+
+        #main-content::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         .message {
             display: flex;
-            gap: 10px;
             align-items: flex-start;
+            gap: 12px;
             max-width: 85%;
-            margin-bottom: 15px;
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.4s ease-in-out;
         }
-        
+
         .message-content {
-            padding: 12px 18px;
-            border-radius: 18px;
+            padding: 14px 18px;
+            border-radius: 20px;
             word-wrap: break-word;
             line-height: 1.6;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.4s, color 0.4s;
         }
-        
+
         .user-message {
             align-self: flex-end;
-            justify-content: flex-end;
+            margin-left: auto;
         }
-        
+
         .user-message .message-content {
-            background-color: var(--accent-color);
-            color: var(--text-color);
+            background-color: var(--message-bg-user);
+            color: var(--message-text-user);
             border-bottom-right-radius: 4px;
         }
-        
-        .bot-message {
-            align-self: flex-start;
-        }
-        
+
         .bot-message .message-content {
-            background-color: #3a3a3a;
-            color: var(--text-color);
+            background-color: var(--message-bg-bot);
+            color: var(--message-text-bot);
             border-bottom-left-radius: 4px;
         }
-        
-        .avatar {
-            width: 36px;
-            height: 36px;
+
+        .bot-message .avatar {
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             object-fit: cover;
         }
         
-        .typing-indicator {
+        .bot-message .message-content pre {
+            white-space: pre-wrap;
+            font-size: 0.9em;
             padding: 10px;
-            color: #aaa;
-            animation: pulse 1.5s infinite;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow-x: auto;
         }
         
+        .dark-mode .bot-message .message-content pre {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            animation: pulse 1.5s infinite;
+        }
+
         @keyframes pulse {
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
-
+        
         .video-container {
             margin-top: 10px;
             display: block;
@@ -159,73 +249,108 @@
 
         .download-guide {
             margin-top: 10px;
-            font-size: 0.9em;
-            color: #ccc;
-            background: #3a3a3a;
+            font-size: 0.85em;
+            color: #888;
+            background: var(--border-color);
             padding: 10px;
             border-radius: 8px;
+            transition: background-color 0.4s;
         }
         
-        /* Input & Tombol */
+        .dark-mode .download-guide {
+             color: #ccc;
+             background: #3a3a3a;
+        }
+
+        /* Input Area */
         #inputArea {
             display: flex;
             padding: 15px;
             border-top: 1px solid var(--border-color);
-            gap: 10px;
+            gap: 12px;
+            background-color: var(--bg-secondary);
+            transition: background-color 0.4s;
         }
-        
+
         #prompt {
             flex: 1;
-            padding: 12px 18px;
-            background-color: var(--bg-primary);
+            padding: 12px 20px;
+            background-color: var(--input-bg);
             color: var(--text-color);
             border: 1px solid var(--border-color);
-            border-radius: 25px;
+            border-radius: 28px;
             font-size: 1em;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, background-color 0.4s, box-shadow 0.3s;
         }
-        
+
         #prompt:focus {
             outline: none;
             border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(93, 93, 255, 0.15);
         }
-        
+
         #sendBtn {
-            padding: 0 24px;
-            background-image: linear-gradient(to right, var(--grad-1), var(--grad-2));
+            padding: 12px 24px;
+            background-color: var(--accent-color);
             color: #fff;
             border: none;
-            border-radius: 25px;
+            border-radius: 28px;
             cursor: pointer;
             font-size: 1em;
-            font-weight: 600;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.4s;
         }
-        
+
         #sendBtn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+            background-color: var(--accent-hover);
         }
-        
+
         #sendBtn:active {
-            transform: translateY(0);
-            box-shadow: none;
+            transform: scale(0.98);
         }
-        
+
+        /* Footer */
         footer {
             padding: 12px;
             text-align: center;
             font-size: 0.8em;
             color: #888;
             border-top: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            transition: background-color 0.4s;
         }
         
-        /* Scrollbar Stylings */
-        #main-content::-webkit-scrollbar { width: 8px; }
-        #main-content::-webkit-scrollbar-track { background: var(--bg-secondary); }
-        #main-content::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
-        #main-content::-webkit-scrollbar-thumb:hover { background: #777; }
-        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+            .container {
+                width: 100%;
+                height: 100vh;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            header {
+                padding: 16px;
+            }
+            
+            header h1 {
+                font-size: 1.4em;
+            }
+
+            .profile-pic {
+                width: 40px;
+                height: 40px;
+            }
+
+            .header-buttons {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -233,190 +358,249 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1><img src="https://img1.pixhost.to/images/8232/635013559_media.jpg" alt="AI Profile" class="profile-pic"></h1>
-        <p class="sub-header">AI & Downloader oleh <a href="https://instagram.com/alifalfrl" style="color:var(--accent-color); text-decoration:none;">@alifalfrl</a></p>
-    </header>
-    <div id="main-content">
-        <div id="messages" class="active"></div>
+    <div class="container">
+        <header>
+            <div class="header-buttons">
+                <button id="themeToggleBtn" class="header-btn" title="Toggle Dark/Light Mode"><i class="fas fa-moon"></i></button>
+                <a id="bugReportBtn" href="https://wa.me/6281249703469?text=Halo%20Alif,%20saya%20menemukan%20bug%20di%20website%20AI%20Anda.%20Detail%20bug:%20" class="header-btn" title="Laporkan Bug">
+                    <i class="fas fa-bug"></i>
+                </a>
+            </div>
+            <h1><img src="https://img1.pixhost.to/images/8232/635013559_media.jpg" alt="AI Profile" class="profile-pic"> Alip AI</h1>
+            <p class="sub-header">Cerdas & Premium oleh <a href="https://instagram.com/alifalfrl">@alifalfrl</a></p>
+        </header>
+        <div id="main-content">
+            <div id="messages" class="messages-list"></div>
+        </div>
+        <div id="inputArea">
+            <input type="text" id="prompt" placeholder="Ketik pesan atau tempel link video...">
+            <button id="sendBtn">Kirim</button>
+        </div>
+        <footer>©alipclutch</footer>
     </div>
-    
-    <div id="inputArea">
-        <input type="text" id="prompt" placeholder="Ketik pesan atau tempel link video...">
-        <button id="sendBtn">Kirim</button>
-    </div>
-    <footer>©alipclutch</footer>
-</div>
 
-<script>
-    const messagesEl = document.getElementById('messages');
-    const promptInput = document.getElementById('prompt');
-    const sendBtn = document.getElementById('sendBtn');
-    const botAvatarUrl = 'https://img1.pixhost.to/images/8232/635013559_media.jpg';
-    
-    // Prompt sistem untuk AI
-    const systemPrompt = `Kamu adalah Alip AI, asisten pintar yang dibuat oleh Alif Alfarel. Jawablah dengan sopan, jelas, dan langsung ke inti, dengan gaya profesional namun tetap ramah. Selain bisa diajak ngobrol dan curhat, kamu juga mampu mendeteksi link dari TikTok, Instagram, atau Pinterest untuk membantu mengunduh video. Jika link tidak didukung atau proses download gagal, jawab dengan penjelasan singkat dan sopan.`;
-    
-    function addMessage(content, sender, isVideo = false) {
-        const messageContainer = document.createElement('div');
-        messageContainer.classList.add('message');
-        if (sender === 'user') {
-            messageContainer.classList.add('user-message');
-        } else {
-            messageContainer.classList.add('bot-message');
-            const botAvatar = document.createElement('img');
-            botAvatar.src = botAvatarUrl;
-            botAvatar.alt = 'AI Avatar';
-            botAvatar.classList.add('avatar');
-            messageContainer.appendChild(botAvatar);
+    <script>
+        const messagesEl = document.getElementById('messages');
+        const promptInput = document.getElementById('prompt');
+        const sendBtn = document.getElementById('sendBtn');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const botAvatarUrl = 'https://img1.pixhost.to/images/8232/635013559_media.jpg';
+
+        const systemPrompt = `Kamu adalah Alip AI, asisten pintar yang dibuat oleh Alif Alfarel. Jawablah dengan sopan, jelas, dan langsung ke inti, dengan gaya profesional namun tetap ramah. Selain bisa diajak ngobrol dan curhat, kamu juga mampu mendeteksi link dari TikTok, Instagram, atau Pinterest untuk membantu mengunduh video. Jika link tidak didukung atau proses download gagal, jawab dengan penjelasan singkat dan sopan.`;
+        const apiUrl1 = 'https://api.siputzx.my.id/api/ai/bard';
+        const apiUrl2 = 'https://api.siputzx.my.id/api/ai/metaai';
+
+        let isTyping = false;
+        let typingIndicator = null;
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        /**
+         * Menambahkan pesan ke antarmuka chat.
+         * @param {string} content - Konten pesan.
+         * @param {string} sender - 'user' atau 'bot'.
+         * @param {boolean} isVideo - True jika pesan adalah video.
+         */
+        function addMessage(content, sender, isVideo = false) {
+            const messageContainer = document.createElement('div');
+            messageContainer.classList.add('message', `${sender}-message`);
+
+            if (sender === 'bot') {
+                const botAvatar = document.createElement('img');
+                botAvatar.src = botAvatarUrl;
+                botAvatar.alt = 'AI Avatar';
+                botAvatar.classList.add('avatar');
+                messageContainer.appendChild(botAvatar);
+            }
+
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message-content');
+            messageContent.innerHTML = isVideo ? content : content.replace(/\n/g, '<br>');
+            messageContainer.appendChild(messageContent);
+            messagesEl.appendChild(messageContainer);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        /**
+         * Menampilkan indikator 'sedang mengetik'.
+         */
+        function showTypingIndicator() {
+            if (isTyping) return;
+            isTyping = true;
+            typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('message', 'bot-message', 'typing-indicator');
+            typingIndicator.innerHTML = `<img src="${botAvatarUrl}" alt="AI Avatar" class="avatar"> <div class="message-content">...</div>`;
+            messagesEl.appendChild(typingIndicator);
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        /**
+         * Menyembunyikan indikator 'sedang mengetik'.
+         */
+        function hideTypingIndicator() {
+            if (!isTyping) return;
+            isTyping = false;
+            if (typingIndicator) {
+                typingIndicator.remove();
+                typingIndicator = null;
+            }
         }
         
-        const messageContent = document.createElement('div');
-        messageContent.classList.add('message-content');
-        
-        if (isVideo) {
-            messageContent.innerHTML = content;
-        } else {
-            messageContent.textContent = content;
-        }
-        
-        messageContainer.appendChild(messageContent);
-        messagesEl.appendChild(messageContainer);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-    
-    let isTyping = false;
-    let typingIndicator = null;
-    
-    function showTypingIndicator() {
-        if (isTyping) return;
-        isTyping = true;
-        typingIndicator = document.createElement('div');
-        typingIndicator.classList.add('message', 'bot-message', 'typing-indicator');
-        typingIndicator.innerHTML = '<img src="' + botAvatarUrl + '" alt="AI Avatar" class="avatar"> <div class="message-content">...</div>';
-        messagesEl.appendChild(typingIndicator);
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-    }
-    
-    function hideTypingIndicator() {
-        if (!isTyping) return;
-        isTyping = false;
-        if (typingIndicator) {
-            typingIndicator.remove();
-            typingIndicator = null;
-        }
-    }
-    
-    async function askAlipAI(query) {
-        if (!query?.trim()) return '❌ Mana promptnya?';
-        
-        showTypingIndicator();
-        
-        try {
+        /**
+         * Menggunakan API AI dengan failover logic.
+         * @param {string} query - Pesan dari pengguna.
+         * @returns {Promise<string>} - Jawaban dari AI.
+         */
+        async function askAlipAI(query) {
+            if (!query?.trim()) return '❌ Mana promptnya?';
+
+            showTypingIndicator();
+
             const finalQuery = systemPrompt + " " + query;
-            const url = 'https://api.siputzx.my.id/api/ai/bard?query=' + encodeURIComponent(finalQuery);
-            const res = await fetch(url, { headers: { 'accept': '*/*' } });
-            
-            hideTypingIndicator();
-            
-            if (!res.ok) {
-                return `❌ Gagal menghubungi API: Status ${res.status}`;
+            let response = null;
+
+            try {
+                const url1 = `${apiUrl1}?query=${encodeURIComponent(finalQuery)}`;
+                const res1 = await fetch(url1, { headers: { 'accept': '*/*' } });
+                if (res1.ok) {
+                    const data = await res1.json();
+                    response = data.data;
+                } else {
+                    console.warn('API Utama gagal, mencoba API cadangan...');
+                    const url2 = `${apiUrl2}?query=${encodeURIComponent(finalQuery)}`;
+                    const res2 = await fetch(url2, { headers: { 'accept': '*/*' } });
+                    if (res2.ok) {
+                        const data = await res2.json();
+                        response = data.result || data.data || data.output;
+                    } else {
+                        throw new Error(`Gagal menghubungi kedua API: Status ${res2.status}`);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                hideTypingIndicator();
+                return `❌ Terjadi kesalahan saat memproses permintaan. Silakan coba lagi.`;
             }
-            
-            const data = await res.json();
-            let answer = data.data || '❌ Alip AI bingung nih, coba tanya lain!';
-            
-            answer = answer.replace(/\n+/g, ' ').substring(0, 1000).trim();
+
+            hideTypingIndicator();
+            let answer = response || '❌ Alip AI bingung nih, coba tanya lain!';
+            answer = answer.replace(/\n+/g, '\n').trim();
             return answer;
-        } catch (e) {
-            console.error(e);
-            hideTypingIndicator();
-            return '❌ Gagal memproses prompt, cek koneksi Anda.';
         }
-    }
-    
-    async function downloadMedia(link) {
-        const downloadUrl = 'https://auto-download-all-in-one.p.rapidapi.com/v1/social/autolink';
-        
-        try {
-            const res = await fetch(downloadUrl, {
-                method: 'POST',
-                headers: {
-                    'accept-encoding': 'gzip',
-                    'cache-control': 'no-cache',
-                    'content-type': 'application/json; charset=utf-8',
-                    'x-rapidapi-host': 'auto-download-all-in-one.p.rapidapi.com',
-                    'x-rapidapi-key': '1dda0d29d3mshc5f2aacec619c44p16f219jsn99a62a516f98'
-                },
-                body: JSON.stringify({ url: link })
-            });
-            
-            const data = await res.json();
-            
-            if (!data || !data.medias || data.medias.length === 0) {
-                return { success: false, message: '❌ Gagal mendapatkan video. Coba link lain atau pastikan link publik.' };
+
+        /**
+         * Mengunduh media dari link.
+         * @param {string} link - Link video dari pengguna.
+         * @returns {Promise<object>} - Hasil unduhan.
+         */
+        async function downloadMedia(link) {
+            const downloadUrl = 'https://auto-download-all-in-one.p.rapidapi.com/v1/social/autolink';
+
+            try {
+                const res = await fetch(downloadUrl, {
+                    method: 'POST',
+                    headers: {
+                        'accept-encoding': 'gzip',
+                        'cache-control': 'no-cache',
+                        'content-type': 'application/json; charset=utf-8',
+                        'x-rapidapi-host': 'auto-download-all-in-one.p.rapidapi.com',
+                        'x-rapidapi-key': '1dda0d29d3mshc5f2aacec619c44p16f219jsn99a62a516f98'
+                    },
+                    body: JSON.stringify({ url: link })
+                });
+
+                const data = await res.json();
+
+                if (!data || !data.medias || data.medias.length === 0) {
+                    return { success: false, message: '❌ Gagal mendapatkan video. Coba link lain atau pastikan link publik.' };
+                }
+
+                const media = data.medias[0];
+                const videoHtml = `
+                    <div>
+                        <p style="font-size: 0.9em; margin-bottom: 10px; color: var(--text-color);">Berhasil! Video siap diputar:</p>
+                        <div class="video-container">
+                            <video controls>
+                                <source src="${media.url}" type="video/mp4">
+                                Browser Anda tidak mendukung tag video.
+                            </video>
+                        </div>
+                        <div class="download-guide">
+                            <strong>Cara Download:</strong> Klik ikon titik tiga (⋮) di video lalu pilih Download.
+                        </div>
+                    </div>
+                `;
+                return { success: true, content: videoHtml };
+            } catch (err) {
+                console.error(err);
+                return { success: false, message: '❌ Terjadi kesalahan saat mengunduh. Silakan coba lagi nanti.' };
             }
-            
-            const media = data.medias[0];
-            const videoHtml = `
-                <div>
-                    <p style="font-size: 0.9em; margin-bottom: 10px; color: #ccc;">Berhasil! Video siap diputar:</p>
-                    <div class="video-container">
-                        <video controls>
-                            <source src="${media.url}" type="video/mp4">
-                            Browser Anda tidak mendukung tag video.
-                        </video>
-                    </div>
-                    <div class="download-guide">
-                        <strong>Cara Download:</strong> Klik ikon titik tiga (⋮) di video lalu pilih Download.
-                    </div>
-                </div>
-            `;
-            return { success: true, content: videoHtml };
-        } catch (err) {
-            console.error(err);
-            return { success: false, message: '❌ Terjadi kesalahan saat mengunduh. Silakan coba lagi nanti.' };
         }
-    }
-    
-    // Fungsi utama untuk memproses input
-    async function handleInput() {
-        const query = promptInput.value.trim();
-        if (!query) return;
-        
-        addMessage(query, 'user');
-        promptInput.value = '';
-        
-        const urlRegex = /^(http|https):\/\/[^ "]+$/;
-        
-        if (urlRegex.test(query)) {
-            // Jika input adalah link, proses sebagai unduhan
-            addMessage('Saya mendeteksi ini adalah link video. Sebentar, saya akan coba unduh untuk Anda... ⏳', 'bot');
-            const result = await downloadMedia(query);
-            if (result.success) {
-                addMessage(result.content, 'bot', true);
+
+        /**
+         * Menangani input pengguna dan memprosesnya.
+         */
+        async function handleInput() {
+            const query = promptInput.value.trim();
+            if (!query) return;
+
+            addMessage(query, 'user');
+            promptInput.value = '';
+
+            const urlRegex = /^(http|https):\/\/[^ "]+$/;
+
+            if (urlRegex.test(query)) {
+                addMessage('Saya mendeteksi ini adalah link video. Sebentar, saya akan coba unduh untuk Anda... ⏳', 'bot');
+                const result = await downloadMedia(query);
+                if (result.success) {
+                    addMessage(result.content, 'bot', true);
+                } else {
+                    addMessage(result.message, 'bot');
+                }
             } else {
-                addMessage(result.message, 'bot');
+                const reply = await askAlipAI(query);
+                addMessage(reply, 'bot');
             }
-        } else {
-            // Jika input bukan link, proses sebagai chat AI
-            const reply = await askAlipAI(query);
-            addMessage(reply, 'bot');
         }
-    }
-    
-    sendBtn.addEventListener('click', handleInput);
-    
-    promptInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') handleInput();
-    });
 
-    // Pesan sapaan awal
-    window.onload = () => {
-        addMessage('Halo! Saya Alip AI, AI yang bisa diajak ngobrol dan juga bisa mengunduh video dari berbagai platform. Silakan ketik pesan atau tempel link video yang ingin Anda unduh. 😊', 'bot');
-    };
-
-</script>
+        /**
+         * Mengubah tema terang/gelap.
+         */
+        function toggleTheme() {
+            const body = document.body;
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        /**
+         * Menerapkan tema awal saat halaman dimuat.
+         */
+        function applyInitialTheme() {
+            if (currentTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        
+        // Event Listeners
+        sendBtn.addEventListener('click', handleInput);
+        promptInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter') handleInput();
+        });
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        
+        // Initial Message
+        window.onload = () => {
+            applyInitialTheme();
+            addMessage('Halo! Saya Alip AI, AI yang bisa diajak ngobrol dan juga bisa mengunduh video dari berbagai platform. Silakan ketik pesan atau tempel link video yang ingin Anda unduh. 😊', 'bot');
+        };
+    </script>
 </body>
 </html>
