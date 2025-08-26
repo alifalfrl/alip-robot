@@ -1,1028 +1,932 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alip AI - Asisten Cerdas & Pengunduh Video Tercepat</title>
-    <meta name="description" content="Alip AI adalah asisten cerdas yang cepat dan andal. Obrolan interaktif, unduh video dari TikTok, Instagram, Pinterest, dan lainnya dengan mudah.">
-    <meta name="keywords" content="Alip AI, AI, asisten AI, chatbot, pengunduh video, download video TikTok, Instagram downloader, Pinterest downloader">
-    <meta name="author" content="alipclutch">
-    <link rel="canonical" href="https://yourwebsite.com">
-    <meta property="og:title" content="Alip AI - Asisten Cerdas & Pengunduh Video Tercepat">
-    <meta property="og:description" content="Alip AI adalah asisten cerdas yang cepat dan andal. Obrolan interaktif, unduh video dari TikTok, Instagram, Pinterest, dan lainnya dengan mudah.">
-    <meta property="og:image" content="https://img1.pixhost.to/images/8232/635013559_media.jpg">
-    <meta property="og:url" content="https://yourwebsite.com">
-    <meta property="og:type" content="website">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>alipclutch - downloader & ai sssistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* --------------------
+       Variables & Reset
+    -------------------- */
+    :root {
+      --primary: #f1f5f9;
+      --primary-dark: #FFC0CB;
+      --secondary: #FFC0CB;
+      --accent: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+      --bg-dark: #000000;
+      --bg-card: #1e293b;
+      --bg-input: #94a3b8;
+      --text-light: #f1f5f9;
+      --text-muted: #f1f5f9;
+      --border: #C7DCA7;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+      --glass: rgba(255, 255, 255, 0.05);
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
 
-    <!-- Preload resources untuk performa lebih baik -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* --------------------
+       Layout & Structure
+    -------------------- */
+    .app-wrapper {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex; /* Menggunakan flexbox untuk layout yang lebih solid */
+    }
+
+    .panels-container {
+      display: flex;
+      width: 200vw; /* Dua panel, masing-masing 100vw */
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      /* Opsi lain: scroll-snap untuk UX yang lebih baik */
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch; /* untuk iOS */
+    }
+    /* Sembunyikan scrollbar agar tampilan lebih bersih */
+    .panels-container::-webkit-scrollbar { display: none; }
+    .panels-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .app-panel {
+      width: 100vw;
+      padding: 2rem;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      scroll-snap-align: start; /* Snap ke awal setiap panel */
+    }
     
-    <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+    .panel-content {
+        max-width: 700px;
+        width: 100%;
+        padding: 2rem;
+        background: var(--bg-card);
+        border-radius: 1.25rem;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-top: 2rem;
+        height: fit-content;
+    }
+
+    .panel-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.7);
+    }
+
+    /* --------------------
+       Header & Navigation
+    -------------------- */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: rgba(30, 41, 59, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     
-    <style>
-        /* CSS Variables dengan tema gelap modern */
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #121212;
-            --bg-tertiary: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #e0e0e0;
-            --text-muted: #888;
-            --accent-primary: #00e676;
-            --accent-secondary: #00b359;
-            --accent-gradient: linear-gradient(135deg, #00e676, #00b359);
-            --border-color: #333;
-            --card-bg: rgba(26, 26, 26, 0.95);
-            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.3);
-            --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.4);
-            --shadow-accent: 0 8px 20px rgba(0, 230, 118, 0.3);
-            --success-color: #4caf50;
-            --error-color: #f44336;
-            --warning-color: #ff9800;
-            --info-color: #2196f3;
-            --transition: all 0.3s ease;
-            --border-radius: 16px;
-            --border-radius-sm: 8px;
-        }
+    /* Tombol alih mode yang di-upgrade */
+    .nav-tabs {
+        display: flex;
+        gap: 1rem;
+        background: var(--bg-input);
+        padding: 0.35rem;
+        border-radius: 2rem;
+        position: relative;
+    }
 
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    .nav-tab {
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 2;
+      color: var(--text-muted); /* Warna default untuk tab tidak aktif */
+    }
+    
+    .nav-tab.active {
+      color: var(--text-light); /* Warna untuk tab aktif */
+    }
 
-        body {
-            font-family: 'Poppins', 'Roboto', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(0, 230, 118, 0.1) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 179, 89, 0.1) 0%, transparent 25%);
-            background-attachment: fixed;
-        }
+    /* Indikator tab aktif */
+    .nav-indicator {
+      position: absolute;
+      top: 0.35rem;
+      left: 0.35rem;
+      height: calc(100% - 0.7rem);
+      width: calc(50% - 0.35rem);
+      background: var(--accent);
+      border-radius: 2rem;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 10px rgba(6, 182, 212, 0.3);
+      z-index: 1;
+    }
 
-        /* Main Container dengan glassmorphism effect */
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-medium);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 90vh;
-            max-height: 800px;
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            animation: containerEntrance 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
+    /* Set posisi indikator berdasarkan data-active */
+    .nav-tabs[data-active="downloader"] .nav-indicator {
+        transform: translateX(100%);
+    }
 
-        @keyframes containerEntrance {
-            0% {
-                opacity: 0;
-                transform: translateY(20px) scale(0.98);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
+    .nav-tabs[data-active="ai"] .nav-indicator {
+        transform: translateX(0);
+    }
 
-        /* Header Styles */
-        header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(18, 18, 18, 0.8);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
+    /* --------------------
+       Shared Section Styles
+    -------------------- */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            justify-content: center;
-        }
+    .section-title i {
+      color: var(--accent);
+      font-size: 1.25rem;
+    }
+    
+    .section-description {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
 
-        .profile-pic {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 3px solid var(--accent-primary);
-            box-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
-            object-fit: cover;
-            transition: var(--transition);
-        }
+    /* --------------------
+       Form Elements
+    -------------------- */
+    .input-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
 
-        .profile-pic:hover {
-            transform: scale(1.05) rotate(5deg);
-            box-shadow: 0 0 20px var(--accent-primary);
-        }
+    input[type="text"] {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      background: var(--bg-input);
+      border: 2px solid var(--border);
+      color: var(--text-light);
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+      outline: none;
+    }
 
-        .title-container h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 4px;
-        }
+    input[type="text"]:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+    }
 
-        .sub-header {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
+    input::placeholder {
+      color: var(--text-muted);
+    }
 
-        /* Tabs Navigation */
-        .tabs {
-            display: flex;
-            background: var(--bg-tertiary);
-            border-bottom: 1px solid var(--border-color);
-        }
+    .button-primary {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background: var(--gradient);
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
 
-        .tab-button {
-            flex: 1;
-            padding: 12px;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-family: inherit;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
+    .button-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+    }
 
-        .tab-button.active {
-            color: var(--accent-primary);
-        }
+    .button-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
 
-        .tab-button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background: var(--accent-gradient);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
+    /* --------------------
+       Status & Messages
+    -------------------- */
+    .status {
+      min-height: 2.5rem;
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-weight: 500;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+    }
 
-        .tab-button.active::after {
-            width: 80%;
-        }
+    .status.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        /* Main Content Area */
-        .main-content {
-            flex: 1;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+    .status-success {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
 
-        /* Chat Interface */
-        #chat-interface {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
+    .status-error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--error);
+    }
 
-        #messages-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            scroll-behavior: smooth;
-        }
+    .status-pending {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
 
-        /* Message Styles */
-        .message {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            animation: messageIn 0.4s cubic-bezier(0.18, 1.25, 0.4, 1) forwards;
-            opacity: 0;
-            transform: translateY(10px);
-        }
+    /* --------------------
+       Video Section
+    -------------------- */
+    .video-section {
+      margin-top: 1.5rem;
+      display: none;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
 
-        @keyframes messageIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-        .message.user {
-            flex-direction: row-reverse;
-        }
+    .video-section.active {
+      display: block;
+    }
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-            box-shadow: var(--shadow-light);
-        }
+    video {
+      width: 100%;
+      border-radius: 0.75rem;
+      background: #000;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
 
-        .message-content {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            word-wrap: break-word;
-            line-height: 1.5;
-            box-shadow: var(--shadow-light);
-            position: relative;
-        }
+    .download-guide {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--bg-input);
+      border-radius: 0.75rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
 
-        .message.bot .message-content {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-            border-top-left-radius: 4px;
-        }
+    .download-guide strong {
+      color: var(--accent);
+    }
 
-        .message.user .message-content {
-            background: var(--accent-primary);
-            color: #000;
-            border-top-right-radius: 4px;
-        }
+    /* --------------------
+       AI Chat Section
+    -------------------- */
+    .chat-container {
+      height: 60vh; /* Responsive height */
+      display: flex;
+      flex-direction: column;
+    }
 
-        .message-time {
-            display: block;
-            font-size: 0.7rem;
-            margin-top: 5px;
-            opacity: 0.7;
-        }
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      background: var(--bg-input);
+      border-radius: 0.75rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      scroll-behavior: smooth;
+    }
+    /* Sembunyikan scrollbar untuk chat */
+    #chat::-webkit-scrollbar { display: none; }
+    #chat { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Typing Indicator */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-radius: 18px;
-            width: fit-content;
-            margin: 5px 0;
-        }
+    .message {
+      max-width: 80%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.75rem;
+      line-height: 1.5;
+      animation: messageIn 0.3s ease-out;
+      position: relative;
+    }
 
-        .typing-dots {
-            display: flex;
-            gap: 4px;
-        }
+    @keyframes messageIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--text-muted);
-            border-radius: 50%;
-            animation: typingAnimation 1.4s infinite ease-in-out;
-        }
+    .user-message {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 0.25rem;
+    }
 
-        .typing-dot:nth-child(1) { animation-delay: 0s; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    .ai-message {
+      align-self: flex-start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 0.25rem;
+    }
 
-        @keyframes typingAnimation {
-            0%, 60%, 100% {
-                transform: translateY(0);
-                opacity: 0.5;
-            }
-            30% {
-                transform: translateY(-5px);
-                opacity: 1;
-            }
-        }
+    .ai-profile {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 8px;
+      vertical-align: middle;
+      display: inline-block;
+    }
 
-        /* Input Area */
-        #input-area {
-            padding: 16px;
-            border-top: 1px solid var(--border-color);
-            background: rgba(18, 18, 18, 0.8);
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+    .message-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
 
-        #message-input {
-            flex: 1;
-            padding: 14px 18px;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            resize: none;
-            min-height: 50px;
-            max-height: 120px;
-            transition: var(--transition);
-        }
+    .chat-input-container {
+      display: flex;
+      gap: 0.75rem;
+    }
 
-        #message-input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 2px rgba(0, 230, 118, 0.2);
-        }
+    #chatInput {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      background: var(--bg-input);
+      border: 2px solid var(--border);
+      border-radius: 0.75rem;
+      color: var(--text-light);
+      outline: none;
+    }
 
-        #send-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            flex-shrink: 0;
-        }
+    #chatInput:focus {
+      border-color: var(--accent);
+    }
 
-        #send-button:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-accent);
-        }
+    #sendBtn {
+      padding: 0.75rem 1.25rem;
+      background: var(--gradient);
+      border: none;
+      border-radius: 0.75rem;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-        #send-button:active {
-            transform: scale(0.95);
-        }
+    #sendBtn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
 
-        /* Download Interface */
-        #download-interface {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            padding: 20px;
-        }
+    #sendBtn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
 
-        .download-card {
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius-sm);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-light);
-        }
+    /* --------------------
+       Bug Report & Footer
+    -------------------- */
+    .bug-report {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
 
-        .download-title {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-            color: var(--accent-primary);
-        }
+    .bug-report a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      transition: all 0.3s ease;
+    }
 
-        .url-input-container {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
+    .bug-report a:hover {
+      background: rgba(6, 182, 212, 0.1);
+    }
 
-        #download-url {
-            flex: 1;
-            padding: 12px 16px;
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-sm);
-            font-family: inherit;
-        }
+    .app-footer {
+      text-align: center;
+      padding: 0rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 0rem;
+    }
 
-        #download-url:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-        }
+    /* --------------------
+       Background Effects
+    -------------------- */
+    .bg-effects {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
 
-        #download-button {
-            padding: 12px 24px;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius-sm);
-            font-family: inherit;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-        }
+    .bg-effect {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.1;
+      filter: blur(40px);
+    }
 
-        #download-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-accent);
-        }
+    .effect-1 {
+      width: 500px;
+      height: 500px;
+      background: var(--primary);
+      top: -200px;
+      left: -200px;
+      animation: float 15s infinite ease-in-out;
+    }
 
-        .download-result {
-            display: none;
-            margin-top: 20px;
-            animation: fadeIn 0.5s ease;
-        }
+    .effect-2 {
+      width: 600px;
+      height: 600px;
+      background: var(--secondary);
+      bottom: -300px;
+      right: -200px;
+      animation: float 20s infinite ease-in-out reverse;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    .effect-3 {
+      width: 400px;
+      height: 400px;
+      background: var(--accent);
+      top: 50%;
+      left: 40%;
+      animation: float 25s infinite ease-in-out;
+    }
 
-        .video-container {
-            margin-top: 16px;
-            border-radius: var(--border-radius-sm);
-            overflow: hidden;
-            background: #000;
-        }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(30px, 30px) rotate(180deg); }
+    }
 
-        .video-container video {
-            width: 100%;
-            display: block;
-        }
+    /* --------------------
+       Responsive Design
+    -------------------- */
+    @media (max-width: 768px) {
+      .app-panel {
+        padding: 1rem;
+      }
+      
+      .panel-content {
+        padding: 1.5rem;
+        margin-top: 4rem;
+      }
+      
+      .app-header {
+        padding: 0.75rem 1rem;
+      }
+      
+      .logo {
+        font-size: 1.25rem;
+      }
+      
+      .nav-tabs {
+        gap: 0.5rem;
+      }
+      
+      .nav-tab {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .section-title {
+        font-size: 1.25rem;
+      }
+      
+      .chat-container {
+        height: 50vh;
+      }
+      
+      .message {
+        max-width: 90%;
+      }
+    }
 
-        .download-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 16px;
-            padding: 12px 20px;
-            background: var(--accent-gradient);
-            color: white;
-            text-decoration: none;
-            border-radius: 24px;
-            font-weight: 500;
-            transition: var(--transition);
-        }
+    @media (max-width: 480px) {
+      /* Sembunyikan teks tab di layar kecil */
+      .nav-tab span {
+        display: none;
+      }
+      
+      .nav-tab {
+        padding: 0.5rem;
+      }
+      
+      .nav-tab i {
+        margin: 0;
+      }
+      
+      .panel-content {
+        padding: 1rem;
+      }
+    }
 
-        .download-link:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-accent);
-        }
+    /* Loading animation */
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--bg-input);
+      border-radius: 18px;
+    }
 
-        /* Footer */
-        footer {
-            padding: 16px;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            background: rgba(18, 18, 18, 0.8);
-        }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      margin: 0 2px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: typingAnimation 1.4s infinite ease-in-out;
+    }
 
-        .footer-copyright {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
-        .bug-report-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            text-decoration: none;
-            border-radius: 20px;
-            transition: var(--transition);
-        }
-
-        .bug-report-btn:hover {
-            background: var(--bg-tertiary);
-            transform: translateY(-2px);
-        }
-
-        /* Utility Classes */
-        .hidden {
-            display: none !important;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease;
-        }
-
-        .shake {
-            animation: shake 0.5s ease;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                height: 100vh;
-                max-height: none;
-                border-radius: 0;
-            }
-            
-            body {
-                padding: 0;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            
-            .title-container h1 {
-                font-size: 1.5rem;
-            }
-            
-            .message-content {
-                max-width: 85%;
-            }
-            
-            footer {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #input-area {
-                padding: 12px;
-            }
-            
-            #message-input {
-                padding: 12px;
-            }
-            
-            .download-card {
-                padding: 16px;
-            }
-            
-            .url-input-container {
-                flex-direction: column;
-            }
-            
-            #download-button {
-                width: 100%;
-            }
-        }
-
-        /* Dark mode preference */
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-primary: #f5f5f5;
-                --bg-secondary: #ffffff;
-                --bg-tertiary: #f0f0f0;
-                --text-primary: #333333;
-                --text-secondary: #555555;
-                --text-muted: #888888;
-                --border-color: #dddddd;
-                --card-bg: rgba(255, 255, 255, 0.95);
-                --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
-                --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.1);
-            }
-        }
-
-        /* Reduced motion for accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
+    @keyframes typingAnimation {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <img src="https://img1.pixhost.to/images/8232/635013559_media.jpg" alt="AI Profile" class="profile-pic">
-                <div class="title-container">
-                    <h1>Alip AI</h1>
-                    <p class="sub-header">Asisten Cerdas & Pengunduh Video</p>
-                </div>
-            </div>
-        </header>
+  <div class="bg-effects">
+    <div class="bg-effect effect-1"></div>
+    <div class="bg-effect effect-2"></div>
+    <div class="bg-effect effect-3"></div>
+  </div>
 
-        <div class="tabs">
-            <button class="tab-button active" data-tab="chat">Chat</button>
-            <button class="tab-button" data-tab="download">Download Video</button>
-        </div>
-
-        <main class="main-content">
-            <!-- Chat Interface -->
-            <div id="chat-interface">
-                <div id="messages-container"></div>
-                
-                <div id="input-area">
-                    <textarea id="message-input" placeholder="Ketik pesan Anda..." rows="1"></textarea>
-                    <button id="send-button" aria-label="Kirim pesan">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Download Interface -->
-            <div id="download-interface">
-                <div class="download-card">
-                    <h2 class="download-title">Unduh Video dari Media Sosial</h2>
-                    <p>Dukung TikTok, Instagram, Pinterest, YouTube, dan lainnya</p>
-                    
-                    <div class="url-input-container">
-                        <input type="url" id="download-url" placeholder="Tempel link video di sini...">
-                        <button id="download-button">Download</button>
-                    </div>
-                    
-                    <div id="download-loader" class="hidden">
-                        <div class="typing-indicator">
-                            <span>Memproses unduhan...</span>
-                            <div class="typing-dots">
-                                <div class="typing-dot"></div>
-                                <div class="typing-dot"></div>
-                                <div class="typing-dot"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div id="download-result" class="download-result">
-                        <!-- Hasil unduhan akan dimuat di sini -->
-                    </div>
-                </div>
-                
-                <div class="download-card">
-                    <h2 class="download-title">Cara Menggunakan</h2>
-                    <ol style="padding-left: 20px; margin: 0;">
-                        <li>Salin link video dari platform yang didukung</li>
-                        <li>Tempel link pada kolom di atas</li>
-                        <li>Klik tombol Download dan tunggu prosesnya</li>
-                        <li>Video akan muncul dan bisa diunduh</li>
-                    </ol>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <div class="footer-copyright">
-                <i class="far fa-copyright"></i>
-                <span>2024 alipclutch. All Rights Reserved.</span>
-            </div>
-            <a href="https://wa.me/6281249703469?text=Halo%20AlipDev,%20saya%20menemukan%20bug%20di%20website%20Alip%20AI%20..." 
-               class="bug-report-btn" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-whatsapp"></i>
-                <span>Laporkan Bug</span>
-            </a>
-        </footer>
+  <header class="app-header">
+    <div class="logo">
+      <i class="fas fa-robot"></i>
+      <span>alipclutch</span>
     </div>
+    <div class="nav-tabs" data-active="ai">
+      <div class="nav-indicator"></div>
+      <div class="nav-tab active" data-tab="ai">
+        <i class="fas fa-robot"></i> <span>AI Assistant</span>
+      </div>
+      <div class="nav-tab" data-tab="downloader">
+        <i class="fas fa-download"></i> <span>Downloader</span>
+      </div>
+    </div>
+  </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Elements
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const chatInterface = document.getElementById('chat-interface');
-            const downloadInterface = document.getElementById('download-interface');
-            const messagesContainer = document.getElementById('messages-container');
-            const messageInput = document.getElementById('message-input');
-            const sendButton = document.getElementById('send-button');
-            const downloadUrlInput = document.getElementById('download-url');
-            const downloadButton = document.getElementById('download-button');
-            const downloadLoader = document.getElementById('download-loader');
-            const downloadResult = document.getElementById('download-result');
-            
-            // Constants
-            const BOT_AVATAR = 'https://img1.pixhost.to/images/8232/635013559_media.jpg';
-            const USER_AVATAR = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZiI+PHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgM2MyLjIxIDAgNCAxLjc5IDQgNHMtMS43OSA0LTQgNC00LTEuNzktNC00IDEuNzktNCA0LTR6bTAgMTcuMDJjLTMuMzMgMC02LjI4LTEuNzEtOC02LjAyIDIuMDUtMy4xNiA1LjI2LTUgOC41LTUgMy4yNCAwIDYuNDUgMS44NCA4LjUgNSAwdC04LjUtNXoiLz48L3N2Zz4=';
-            const RAPIDAPI_KEY = '1dda0d29d3mshc5f2aacec619c44p16f219jsn99a62a516f98';
-            
-            // State
-            let isProcessing = false;
-            
-            // Tab Switching
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tab = button.dataset.tab;
-                    
-                    // Update active tab
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    
-                    // Show appropriate interface
-                    if (tab === 'chat') {
-                        chatInterface.style.display = 'flex';
-                        downloadInterface.style.display = 'none';
-                    } else {
-                        chatInterface.style.display = 'none';
-                        downloadInterface.style.display = 'flex';
-                    }
-                });
-            });
-            
-            // Auto-resize textarea
-            messageInput.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = (this.scrollHeight) + 'px';
-                
-                // Limit maximum height
-                if (this.scrollHeight > 120) {
-                    this.style.overflowY = 'auto';
-                } else {
-                    this.style.overflowY = 'hidden';
-                }
-            });
-            
-            // Add message function
-            function addMessage(content, sender, type = 'text', options = {}) {
-                const messageEl = document.createElement('div');
-                messageEl.classList.add('message', sender);
-                
-                const avatar = document.createElement('img');
-                avatar.src = sender === 'bot' ? BOT_AVATAR : USER_AVATAR;
-                avatar.alt = sender === 'bot' ? 'AI Avatar' : 'User Avatar';
-                avatar.classList.add('avatar');
-                
-                const messageContent = document.createElement('div');
-                messageContent.classList.add('message-content');
-                
-                if (type === 'video') {
-                    messageContent.innerHTML = content;
-                } else {
-                    messageContent.textContent = content;
-                }
-                
-                // Add timestamp
-                const time = document.createElement('span');
-                time.classList.add('message-time');
-                time.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                messageContent.appendChild(time);
-                
-                messageEl.appendChild(avatar);
-                messageEl.appendChild(messageContent);
-                
-                messagesContainer.appendChild(messageEl);
-                
-                // Scroll to bottom
-                messagesContainer.scrollTo({
-                    top: messagesContainer.scrollHeight,
-                    behavior: 'smooth'
-                });
-                
-                return messageEl;
-            }
-            
-            // Show typing indicator
-            function showTypingIndicator() {
-                const indicator = document.createElement('div');
-                indicator.classList.add('typing-indicator');
-                
-                const avatar = document.createElement('img');
-                avatar.src = BOT_AVATAR;
-                avatar.alt = 'AI Avatar';
-                avatar.classList.add('avatar');
-                
-                const dots = document.createElement('div');
-                dots.classList.add('typing-dots');
-                dots.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-                
-                indicator.appendChild(avatar);
-                indicator.appendChild(dots);
-                
-                messagesContainer.appendChild(indicator);
-                messagesContainer.scrollTo({
-                    top: messagesContainer.scrollHeight,
-                    behavior: 'smooth'
-                });
-                
-                return indicator;
-            }
-            
-            // Remove typing indicator
-            function removeTypingIndicator(indicator) {
-                if (indicator && indicator.parentNode) {
-                    indicator.parentNode.removeChild(indicator);
-                }
-            }
-            
-            // Ask AI function
-            async function askAI(query) {
-                if (!query.trim()) return { success: false, content: 'Pesan tidak boleh kosong.' };
-                
-                const typingIndicator = showTypingIndicator();
-                
-                try {
-                    const url = `https://api.siputzx.my.id/api/ai/bard?query=${encodeURIComponent(query)}`;
-                    const response = await fetch(url, { 
-                        headers: { 'accept': '*/*' } 
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    const answer = data.data || 'Maaf, saya tidak dapat memproses permintaan Anda saat ini.';
-                    
-                    return { success: true, content: answer };
-                } catch (error) {
-                    console.error('Error asking AI:', error);
-                    return { 
-                        success: false, 
-                        content: 'Terjadi kesalahan saat menghubungi layanan AI. Silakan coba lagi nanti.' 
-                    };
-                } finally {
-                    removeTypingIndicator(typingIndicator);
-                }
-            }
-            
-            // Download media function
-            async function downloadMedia(url) {
-                if (!url.trim()) return { success: false, content: 'URL tidak boleh kosong.' };
-                
-                downloadLoader.classList.remove('hidden');
-                downloadResult.classList.add('hidden');
-                
-                try {
-                    // Validate URL
-                    try {
-                        new URL(url);
-                    } catch (e) {
-                        throw new Error('URL tidak valid. Pastikan format URL benar.');
-                    }
-                    
-                    const response = await fetch('https://auto-download-all-in-one.p.rapidapi.com/v1/social/autolink', {
-                        method: 'POST',
-                        headers: {
-                            'content-type': 'application/json; charset=utf-8',
-                            'x-rapidapi-host': 'auto-download-all-in-one.p.rapidapi.com',
-                            'x-rapidapi-key': RAPIDAPI_KEY
-                        },
-                        body: JSON.stringify({ url })
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    
-                    if (!data.medias || data.medias.length === 0) {
-                        throw new Error('Tidak ada media yang ditemukan dari URL tersebut.');
-                    }
-                    
-                    const media = data.medias[0];
-                    
-                    return { 
-                        success: true, 
-                        content: media,
-                        html: `
-                            <div class="download-success">
-                                <p>Video berhasil diunduh!</p>
-                                <div class="video-container">
-                                    <video controls playsinline>
-                                        <source src="${media.url}" type="video/mp4">
-                                        Browser Anda tidak mendukung pemutaran video.
-                                    </video>
-                                </div>
-                                <a href="${media.url}" download class="download-link">
-                                    <i class="fas fa-download"></i>
-                                    Unduh Video
-                                </a>
-                            </div>
-                        `
-                    };
-                } catch (error) {
-                    console.error('Error downloading media:', error);
-                    return { 
-                        success: false, 
-                        content: error.message || 'Terjadi kesalahan saat mengunduh media. Silakan coba lagi nanti.'
-                    };
-                } finally {
-                    downloadLoader.classList.add('hidden');
-                }
-            }
-            
-            // Handle chat message
-            async function handleChatMessage() {
-                if (isProcessing) return;
-                
-                const message = messageInput.value.trim();
-                if (!message) return;
-                
-                isProcessing = true;
-                messageInput.value = '';
-                messageInput.style.height = 'auto';
-                
-                // Add user message
-                addMessage(message, 'user');
-                
-                // Check if it's a URL
-                const urlRegex = /(https?:\/\/[^\s]+)/g;
-                const isUrl = urlRegex.test(message);
-                
-                if (isUrl) {
-                    addMessage('Saya mendeteksi ini adalah link. Memproses unduhan...', 'bot');
-                    
-                    const result = await downloadMedia(message);
-                    
-                    if (result.success) {
-                        const videoHtml = `
-                            <div>
-                                <p>Berhasil! Video siap diputar dan diunduh:</p>
-                                <div class="video-container">
-                                    <video controls playsinline>
-                                        <source src="${result.content.url}" type="video/mp4">
-                                        Browser Anda tidak mendukung pemutaran video.
-                                    </video>
-                                </div>
-                                <a href="${result.content.url}" download class="download-link">
-                                    <i class="fas fa-download"></i> Unduh Video
-                                </a>
-                            </div>
-                        `;
-                        
-                        // Create message with video
-                        const messageEl = addMessage('', 'bot', 'video');
-                        messageEl.querySelector('.message-content').innerHTML = videoHtml;
-                    } else {
-                        addMessage(`❌ ${result.content}`, 'bot');
-                    }
-                } else {
-                    // Process as AI query
-                    const result = await askAI(message);
-                    
-                    if (result.success) {
-                        addMessage(result.content, 'bot');
-                    } else {
-                        addMessage(`❌ ${result.content}`, 'bot');
-                    }
-                }
-                
-                isProcessing = false;
-            }
-            
-            // Handle download button click
-            async function handleDownload() {
-                if (isProcessing) return;
-                
-                const url = downloadUrlInput.value.trim();
-                if (!url) {
-                    downloadUrlInput.classList.add('shake');
-                    setTimeout(() => downloadUrlInput.classList.remove('shake'), 500);
-                    return;
-                }
-                
-                isProcessing = true;
-                
-                const result = await downloadMedia(url);
-                
-                if (result.success) {
-                    downloadResult.innerHTML = result.html;
-                    downloadResult.classList.remove('hidden');
-                } else {
-                    downloadResult.innerHTML = `<p class="error-message">❌ ${result.content}</p>`;
-                    downloadResult.classList.remove('hidden');
-                }
-                
-                isProcessing = false;
-            }
-            
-            // Event listeners
-            sendButton.addEventListener('click', handleChatMessage);
-            messageInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleChatMessage();
-                }
-            });
-            
-            downloadButton.addEventListener('click', handleDownload);
-            downloadUrlInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleDownload();
-                }
-            });
-            
-            // Welcome message
-            setTimeout(() => {
-                addMessage('Halo! Saya Alip AI, asisten cerdas yang bisa diajak ngobrol dan mengunduh video dari TikTok, Instagram, atau Pinterest. Silakan ketik pesan atau tempel link video yang ingin Anda unduh. 😊', 'bot');
-            }, 500);
+  <div class="app-wrapper">
+    <div class="panels-container" id="panelsContainer">
+      <div class="app-panel" id="aiPanel">
+        <section class="panel-content">
+          <h2 class="section-title">
+            <i class="fas fa-robot"></i>
+            Alip AI
+          </h2>
+          <p class="section-description">
+            Tanya apa saja pada asisten AI kami. Dijawab dengan bahasa gaul dan to the point. Jangan lupa kasih emoji biar makin asik!
+          </p>
+
+          <div class="chat-container">
+            <div id="chat"></div>
+            <div class="chat-input-container">
+              <input type="text" id="chatInput" placeholder="Tulis pertanyaan lo..." />
+              <button id="sendBtn">Kirim</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="app-panel" id="downloaderPanel">
+        <section class="panel-content">
+          <h2 class="section-title">
+            <i class="fas fa-download"></i>
+            Social Media Downloader
+          </h2>
+          <p class="section-description">
+            Download video dari TikTok, Instagram, Twitter, dan platform lainnya dengan kualitas tinggi. Cukup tempel link dan nikmati hasilnya.
+          </p>
+
+          <div class="input-container">
+            <input type="text" id="linkInput" placeholder="Contoh: https://www.tiktok.com/@user/video/..." />
+          </div>
+
+          <button id="downloadButton" class="button-primary">
+            <i class="fas fa-download"></i> Download Video
+          </button>
+
+          <div id="status" class="status"></div>
+
+          <div id="videoSection" class="video-section">
+            <video id="resultVideo" controls></video>
+            <div class="download-guide">
+              <strong>Cara Download:</strong> Setelah video muncul, klik ikon <strong>titik tiga (⋮)</strong> yang ada di kanan bawah video, lalu pilih <strong>Download</strong>.
+            </div>
+          </div>
+
+          <div class="bug-report">
+            <a href="https://wa.me/6281249703469?text=Halo%2C%20saya%20menemukan%20bug%20di%20Downloader%20Sosmed." target="_blank">
+              <i class="fab fa-whatsapp"></i> Laporkan Bug
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p>&copy; develover : instagram @alifalfrl__</p>
+  </footer>
+
+  <script>
+    // DOM Elements
+    const linkInput = document.getElementById('linkInput');
+    const downloadButton = document.getElementById('downloadButton');
+    const status = document.getElementById('status');
+    const videoSection = document.getElementById('videoSection');
+    const resultVideo = document.getElementById('resultVideo');
+    const chat = document.getElementById('chat');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const navTabs = document.querySelectorAll('.nav-tab');
+    const panelsContainer = document.getElementById('panelsContainer');
+    const navTabsContainer = document.querySelector('.nav-tabs');
+    const aiPanel = document.getElementById('aiPanel');
+    const downloaderPanel = document.getElementById('downloaderPanel');
+
+    // AI Profile Image URL
+    const aiProfileImage = "https://img1.pixhost.to/images/8232/635013559_media.jpg";
+
+    // Tab Navigation & Sliding
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.getAttribute('data-tab');
+        
+        // Update active tab via data attribute on container
+        navTabsContainer.setAttribute('data-active', tabName);
+        
+        // Remove 'active' class from all tabs
+        navTabs.forEach(t => t.classList.remove('active'));
+        // Add 'active' class to the clicked tab
+        tab.classList.add('active');
+
+        // Use scrollIntoView to move directly to the correct panel
+        if (tabName === 'ai') {
+          panelsContainer.scroll({ left: 0, behavior: 'smooth' });
+        } else {
+          panelsContainer.scroll({ left: panelsContainer.clientWidth, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Downloader functionality
+    downloadButton.addEventListener('click', downloadMedia);
+    linkInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        downloadMedia();
+      }
+    });
+
+    async function downloadMedia() {
+      const link = linkInput.value.trim();
+      const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+
+      if (!link || !urlRegex.test(link)) {
+        setStatus('<i class="fas fa-exclamation-triangle"></i> Masukkan link yang valid!', 'error');
+        return;
+      }
+
+      downloadButton.disabled = true;
+      downloadButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+      setStatus('<i class="fas fa-hourglass-half"></i> Sedang memproses link...', 'pending');
+      videoSection.classList.remove('active');
+      resultVideo.src = '';
+
+      try {
+        const res = await fetch('https://auto-download-all-in-one.p.rapidapi.com/v1/social/autolink', {
+          method: 'POST',
+          headers: {
+            'accept-encoding': 'gzip',
+            'cache-control': 'no-cache',
+            'content-type': 'application/json; charset=utf-8',
+            referer: 'https://auto-download-all-in-one.p.rapidapi.com/',
+            'user-agent': 'Mozilla/5.0',
+            'x-rapidapi-host': 'auto-download-all-in-one.p.rapidapi.com',
+            'x-rapidapi-key': '1dda0d29d3mshc5f2aacec619c44p16f219jsn99a62a516f98'
+          },
+          body: JSON.stringify({ url: link })
         });
-    </script>
+
+        const data = await res.json();
+
+        if (!data || !data.medias || data.medias.length === 0) {
+          setStatus('<i class="fas fa-times-circle"></i> Gagal mendapatkan video. Coba link lain atau pastikan link publik.', 'error');
+          return;
+        }
+
+        const media = data.medias[0];
+        resultVideo.src = media.url;
+        videoSection.classList.add('active');
+        setStatus('<i class="fas fa-check-circle"></i> Berhasil! Video siap diputar.', 'success');
+      } catch (err) {
+        console.error(err);
+        setStatus('<i class="fas fa-exclamation-circle"></i> Terjadi kesalahan. Silakan coba lagi nanti.', 'error');
+      } finally {
+        downloadButton.disabled = false;
+        downloadButton.innerHTML = '<i class="fas fa-download"></i> Download Video';
+      }
+    }
+
+    function setStatus(message, type) {
+      status.innerHTML = message;
+      status.className = `status visible status-${type}`;
+    }
+
+    // AI Chat functionality
+    let chatHistory = [];
+    const systemPrompt = "Lo Alip AI, jawab semua pertanyaan user pake bahasa gaul, santai, langsung to the point, jangan panjang-panjang. Jangan lupa terselip emoji kalo pas.";
+
+    function appendMessage(role, text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = role === 'user' ? 'message user-message' : 'message ai-message';
+      
+      if (role === 'ai') {
+        const messageHeader = document.createElement('div');
+        messageHeader.className = 'message-header';
+        messageHeader.innerHTML = `<img src="${aiProfileImage}" class="ai-profile" alt="Alip AI"> Alip AI`;
+        messageDiv.appendChild(messageHeader);
+      }
+      
+      const messageText = document.createElement('div');
+      messageText.textContent = text;
+      messageDiv.appendChild(messageText);
+      
+      chat.appendChild(messageDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message ai-message';
+      typingDiv.id = 'typing-indicator';
+      
+      const messageHeader = document.createElement('div');
+      messageHeader.className = 'message-header';
+      messageHeader.innerHTML = `<img src="${aiProfileImage}" class="ai-profile" alt="Alip AI"> Alip AI`;
+      typingDiv.appendChild(messageHeader);
+      
+      const typingContainer = document.createElement('div');
+      typingContainer.className = 'typing-indicator';
+      typingContainer.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      `;
+      typingDiv.appendChild(typingContainer);
+      
+      chat.appendChild(typingDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const typingIndicator = document.getElementById('typing-indicator');
+      if (typingIndicator) {
+        chat.removeChild(typingIndicator);
+      }
+    }
+
+    sendBtn.addEventListener('click', async () => {
+      const text = chatInput.value.trim();
+      if (!text) return;
+      
+      appendMessage('user', text);
+      chatInput.value = '';
+      sendBtn.disabled = true;
+
+      showTypingIndicator();
+
+      try {
+        let context = chatHistory.slice(-5).map(c => `${c.role === 'user' ? 'User: ' : 'Alip AI: '}${c.text}`).join('\n'); // Keep last 5 messages for context
+        const questionWithContext = `${systemPrompt}\n${context}\nUser: ${text}\nAlip AI:`;
+
+        const res = await fetch(`https://xskycodes-apis.vercel.app/ai/chatgpt?apikey=sky&question=${encodeURIComponent(questionWithContext)}`);
+        const data = await res.json();
+
+        removeTypingIndicator();
+
+        let reply = data.result || 'Gue ga ngerti nih, coba tanya yang lain deh.';
+        appendMessage('ai', reply);
+
+        chatHistory.push({ role: 'user', text });
+        chatHistory.push({ role: 'ai', text: reply });
+
+      } catch (err) {
+        removeTypingIndicator();
+        appendMessage('ai', 'Duh, ada error nih. Coba lagi nanti ya.');
+      }
+
+      sendBtn.disabled = false;
+    });
+
+    chatInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendBtn.click();
+    });
+
+    // Initialize with a welcome message on page load, only for the AI panel
+    window.addEventListener('load', () => {
+      const welcomeMessage = 'Halo gue Alip AI! 👋 Ada yang bisa gue bantu?';
+      appendMessage('ai', welcomeMessage);
+      chatHistory.push({ role: 'ai', text: welcomeMessage });
+    });
+
+    // Add scroll event listener to update active tab
+    panelsContainer.addEventListener('scroll', () => {
+        const panelWidth = panelsContainer.clientWidth;
+        const currentScroll = panelsContainer.scrollLeft;
+        const aiTab = document.querySelector('.nav-tab[data-tab="ai"]');
+        const downloaderTab = document.querySelector('.nav-tab[data-tab="downloader"]');
+
+        if (currentScroll < panelWidth / 2) {
+            navTabsContainer.setAttribute('data-active', 'ai');
+            aiTab.classList.add('active');
+            downloaderTab.classList.remove('active');
+        } else {
+            navTabsContainer.setAttribute('data-active', 'downloader');
+            downloaderTab.classList.add('active');
+            aiTab.classList.remove('active');
+        }
+    });
+
+  </script>
 </body>
 </html>
